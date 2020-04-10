@@ -1,12 +1,14 @@
 # RGE
 RyGameEngine (RGE) - Modern Java Game Engine
 
->TODO: Description
 
+`TODO: Description`
+
+-----------
 
 ### Documentation
 
-#### 1 - How to start ?
+#### How to start ?
 ```Java
 public static void main(String[] args) {
   Engine engine = new Engine("GameTitle", 1280, 720); //Title, Width, Height
