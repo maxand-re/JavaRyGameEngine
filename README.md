@@ -19,7 +19,7 @@ public static void main(String[] args) {
 
   engine.addGameObject(new InformationsPanel(engine)); // Show stats to the screen
 
-  engine.init(); // Init
+  engine.init(); // Initialize
 }
 
 ```
