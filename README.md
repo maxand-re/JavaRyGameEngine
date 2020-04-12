@@ -31,9 +31,9 @@ public static void main(String[] args) {
 ```Java
 Statistics stats = engine.getStatistics();
 
-int fps = stats.getCurrentFps(); // return fps (refreshed every secondes)
-Vector2D cameraPos = stats.getCameraPosition(); // return pos of camera with Vector2D
-String elapsedTime = stats.getElapsedTime(); // return HH:MM:SS
+int fps = stats.getCurrentFps(); // Return fps (refreshed every secondes)
+Vector2D cameraPos = stats.getCameraPosition(); // Return pos of camera with Vector2D
+String elapsedTime = stats.getElapsedTime(); // Return HH:MM:SS
 ```
 
 
@@ -49,7 +49,7 @@ doube y = vec.y; // y = 10
 vec.translate(2, 4); // x = 7, y = 14
 vec.moveTo(1, 2); // x = 1, y = 2
 
-vec.toString() // return "Vector2D{x=1, y=2}"
+vec.toString() // Return "Vector2D{x=1, y=2}"
 ```
 
 #### Rotation2D
@@ -62,4 +62,32 @@ doube deg = rot.degrees; // deg = 5
 
 vec.addAngle(5); // deg = 10, x = 0, y = 2
 vec.addAngle(new Rotation2D(10, 0, 6); // deg = 20, x = 0, y = 2
+```
+
+### Utils:
+
+#### Logger
+```Java
+Logger logger = engine.getLogger();
+
+logger.info('This is info'); // Print: [HH:MM:SS] [INFO] This is info
+logger.warn('This is warn'); // Print: [HH:MM:SS] [WARN] This is warn
+logger.error('This is error'); // Print: [HH:MM:SS] [ERROR] This is error
+```
+
+#### Tools
+```Java
+import fr.ryfax.rge.engine.utils.Tools;
+
+Tools.intToDigit(5); // Return "05"
+Tools.round(1.4444, 2); // Return 1.44
+```
+
+#### Sleep
+```Java
+// Include
+import static fr.ryfax.rge.engine.utils.Sleep.*;
+
+// And use
+sleep(500); // Wait 500ms
 ```
