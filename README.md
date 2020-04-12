@@ -1,4 +1,4 @@
-# RGE
+# RyGameEngine (RGE)
 RyGameEngine (RGE) - Modern Java Game Engine
 
 
