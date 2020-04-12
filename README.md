@@ -30,5 +30,5 @@ Statistics stats = engine.getStatistics();
 
 int fps = stats.getCurrentFps(); // return fps (refreshed every secondes)
 Vector2D cameraPos = stats.getCameraPosition(); // return pos of camera with Vector2D
-String elapsedTime = getElapsedTime(); // return HH:MM:SS
+String elapsedTime = stats.getElapsedTime(); // return HH:MM:SS
 ```
