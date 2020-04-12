@@ -1,5 +1,6 @@
 # RyGameEngine (RGE)
 RyGameEngine (RGE) - Modern Java Game Engine
+In dev !
 
 
 `TODO: Description`
@@ -49,4 +50,16 @@ vec.translate(2, 4); // x = 7, y = 14
 vec.moveTo(1, 2); // x = 1, y = 2
 
 vec.toString() // return "Vector2D{x=1, y=2}"
+```
+
+#### Rotation2D
+```Java
+Rotation2D rot = new Rotation2D(5, 0, 2);
+
+doube x = rot.x; // x = 0
+doube y = rot.y; // y = 2
+doube deg = rot.degrees; // deg = 5
+
+vec.addAngle(5); // deg = 10, x = 0, y = 2
+vec.addAngle(new Rotation2D(10, 0, 6); // deg = 20, x = 0, y = 2
 ```
