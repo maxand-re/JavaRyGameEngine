@@ -87,7 +87,7 @@ Logger logger = engine.getLogger();
 logger.info('This is info'); // Print: [HH:MM:SS] [INFO] This is info
 logger.warn('This is warn'); // Print: [HH:MM:SS] [WARN] This is warn
 logger.error('This is error'); // Print: [HH:MM:SS] [ERROR] This is error
-try { /*Code*/ } catch(Exception ex) logger.error(ex); // Work to
+try { /*Code*/ } catch(Exception ex) logger.error(ex); // Work too
 ```
 
 #### Tools
