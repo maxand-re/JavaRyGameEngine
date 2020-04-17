@@ -25,6 +25,8 @@ public static void main(String[] args) {
 }
 ```
 
+![alt text](https://i.imgur.com/4G4MEPl.png "InformationsPanel")
+
 
 ### Global:
 
