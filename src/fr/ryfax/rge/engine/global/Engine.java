@@ -8,6 +8,7 @@ import fr.ryfax.rge.engine.utils.drawing.Drawer;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import static fr.ryfax.rge.engine.utils.Sleep.*;
 
@@ -22,6 +23,7 @@ public class Engine {
      */
     private Camera camera = new Camera();
 
+    private final Runtime runtime = Runtime.getRuntime();
     private final Parameters parameters = new Parameters();
     private final Statistics statistics = new Statistics(this);
     private final Logger logger         = new Logger(this);
@@ -30,13 +32,18 @@ public class Engine {
     private boolean isRunning = true;
     private final double UPDATE_OBJECTIVE = 1/60D;
 
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private ArrayList<VisualGameObject> visualGameObjects = new ArrayList<>();
-
+    private TreeMap<Integer,  ArrayList<GameObject>> gameObjs = new TreeMap<>();
+    private TreeMap<Integer,  ArrayList<VisualGameObject>> visualGameObjs = new TreeMap<>();
 
     public Engine(String title, int width, int height) { window = new Window(title, width, height, this); }
 
-    public synchronized void init() { new Thread(this::loop).start(); }
+    public synchronized void init() {
+
+        this.window.getCanvas().setCursor(parameters.getCursor());
+
+        statistics.setTotalRam((int) (runtime.totalMemory()/1024/1024));
+        new Thread(this::loop).start();
+    }
 
     private synchronized void loop() {
         double firstTime = System.nanoTime() / 1e9;
@@ -68,6 +75,8 @@ public class Engine {
 
             if (frameTime >= 1) {
                 statistics.setCurrentFps(frameCount);
+                statistics.setCurrentTps(tick);
+                statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
 
                 frameTime = 0;
                 frameCount = 0;
@@ -85,20 +94,32 @@ public class Engine {
         canvas.ready(); // Prepare the draw
 
         Drawer drawer = new Drawer(this, canvas.getGraphics());
-        visualGameObjects.forEach(visualGameObject -> visualGameObject.draw(drawer));
+        visualGameObjs.forEach((z, visualGameObjects) ->
+                visualGameObjects.forEach(visualGameObject -> visualGameObject.draw(drawer)));
 
         canvas.finish(); // Dispose and show
     }
 
     private synchronized void update(int tick) {
-        gameObjects.forEach(gameObject -> gameObject.update(tick));
+        gameObjs.forEach((z, gameObjects) ->
+                gameObjects.forEach(gameObject -> gameObject.update(tick)));
     }
 
-    public void addGameObject(GameObject gameObject) {
-        gameObjects.add(gameObject);
+    public void addGameObject(GameObject gameObject, int zindex) {
+        boolean isVisualGO = gameObject instanceof VisualGameObject;
 
-        if(gameObject instanceof VisualGameObject)
-            visualGameObjects.add((VisualGameObject) gameObject);
+        if(gameObjs.containsKey(zindex)) {
+            gameObjs.get(zindex).add(gameObject);
+            if(isVisualGO) visualGameObjs.get(zindex).add((VisualGameObject) gameObject);
+        }else {
+            ArrayList<GameObject> list = new ArrayList<>();
+            ArrayList<VisualGameObject> list2 = new ArrayList<>();
+            list.add(gameObject);
+            list2.add((VisualGameObject) gameObject);
+
+            gameObjs.put(zindex, list);
+            if(isVisualGO) visualGameObjs.put(zindex, list2);
+        }
     }
 
     /*

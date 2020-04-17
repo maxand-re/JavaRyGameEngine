@@ -3,6 +3,10 @@ package fr.ryfax.rge.engine.utils.drawing;
 import fr.ryfax.rge.engine.global.Engine;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
 
 /*
  * Upgraded class of Graphics2D
@@ -11,6 +15,7 @@ public class Drawer {
 
     private Engine engine;
     private Graphics2D g2d;
+    private Font font;
 
     public Drawer(Engine engine, Graphics2D g2d) {
         this.engine = engine;
@@ -54,6 +59,24 @@ public class Drawer {
     public void text(String string, int x, int y, Color color) {
         g2d.setColor(color);
         g2d.drawString(string, x - (int) engine.getCamera().getPosition().x, (int) engine.getCamera().getPosition().y + y);
+    }
+
+    /*
+     * Draw String with a Font at x, y
+     * x, y relative to camera
+     */
+    public static BufferedImage createStringImg(String str, Color fontColor, Color backColor) {
+        return FontLoader.getFonts().get("main").buildText(str, fontColor, backColor);
+    }
+
+    public void image(BufferedImage img, int x, int y) {
+        g2d.drawImage(img,
+                x - (int) engine.getCamera().getPosition().x,
+                (int) engine.getCamera().getPosition().y + y, null);
+    }
+
+    public void imageNotRelative(BufferedImage img, int x, int y) {
+        g2d.drawImage(img, x , y, null);
     }
 
     /*

@@ -1,10 +1,10 @@
 package fr.ryfax.rge.test;
 
-import fr.ryfax.rge.engine.object.VisualGameObject;
+import fr.ryfax.rge.engine.global.Parameters;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
 import fr.ryfax.rge.engine.utils.Logger;
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.utils.drawing.Drawer;
+import fr.ryfax.rge.engine.utils.drawing.FontLoader;
 
 import java.awt.*;
 
@@ -15,32 +15,19 @@ public class Main {
      */
     public static void main(String[] args) {
         Engine engine = new Engine("RGE", 1280, 720);
+        FontLoader fontLoader = new FontLoader();
         Logger log = engine.getLogger();
 
         log.info("Starting...");
 
+        fontLoader.addFile("main", "fr/ryfax/rge/assets/fonts/ascii.png");
+
         engine.getParameters().setLimitFps(false);
         engine.getParameters().setLimitOverload(true);
-        engine.getParameters().setClearBufferColor(Color.BLACK);
+        engine.getParameters().setCursor(Parameters.RGE_HIDE_CURSOR);
+        engine.getParameters().setClearBufferColor(new Color(69, 184, 198));
 
-        engine.addGameObject(new InformationsPanel(engine));
-
-        engine.addGameObject(new VisualGameObject() {
-            double xDir = 0.7;
-
-            public void draw(Drawer d) {
-                d.text("x: 400 y: 400", 400, 390, Color.RED);
-                d.fillRect(400, 400, 200, 200, Color.RED);
-            }
-
-            public void update(int tick) {
-                if(tick == 60) {
-                    xDir = -xDir;
-                    log.info("Direction revert...");
-                }
-                engine.getCamera().getPosition().translate(xDir, 0);
-            }
-        });
+        engine.addGameObject(new InformationsPanel(engine), 1000);
 
         engine.init();
 

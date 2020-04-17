@@ -7,7 +7,7 @@ public class Statistics {
 
     private Engine engine;
 
-    private int currentFps = 0;
+    private int currentFps = 0, currentTps = 0, usedRam = 0, totalRam = 0;
     public static final long timestamp = System.currentTimeMillis();
 
     public Statistics(Engine engine) { this.engine = engine; }
@@ -17,11 +17,20 @@ public class Statistics {
      * Setters
      */
     public void setCurrentFps(int currentFps) { this.currentFps = currentFps; }
+    public void setCurrentTps(int currentTps) { this.currentTps = currentTps; }
+
+    public void setTotalRam(int totalRam) { this.totalRam = totalRam; }
+    public void setUsedRam(int usedRam) { this.usedRam = usedRam; }
 
     /*
      * Getters
      */
     public int getCurrentFps() { return currentFps; }
+    public int getCurrentTps() { return currentTps; }
+
+    public int getTotalRam() { return totalRam; }
+    public int getUsedRam() { return usedRam; }
+
     public Vector2D getCameraPosition() { return engine.getCamera().getPosition(); }
 
     public String getElapsedTime() {

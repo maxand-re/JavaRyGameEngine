@@ -41,5 +41,20 @@ public class Logger {
         System.out.println(RESET + "[" + PURPLE + engine.getStatistics().getElapsedTime() + RESET + "] [" + RED + "ERROR" + RESET + "] " + RED + message);
     }
 
+    public void error(Exception exception) {
+        StringBuilder stackTrace = new StringBuilder();
+
+        int nb = 0;
+        for(StackTraceElement ste : exception.getStackTrace()) {
+            stackTrace.append(nb + "\t-> ").append(ste.getClassName())
+                    .append(" [").append(ste.getFileName()).append("] (line: ")
+                    .append(ste.getLineNumber()).append(")\n");
+            nb++;
+        }
+
+        System.out.println(RESET + "[" + PURPLE + engine.getStatistics().getElapsedTime() + RESET + "] [" + RED + "ERROR" + RESET + "] " + RED + exception.getMessage() + "\n"
+                + stackTrace);
+    }
+
 
 }
