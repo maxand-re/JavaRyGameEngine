@@ -19,7 +19,7 @@ public static void main(String[] args) {
   engine.getParameters().setCursor(Parameters.RGE_HIDE_CURSOR);
   engine.getParameters().setClearBufferColor(Color.BLACK);
 
-  engine.addGameObject(new InformationsPanel(engine)); // Show stats to the screen
+  engine.addGameObject(new InformationsPanel(engine), 1000); // Show stats to the screen
 
   engine.init(); // Initialize
 }
