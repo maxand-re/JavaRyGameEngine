@@ -5,9 +5,9 @@ In dev !
 
 `TODO: Description`
 
------------
 
-### Documentation
+## Documentation
+
 
 #### How to start ?
 ```Java
@@ -25,6 +25,7 @@ public static void main(String[] args) {
 }
 ```
 
+#### InformationsPanel
 ![alt text](https://i.imgur.com/4G4MEPl.png "InformationsPanel")
 
 
