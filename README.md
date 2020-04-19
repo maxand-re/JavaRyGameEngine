@@ -32,8 +32,8 @@ public static void main(String[] args) {
 }
 ```
 
-#### InformationsPanel
-![alt text](https://i.imgur.com/KNZtOFv.png "InformationsPanel")
+#### Example:
+![alt text](https://i.imgur.com/iO3JLg6.gif "SplashScreen and InformationsPanel")
 
 
 ### Global:
