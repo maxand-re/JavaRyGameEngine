@@ -1,18 +1,14 @@
 package fr.ryfax.rge.engine.global;
 
-import fr.ryfax.rge.engine.elements.camera.Camera;
+
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
-import fr.ryfax.rge.engine.object.GameObject;
-import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.Logger;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
-import jdk.jfr.Description;
 
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import static fr.ryfax.rge.engine.utils.Sleep.*;
 
@@ -47,6 +43,7 @@ public class Engine {
         statistics.setTotalRam((int) (runtime.totalMemory()/1024/1024));
 
         new Thread(this::loop).start();
+        update(0);
     }
 
     private synchronized void loop() {
@@ -111,11 +108,11 @@ public class Engine {
         canvas.finish(); // show
     }
 
-    //TODO: Accesible via les scenes uniquement
-
-
     private void loadText() {
-        fontLoader.load(FontLoader.RGE_DEFAULT_FONT, "fr/ryfax/rge/assets/fonts/ascii.png");
+        fontLoader.setPath("fr/ryfax/rge/assets/fonts/ascii.png");
+        fontLoader.setFontColor(new Color(255, 255, 255));
+        fontLoader.setBackgroundColor(new Color(0, 0, 0, 100));
+
         HashMap<Character, Integer> chars = new HashMap<>();
         chars.put('i', 8);
         chars.put('I', 4);
@@ -125,7 +122,14 @@ public class Engine {
         chars.put('.', 8);
         chars.put(':', 8);
         chars.put('!', 8);
-        fontLoader.setSpecialCharsSize(FontLoader.RGE_DEFAULT_FONT, chars);
+
+        fontLoader.setSpacingChar(4);
+        fontLoader.setSpecialCharsSize(chars);
+        fontLoader.load(FontLoader.RGE_DEFAULT_FONT);
+
+        fontLoader.setShadow(2, 2);
+        fontLoader.load(FontLoader.RGE_SHADOW);
+
     }
 
     /*

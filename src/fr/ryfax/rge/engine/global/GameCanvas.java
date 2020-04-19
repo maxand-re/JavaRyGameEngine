@@ -26,7 +26,7 @@ public class GameCanvas extends Canvas {
         createBufferStrategy(3);
         bs = getBufferStrategy();
 
-        getGraphics();
+        refreshGraphics();
     }
 
     public void ready() {
@@ -46,11 +46,31 @@ public class GameCanvas extends Canvas {
     public int getHeight() { return size.height; }
 
     public Graphics2D getGraphics() {
+        try { refreshGraphics(); }
+        catch (Exception e) { engine.getLogger().warn("Graphics not ready..."); }
+        return g2d;
+    }
+
+    private void refreshGraphics() {
         g2d = (Graphics2D) bs.getDrawGraphics();
 
-        if(engine.getParameters().isAntiAliasing())
+        if(engine.getParameters().isAntiAliasing()) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        }
 
-        return g2d;
+        if(engine.getParameters().isQualityRendering()) {
+            g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        }else {
+            g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        }
+
+        /*
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);*/
     }
 }

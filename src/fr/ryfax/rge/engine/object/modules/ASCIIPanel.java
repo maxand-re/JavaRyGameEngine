@@ -30,8 +30,6 @@ public class ASCIIPanel implements VisualGameObject {
         this.fontRenderer = new FontRenderer(font);
         this.statistics = engine.getStatistics();
 
-        this.fontRenderer.setBackgroundColor(new Color(255, 255, 255, 128));
-        this.fontRenderer.setFontColor(new Color(0, 0, 0));
         this.fontRenderer.setSize(48);
 
         this.line1 = this.fontRenderer.build("ABCDEFGHIJKLMNOPQRSTUVWXYZ");

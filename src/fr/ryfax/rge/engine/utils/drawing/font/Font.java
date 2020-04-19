@@ -1,28 +1,43 @@
 package fr.ryfax.rge.engine.utils.drawing.font;
 
+
+import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.global.image.ImageBuilder;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Font {
 
-    /*
-     * TODO: Faire de cette class une class de "Font" et faire une class Text en mettant comme paramètre le font,
-     *  et dans Text on pourra build un text, avec les couleurs de notre choix et non changer la couleurs pour tout la font
-     */
+    private final HashMap<Character, Image> chars = new HashMap<>();
+    int defaultSpace;
+    HashMap<Character, Integer> sizeChars;
 
-    private final HashMap<Character, BufferedImage> chars = new HashMap<>();
-    private HashMap<Character, Integer> sizeChars = new HashMap<>();
 
-    public Font(BufferedImage img, HashMap<Character, Integer> sizeCharsRemove) {
-        this(img);
-        sizeChars = sizeCharsRemove;
-    }
+    public Font(BufferedImage img, HashMap<Character, Integer> sizeChars, Color fontColor, Color backgroundColor, int defaultSpace, int[] shadow) {
+        this.sizeChars = sizeChars;
+        this.defaultSpace = defaultSpace;
 
-    public Font(BufferedImage img) {
         int c = 0;
         for(int y = 0; y < img.getHeight(); y += 16) {
             for(int x = 0; x < img.getWidth(); x += 16) {
-                chars.put((char) c, img.getSubimage(x, y, 16, 16));
+                Image image = new ImageBuilder(img.getSubimage(x, y, 16, 16)).build();
+                char ch = (char) c;
+
+                if(sizeChars.containsKey(ch))
+                    image.crop(0, 0, 0, sizeChars.get(ch) + defaultSpace);
+                else
+                    image.crop(0, 0, 0, defaultSpace);
+
+                if(shadow[0] != 0 && shadow[1] != 0)
+                    image.addShadow(shadow[0], shadow[1]);
+
+                image.addBackgroundColor(backgroundColor);
+                image.changeColor(fontColor);
+
+
+                chars.put(ch, image);
                 c++;
             }
         }
@@ -31,13 +46,5 @@ public class Font {
     /*
      * Getters
      */
-    public HashMap<Character, Integer> getSizeChars() { return sizeChars; }
-    public HashMap<Character, BufferedImage> getChars() { return chars; }
-
-    /*
-     * Setters
-     */
-    public void setSizeChars(HashMap<Character, Integer> sizeChars) {
-        this.sizeChars = sizeChars;
-    }
+    public HashMap<Character, Image> getChars() { return chars; }
 }

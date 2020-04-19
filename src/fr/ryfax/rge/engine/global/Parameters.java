@@ -20,7 +20,7 @@ public class Parameters {
     /*
      * Variables
      */
-    private boolean limitFps = true, antiAliasing = false;
+    private boolean limitFps = true, antiAliasing = false, qualityRendering = false;
     private Cursor cursor = RGE_CURSOR_DEFAULT;
     private Color clearBufferColor = RGE_CLEAR_BUFFER_COLOR_DEFAULT;
     private int limitOverload = RGE_OVERLOAD_MEDIUM;
@@ -28,18 +28,20 @@ public class Parameters {
     /*
      * Setters
      */
+    public void setCursor(Cursor cursor) { this.cursor = cursor; }
     public void setLimitFps(boolean limitFps) { this.limitFps = limitFps; }
     public void setLimitOverload(int limitOverload) { this.limitOverload = limitOverload; }
     public void setAntiAliasing(boolean antiAliasing) { this.antiAliasing = antiAliasing; }
+    public void setQualityRendering(boolean qualityRendering) { this.qualityRendering = qualityRendering; }
     public void setClearBufferColor(Color clearBufferColor) { this.clearBufferColor = clearBufferColor; }
-    public void setCursor(Cursor cursor) { this.cursor = cursor; }
 
     /*
      * Getters
      */
+    public Cursor getCursor() { return cursor; }
     public boolean isLimitFps() { return limitFps; }
     public int getLimitOverload() { return limitOverload; }
     public boolean isAntiAliasing() { return antiAliasing; }
+    public boolean isQualityRendering() { return qualityRendering; }
     public Color getClearBufferColor() { return clearBufferColor; }
-    public Cursor getCursor() { return cursor; }
 }

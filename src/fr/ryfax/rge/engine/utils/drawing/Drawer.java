@@ -2,9 +2,7 @@ package fr.ryfax.rge.engine.utils.drawing;
 
 import fr.ryfax.rge.engine.elements.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.utils.drawing.font.Font;
 
-import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -101,6 +99,8 @@ public class Drawer {
         g2d.drawString(string, x, y);
     }
 
+
+    //TODO: add transform, and resetTransform after every draw
 
     /*
      * Getters

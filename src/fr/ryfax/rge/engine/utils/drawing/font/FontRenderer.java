@@ -3,11 +3,9 @@ package fr.ryfax.rge.engine.utils.drawing.font;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
 public class FontRenderer {
 
-    private Color fontColor = new Color(0x000000), backColor = new Color(0x00000000, true);
     private int size = 16;
     private final Font font;
 
@@ -20,35 +18,20 @@ public class FontRenderer {
         int height = size;
 
         BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = out.createGraphics();
+        Graphics2D g2d = (Graphics2D) out.getGraphics();
 
-
-        RescaleOp op = new RescaleOp(
-                new float[]{fontColor.getRed()/255f, fontColor.getGreen()/255f, fontColor.getBlue()/255f, fontColor.getAlpha()/255f},
-                new float[4],
-                null);
-
-        g2d.setColor(backColor);
-
-        AffineTransform af = g2d.getTransform();
-        af.scale(size / 16d, size / 16d);
-        g2d.setTransform(af);
-
-        int sizeRem = 0;
+        int xRemove= 0;
         for(int s = 0; s < str.length(); s++) {
             char c = str.charAt(s);
 
-            int toRemove = 0;
+            BufferedImage img = font.getChars().get(c).getBufferedImage();
 
-            if(font.getSizeChars().containsKey(c))
-                toRemove += font.getSizeChars().get(c);
+            g2d.drawImage(img, s*16 - xRemove, 0, null);
 
-            toRemove += 5;
-
-            g2d.fillRect(s*16 - sizeRem, 0, 16-toRemove, 16);
-            g2d.drawImage(font.getChars().get(c), op, s*16 - sizeRem, 0);
-
-            sizeRem += toRemove;
+            if(font.sizeChars.containsKey(c))
+                xRemove += font.sizeChars.get(c) + font.defaultSpace;
+            else
+                xRemove += font.defaultSpace;
         }
 
         g2d.dispose();
@@ -60,8 +43,6 @@ public class FontRenderer {
     /*
      * Setters
      */
-    public void setFontColor(Color color) { fontColor = color; }
-    public void setBackgroundColor(Color color) { backColor = color; }
     public void setSize(int size) { this.size = size; }
 
     /*
