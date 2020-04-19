@@ -1,12 +1,12 @@
 package fr.ryfax.rge.engine.utils.drawing;
 
+import fr.ryfax.rge.engine.elements.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
+import fr.ryfax.rge.engine.utils.drawing.font.Font;
 
+import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
 
 /*
  * Upgraded class of Graphics2D
@@ -14,25 +14,45 @@ import java.util.Arrays;
 public class Drawer {
 
     private Engine engine;
+    private Camera camera;
     private Graphics2D g2d;
-    private Font font;
 
-    public Drawer(Engine engine, Graphics2D g2d) {
+    public Drawer(Engine engine) {
         this.engine = engine;
-        this.g2d = g2d;
+        this.camera = engine.getSceneManager().getCurrentScene().getCamera();
+        this.g2d = engine.getWindow().getCanvas().getGraphics();
+    }
+
+    public void setColor(Color color) {
+        g2d.setColor(color);
+    }
+
+    public void setLineWidth(int width) {
+        g2d.setStroke(new BasicStroke(width));
     }
 
     /*
      * Draw fill rectangle at x, y with width, height and color.
      * x, y relative to camera.
      */
-    public void fillRect(int x, int y, int width, int height) {
-        g2d.fillRect(x - (int) engine.getCamera().getPosition().x, (int) engine.getCamera().getPosition().y + y, width, height);
+    public void line(double x, double y, double toX, double toY) {
+        g2d.drawLine((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) (camera.getPosition().x + toX), (int) (camera.getPosition().y + toY));
     }
 
-    public void fillRect(int x, int y, int width, int height, Color color) {
-        g2d.setColor(color);
-        g2d.fillRect(x - (int) engine.getCamera().getPosition().x, (int) engine.getCamera().getPosition().y + y, width, height);
+    public void lineNotRelative(double x, double y, double toX, double toY) {
+        g2d.drawLine((int) x, (int) y, (int) toX, (int) toY);
+    }
+
+    /*
+     * Draw fill rectangle at x, y with width, height and color.
+     * x, y relative to camera.
+     */
+    public void fillRect(double x, double y, double width, double height) {
+        g2d.fillRect((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) width, (int) height);
+    }
+
+    public void borderRect(double x, double y, double width, double height) {
+        g2d.drawRect((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) width, (int) height);
     }
 
     /*
@@ -48,31 +68,13 @@ public class Drawer {
     }
 
     /*
-     * Draw String at x, y and color.
-     * x, y relative to camera.
-     * Todo: Change to BufferedImage and not drawString()
-     */
-    public void text(String string, int x, int y) {
-        g2d.drawString(string, x - (int) engine.getCamera().getPosition().x, (int) engine.getCamera().getPosition().y + y);
-    }
-
-    public void text(String string, int x, int y, Color color) {
-        g2d.setColor(color);
-        g2d.drawString(string, x - (int) engine.getCamera().getPosition().x, (int) engine.getCamera().getPosition().y + y);
-    }
-
-    /*
      * Draw String with a Font at x, y
      * x, y relative to camera
      */
-    public static BufferedImage createStringImg(String str, Color fontColor, Color backColor) {
-        return FontLoader.getFonts().get("main").buildText(str, fontColor, backColor);
-    }
-
     public void image(BufferedImage img, int x, int y) {
         g2d.drawImage(img,
-                x - (int) engine.getCamera().getPosition().x,
-                (int) engine.getCamera().getPosition().y + y, null);
+                x - (int) camera.getPosition().x,
+                (int) camera.getPosition().y + y, null);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {
@@ -81,14 +83,21 @@ public class Drawer {
 
     /*
      * Draw String at x, y and color.
-     * Todo: Change to BufferedImage and not drawString()
+     * x, y relative to camera.
+     * Todo: Change to Text and not drawString()
      */
-    public void textNotRelative(String string, int x, int y) {
-        g2d.drawString(string, x, y);
+    @Deprecated
+    public void text(String string, int x, int y) {
+        g2d.drawString(string, x - (int) camera.getPosition().x, (int) camera.getPosition().y + y);
     }
 
-    public void textNotRelative(String string, int x, int y, Color color) {
-        g2d.setColor(color);
+
+    /*
+     * Draw String at x, y and color.
+     * Todo: Change to Text and not drawString()
+     */
+    @Deprecated
+    public void textNotRelative(String string, int x, int y) {
         g2d.drawString(string, x, y);
     }
 

@@ -2,29 +2,29 @@ package fr.ryfax.rge.engine.utils.movements;
 
 public class Rotation2D {
 
-    public double degrees, x ,y;
+    public double degree;
+    public Vector2D offset;
 
     /*
      * Rotation class for 2D
      */
-    public Rotation2D(double degrees, double x, double y) {
-        this.degrees = degrees;
-        this.x = x;
-        this.y = y;
+    public Rotation2D(double degree, double x_offset, double y_offset) {
+        this.setAngle(degree);
+        this.offset = new Vector2D(x_offset, y_offset);
     }
 
     /*
      * Add degrees to the actual angle
      */
-    public void addAngle(double degrees) {
-        this.degrees += degrees;
+    public void setAngle(double degree) {
+        this.degree = Math.max(Math.min(degree, 360), 0);
     }
 
     /*
      * Add angle to the actual angle
      */
-    public void addAngle(Rotation2D rotation2D) {
-        this.degrees += rotation2D.degrees;
+    public void setAngle(Rotation2D rotation2D) {
+        this.degree = Math.max(Math.min(rotation2D.degree, 360), 0);
     }
 
 }
