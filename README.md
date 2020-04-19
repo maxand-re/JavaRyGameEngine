@@ -5,9 +5,9 @@ In dev !
 
 `TODO: Description`
 
------------
 
-### Documentation
+## Documentation
+
 
 #### How to start ?
 ```Java
@@ -16,13 +16,17 @@ public static void main(String[] args) {
 
   engine.getParameters().setLimitFps(false);
   engine.getParameters().setLimitOverload(true);
+  engine.getParameters().setCursor(Parameters.RGE_HIDE_CURSOR);
   engine.getParameters().setClearBufferColor(Color.BLACK);
 
-  engine.addGameObject(new InformationsPanel(engine)); // Show stats to the screen
+  engine.addGameObject(new InformationsPanel(engine), 1000); // Show stats to the screen
 
   engine.init(); // Initialize
 }
 ```
+
+#### InformationsPanel
+![alt text](https://i.imgur.com/4G4MEPl.png "InformationsPanel")
 
 
 ### Global:
@@ -32,8 +36,21 @@ public static void main(String[] args) {
 Statistics stats = engine.getStatistics();
 
 int fps = stats.getCurrentFps(); // Return fps (refreshed every secondes)
+int tps = stats.getCurrentTps(); // Return tps (refreshed every secondes, for best performance you need to have 60)
+int ramUsage = stats.getUsedRam(); // Return used RAM in MB
+int ramTotal = stats.getTotalRam(); // Return total (max) RAM in MB
 Vector2D cameraPos = stats.getCameraPosition(); // Return pos of camera with Vector2D
 String elapsedTime = stats.getElapsedTime(); // Return HH:MM:SS
+```
+
+#### Parameters:
+```Java
+Parameters param = engine.getParameters();
+
+param.setLimitFps(false); // Enable/Disable fps limit to 60
+param.setLimitOverload(true); // Enable/Disable CPU Overload security
+param.setCursor(Parameters.RGE_HIDE_CURSOR); // Set cursor (Cursor class or RGE_HIDE_CURSOR & RGE_DEFAULT_CURSOR)
+param.setClearBufferColor(new Color(69, 184, 198)); // Set the background color of the game/buffer
 ```
 
 
@@ -73,6 +90,7 @@ Logger logger = engine.getLogger();
 logger.info('This is info'); // Print: [HH:MM:SS] [INFO] This is info
 logger.warn('This is warn'); // Print: [HH:MM:SS] [WARN] This is warn
 logger.error('This is error'); // Print: [HH:MM:SS] [ERROR] This is error
+try { /*Code*/ } catch(Exception ex) logger.error(ex); // Work too
 ```
 
 #### Tools
