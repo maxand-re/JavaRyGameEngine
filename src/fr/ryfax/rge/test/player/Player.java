@@ -16,8 +16,8 @@ public class Player {
 
     public Player(Engine engine) {
         entity = new Entity(engine);
-        entity.setWidth(100);
-        entity.setHeight(100);
+        entity.setWidth(500);
+        entity.setHeight(500);
         entity.setPosition(new Vector2D(200, 200));
         entity.addModule(playerSprite, 1);
 
@@ -28,8 +28,8 @@ public class Player {
 
     private void loadSprites() {
         SpriteSheetLoader ssl = new SpriteSheetLoader("fr/ryfax/rge/assets/sprites/player.png");
-
         ssl.setCellSize(100, 100);
+        ssl.setSpritesSize(500, 500);
         ssl.load();
 
         runRight = new SpriteAnimation(ssl.getSprites());

@@ -27,22 +27,21 @@ public class Main {
         SceneManager sm = engine.getSceneManager();
         Parameters param = engine.getParameters();
 
-        Scene game = engine.getSceneBuilder().setName("menu").build();
-        Scene intro = new Introduction(engine, game).getScene();
-
         param.setLimitFps(false);
-        param.setLimitOverload(Parameters.RGE_OVERLOAD_MEDIUM);
-        param.setAntiAliasing(true);
+        param.setAntiAliasing(false);
         param.setQualityRendering(false);
         param.setCursor(Parameters.RGE_CURSOR_DEFAULT);
-        param.setClearBufferColor(new Color(69, 184, 198));
+        param.setLimitOverload(Parameters.RGE_OVERLOAD_MEDIUM);
+        param.setClearBufferColor(new Color(26, 150, 238));
 
+        Scene game = engine.getSceneBuilder().setName("menu").build();
+        Scene introScene = new Introduction(engine, game).getScene();
         Player player = new Player(engine);
 
         game.addGameObject(player.getEntity(), 1);
         game.addGameObject(new InformationsPanel(engine), 1000);
 
-        sm.setScene(intro);
+        sm.setScene(introScene);
 
         engine.init();
     }

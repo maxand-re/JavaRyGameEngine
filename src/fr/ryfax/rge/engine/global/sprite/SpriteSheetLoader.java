@@ -12,6 +12,7 @@ public class SpriteSheetLoader {
     private ArrayList<Image> sprites = new ArrayList<>();
 
     private int width = 16, height = 16;
+    private int resizedWidth = -1, resizedHeigth = -1;
 
     public SpriteSheetLoader(String path) { image = new ImageBuilder(path).build(); }
     public SpriteSheetLoader(Image image) { this.image = image; }
@@ -23,8 +24,8 @@ public class SpriteSheetLoader {
     }
 
     public void setSpritesSize(int width, int height){
-        this.width = width;
-        this.height = height;
+        resizedWidth = width;
+        resizedHeigth = height;
     }
 
     public ArrayList<Image> load() {
@@ -32,7 +33,11 @@ public class SpriteSheetLoader {
         for(int y = 0; y < img.getHeight(); y += height) {
             for(int x = 0; x < img.getWidth(); x += width) {
                 Image sprite = new ImageBuilder(img.getSubimage(x, y, width, height)).build();
-                sprite.resize(width, height);
+
+                if((resizedHeigth != height && resizedHeigth != -1)
+                        && (resizedWidth != width && resizedWidth != -1))
+                            sprite.resize(resizedWidth, resizedHeigth);
+
                 sprites.add(sprite);
             }
         }
