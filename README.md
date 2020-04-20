@@ -1,10 +1,14 @@
 # RyGameEngine (RGE)
 RyGameEngine (RGE) - Modern Java Game Engine
-In dev !
+
+[![GitHub version](https://badge.fury.io/gh/RyFax%2FRGE.svg)](https://github.com/RyFax/RGE)
+[![GitHub issues](https://img.shields.io/github/issues/RyFax/RGE.svg)](https://github.com/RyFax/RGE/issues/)
+<br>
+[![GitHub release](https://img.shields.io/github/release/RyFax/RGE.svg)](https://github.com/RyFax/RGE/releases/)
+[![Github all releases](https://img.shields.io/github/downloads/RyFax/RGE/total.svg)](https://GitHub.com/RyFax/RGE/releases/)
 
 
-`TODO: Description`
-
+##### Documentation for the new version not refreshed!
 
 ## Documentation
 
@@ -32,8 +36,8 @@ public static void main(String[] args) {
 }
 ```
 
-#### InformationsPanel
-![alt text](https://i.imgur.com/KNZtOFv.png "InformationsPanel")
+#### Example:
+![alt text](https://i.imgur.com/iO3JLg6.gif "SplashScreen and InformationsPanel")
 
 
 ### Global:
@@ -83,7 +87,7 @@ sm.setScene(introduction); // Set the scene to introduction
 #### FontLoader:
 ```Java
 FontLoader fl = engine.getFontLoader();
-fontLoader.load("Name", "path/to/yourfile.png"); // exemple: fr/ryfax/rge/assets/fonts/ascii.png
+fl.load("Name", "path/to/yourfile.png"); // exemple: fr/ryfax/rge/assets/fonts/ascii.png
 HashMap<Character, Integer> chars = new HashMap<>();
 chars.put('i', 8); // Remove 8 transparent pixel after the letter i
 chars.put('I', 4);
@@ -93,7 +97,7 @@ chars.put('f', 2);
 chars.put('.', 8);
 chars.put(':', 8);
 chars.put('!', 8);
-fontLoader.setSpecialCharsSize("Name", chars);
+fl.setSpecialCharsSize("Name", chars);
 ```
 
 #### Font:
