@@ -7,8 +7,8 @@ RyGameEngine (RGE) - Modern Java Game Engine
 [![GitHub release](https://img.shields.io/github/release/RyFax/RGE.svg)](https://github.com/RyFax/RGE/releases/)
 [![Github all releases](https://img.shields.io/github/downloads/RyFax/RGE/total.svg)](https://GitHub.com/RyFax/RGE/releases/)
 
-`TODO: Description`
 
+##### Documentation for the new version not refreshed!
 
 ## Documentation
 
