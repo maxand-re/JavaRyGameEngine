@@ -24,7 +24,7 @@ public class Main {
         Scene intro = new Introduction(engine, menu).getScene();
 
         param.setLimitFps(false);
-        param.setLimitOverload(Parameters.RGE_OVERLOAD_MEDIUM);
+        param.setLimitOverload(Parameters.RGE_OVERLOAD_LOW);
         param.setAntiAliasing(false);
         param.setQualityRendering(false);
         param.setCursor(Parameters.RGE_CURSOR_DEFAULT);
@@ -34,7 +34,6 @@ public class Main {
 
         sm.setScene(intro);
         engine.init();
-
     }
 
 }

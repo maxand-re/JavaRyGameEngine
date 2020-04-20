@@ -42,7 +42,8 @@ public class Image {
     public void addShadow(int x, int y) {
         BufferedImage shadow = ImageBuilder.createBlankImage(bufferedImage.getWidth(), bufferedImage.getHeight(), transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) shadow.getGraphics();
-        RescaleOp op = new RescaleOp(new float[]{0, 0, 0}, new float[3], null);
+        RescaleOp op = new RescaleOp(new float[]{0, 0, 0, 1}, new float[4], null);
+
         g2d.drawImage(bufferedImage, op, x, y);
         g2d.drawImage(bufferedImage, 0, 0, null);
 
