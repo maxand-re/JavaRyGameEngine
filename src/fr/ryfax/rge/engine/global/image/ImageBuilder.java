@@ -10,13 +10,13 @@ public class ImageBuilder {
 
     private Image image;
 
-    public ImageBuilder(String path) {
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    private final static GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    private final static GraphicsDevice device = env.getDefaultScreenDevice();
+    private final static GraphicsConfiguration config = device.getDefaultConfiguration();
 
+    public ImageBuilder(String path) {
         try {
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
             BufferedImage img = ImageIO.read(Objects.requireNonNull(cl.getResourceAsStream(path)));
             BufferedImage compatImg = config.createCompatibleImage(img.getWidth(), img.getHeight(), Transparency.TRANSLUCENT);
 
@@ -28,10 +28,6 @@ public class ImageBuilder {
     }
 
     public ImageBuilder(BufferedImage image) {
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-
         BufferedImage compatImg = config.createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
 
         Graphics g = compatImg.getGraphics();
@@ -41,15 +37,10 @@ public class ImageBuilder {
     }
 
     public static Image createBlankImage(int width, int height, boolean transparent) {
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-
         if(transparent)
             return new Image(config.createCompatibleImage(width, height, Transparency.TRANSLUCENT), true);
         else
             return new Image(config.createCompatibleImage(width, height, Transparency.OPAQUE), false);
-
     }
 
     public Image build() {

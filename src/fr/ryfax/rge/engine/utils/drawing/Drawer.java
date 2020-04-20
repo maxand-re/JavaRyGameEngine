@@ -2,6 +2,7 @@ package fr.ryfax.rge.engine.utils.drawing;
 
 import fr.ryfax.rge.engine.elements.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
+import fr.ryfax.rge.engine.global.image.Image;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -69,6 +70,18 @@ public class Drawer {
      * Draw String with a Font at x, y
      * x, y relative to camera
      */
+    public void image(Image image, int x, int y) {
+        g2d.drawImage(image.getBufferedImage(),
+                x - (int) camera.getPosition().x,
+                (int) camera.getPosition().y + y, null);
+    }
+
+    public void image(Image image, double x, double y) {
+        g2d.drawImage(image.getBufferedImage(),
+                (int) x - (int) camera.getPosition().x,
+                (int) camera.getPosition().y + (int) y, null);
+    }
+
     public void image(BufferedImage img, int x, int y) {
         g2d.drawImage(img,
                 x - (int) camera.getPosition().x,

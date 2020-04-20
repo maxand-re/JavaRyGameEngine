@@ -1,5 +1,6 @@
 package fr.ryfax.rge.engine.object.elements.entity;
 
+import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
@@ -18,6 +19,8 @@ public class Entity implements VisualGameObject {
     private double height, width;
     private Vector2D position;
 
+    private Engine engine;
+    public Entity(Engine engine) { this.engine = engine; }
 
     /*
      * Methods
@@ -37,6 +40,8 @@ public class Entity implements VisualGameObject {
      */
     public void addModule(EntityModule module, int zindex) {
         boolean isVisualModule = module instanceof VisualEntityModule;
+
+        module.init(engine, this);
 
         if(modules.containsKey(zindex)) {
             modules.get(zindex).add(module);

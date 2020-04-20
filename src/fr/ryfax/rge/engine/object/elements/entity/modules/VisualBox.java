@@ -12,9 +12,7 @@ public class VisualBox implements VisualEntityModule {
 
     private Entity entity;
 
-    public VisualBox(Entity entity) {
-        this.entity = entity;
-    }
+    public void init(Engine engine, Entity entity) { this.entity = entity; }
 
     public void update(int tick) {}
 
@@ -24,7 +22,7 @@ public class VisualBox implements VisualEntityModule {
         drawer.setColor(new Color(0x0161C1));
         drawer.setLineWidth(3);
         drawer.borderRect(pos.x, pos.y, entity.getWidth(), entity.getHeight());
-        drawer.setLineWidth(2);
+        drawer.setLineWidth(1);
         drawer.line(pos.x, pos.y, pos.x + entity.getWidth(), pos.y + entity.getHeight());
         drawer.line(pos.x + entity.getWidth(), pos.y, pos.x, pos.y + entity.getHeight());
     }
