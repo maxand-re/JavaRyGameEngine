@@ -87,7 +87,7 @@ sm.setScene(introduction); // Set the scene to introduction
 #### FontLoader:
 ```Java
 FontLoader fl = engine.getFontLoader();
-fontLoader.load("Name", "path/to/yourfile.png"); // exemple: fr/ryfax/rge/assets/fonts/ascii.png
+fl.load("Name", "path/to/yourfile.png"); // exemple: fr/ryfax/rge/assets/fonts/ascii.png
 HashMap<Character, Integer> chars = new HashMap<>();
 chars.put('i', 8); // Remove 8 transparent pixel after the letter i
 chars.put('I', 4);
@@ -97,7 +97,7 @@ chars.put('f', 2);
 chars.put('.', 8);
 chars.put(':', 8);
 chars.put('!', 8);
-fontLoader.setSpecialCharsSize("Name", chars);
+fl.setSpecialCharsSize("Name", chars);
 ```
 
 #### Font:
