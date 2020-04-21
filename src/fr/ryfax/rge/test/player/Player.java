@@ -9,16 +9,17 @@ import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 public class Player {
 
-    private Entity entity;
+    private final Entity entity;
 
-    private AnimatedSprite playerSprite = new AnimatedSprite();
-    SpriteAnimation runRight;
+    private SpriteAnimation runRight;
 
     public Player(Engine engine) {
+        AnimatedSprite playerSprite = new AnimatedSprite();
+
         entity = new Entity(engine);
-        entity.setWidth(500);
-        entity.setHeight(500);
-        entity.setPosition(new Vector2D(200, 200));
+        entity.setWidth(100);
+        entity.setHeight(100);
+        entity.setPosition(new Vector2D(engine.getWindow().getCanvas().getWidth()/2d - 50, engine.getWindow().getCanvas().getHeight()/2d - 50));
         entity.addModule(playerSprite, 1);
 
         loadSprites();
@@ -29,11 +30,11 @@ public class Player {
     private void loadSprites() {
         SpriteSheetLoader ssl = new SpriteSheetLoader("fr/ryfax/rge/assets/sprites/player.png");
         ssl.setCellSize(100, 100);
-        ssl.setSpritesSize(500, 500);
+        ssl.setSpritesSize(100, 100);
         ssl.load();
 
         runRight = new SpriteAnimation(ssl.getSprites());
-        runRight.setTickRate(6);
+        runRight.setTickRate(5);
         runRight.setStartIndex(6);
         runRight.setEndIndex(11);
     }

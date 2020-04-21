@@ -22,20 +22,15 @@ public class Drawer {
         this.g2d = engine.getWindow().getCanvas().getGraphics();
     }
 
-    public void setColor(Color color) {
-        g2d.setColor(color);
-    }
-
-    public void setLineWidth(int width) {
-        g2d.setStroke(new BasicStroke(width));
-    }
+    public void setColor(Color color) { g2d.setColor(color); }
+    public void setLineWidth(int width) { g2d.setStroke(new BasicStroke(width)); }
 
     /*
      * Draw fill rectangle at x, y with width, height and color.
      * x, y relative to camera.
      */
     public void line(double x, double y, double toX, double toY) {
-        g2d.drawLine((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) (camera.getPosition().x + toX), (int) (camera.getPosition().y + toY));
+        g2d.drawLine((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) (camera.getPosition().x + toX), (int) (camera.getPosition().y + toY));
     }
 
     public void lineNotRelative(double x, double y, double toX, double toY) {
@@ -47,11 +42,11 @@ public class Drawer {
      * x, y relative to camera.
      */
     public void fillRect(double x, double y, double width, double height) {
-        g2d.fillRect((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) width, (int) height);
+        g2d.fillRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
     }
 
     public void borderRect(double x, double y, double width, double height) {
-        g2d.drawRect((int) (x - camera.getPosition().x), (int) (camera.getPosition().y + y), (int) width, (int) height);
+        g2d.drawRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
     }
 
     /*
@@ -70,22 +65,16 @@ public class Drawer {
      * Draw String with a Font at x, y
      * x, y relative to camera
      */
-    public void image(Image image, int x, int y) {
-        g2d.drawImage(image.getBufferedImage(),
-                x - (int) camera.getPosition().x,
-                (int) camera.getPosition().y + y, null);
-    }
-
     public void image(Image image, double x, double y) {
         g2d.drawImage(image.getBufferedImage(),
-                (int) x - (int) camera.getPosition().x,
-                (int) camera.getPosition().y + (int) y, null);
+                (int) (x - camera.getPosition().x),
+                (int) (y - camera.getPosition().y), null);
     }
 
-    public void image(BufferedImage img, int x, int y) {
+    public void image(BufferedImage img, double x, double y) {
         g2d.drawImage(img,
-                x - (int) camera.getPosition().x,
-                (int) camera.getPosition().y + y, null);
+                (int) (x - camera.getPosition().x),
+                (int) (y - camera.getPosition().y), null);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {
@@ -99,7 +88,7 @@ public class Drawer {
      */
     @Deprecated
     public void text(String string, int x, int y) {
-        g2d.drawString(string, x - (int) camera.getPosition().x, (int) camera.getPosition().y + y);
+        g2d.drawString(string, (int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y));
     }
 
 
