@@ -1,6 +1,8 @@
 package fr.ryfax.rge.engine.global;
 
 
+import fr.ryfax.rge.engine.global.listeners.KeyboardListener;
+import fr.ryfax.rge.engine.global.listeners.MouseListener;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.utils.Logger;
@@ -8,6 +10,7 @@ import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static fr.ryfax.rge.engine.utils.Sleep.*;
@@ -30,6 +33,11 @@ public class Engine {
     private final Logger logger = new Logger(this);
     private final Window window;
 
+    private final ArrayList<KeyboardListener> keyboardListeners = new ArrayList<>();
+    private final ArrayList<MouseListener> mouseListeners = new ArrayList<>();
+    private final ArrayList<Integer> buttonsPressed = new ArrayList<>();
+
+    private Point mousePosition = new Point(0, 0);
     private boolean isRunning = true, pause = false;
     private final double UPDATE_OBJECTIVE = 1/60D;
 
@@ -95,6 +103,7 @@ public class Engine {
     }
 
     private synchronized void update(int tick) {
+        mousePosition = window.getCanvas().getMousePosition();
         sceneManager.getCurrentScene().update(tick);
     }
 
@@ -111,7 +120,6 @@ public class Engine {
     private void loadText() {
         fontLoader.setPath("fr/ryfax/rge/assets/fonts/ascii.png");
         fontLoader.setFontColor(new Color(255, 255, 255));
-        fontLoader.setBackgroundColor(new Color(0, 0, 0, 100));
 
         HashMap<Character, Integer> chars = new HashMap<>();
         chars.put('i', 8);
@@ -125,18 +133,30 @@ public class Engine {
 
         fontLoader.setSpacingChar(4);
         fontLoader.setSpecialCharsSize(chars);
-        fontLoader.load(FontLoader.RGE_DEFAULT_FONT);
+        fontLoader.load(FontLoader.RGE_DEFAULT);
 
         fontLoader.setShadow(2, 2);
         fontLoader.load(FontLoader.RGE_SHADOW);
 
+        fontLoader.setBackgroundColor(new Color(0, 0, 0, 100));
+        fontLoader.load(FontLoader.RGE_SHADOW_BACKGROUND);
+
+        fontLoader.setShadow(0, 0);
+        fontLoader.load(FontLoader.RGE_DEFAULT_BACKGROUND);
     }
+
+    public void addListener(KeyboardListener keyboardListener) { keyboardListeners.add(keyboardListener); }
+    public void addListener(MouseListener mouseListener) { mouseListeners.add(mouseListener); }
 
     /*
      * Getters
      */
+    public ArrayList<KeyboardListener> getKeyboardListeners() { return keyboardListeners; }
+    public ArrayList<MouseListener> getMouseListeners() { return mouseListeners; }
+    public ArrayList<Integer> getButtonsPressed() { return buttonsPressed; }
     public SceneBuilder getSceneBuilder() { return sceneBuilder; }
     public SceneManager getSceneManager() { return sceneManager; }
+    public Point getMousePosition() { return mousePosition; }
     public Parameters getParameters() { return parameters; }
     public Statistics getStatistics() { return statistics; }
     public FontLoader getFontLoader() { return fontLoader; }

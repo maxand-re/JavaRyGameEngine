@@ -1,5 +1,6 @@
 package fr.ryfax.rge.engine.object.modules;
 
+import fr.ryfax.rge.engine.global.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.Tools;
 import fr.ryfax.rge.engine.global.Engine;
@@ -9,6 +10,7 @@ import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class InformationsPanel implements VisualGameObject {
@@ -20,14 +22,14 @@ public class InformationsPanel implements VisualGameObject {
     private final FontRenderer fontRenderer;
     private int tick = 0;
 
-    private final BufferedImage version;
-    private BufferedImage fpsAndTick = null, ticks = null, time = null, cam = null, ram = null;
+    private final Image version;
+    private Image fpsAndTick = null, ticks = null, time = null, cam = null, ram = null;
 
     /*
      * Methods
      */
     public InformationsPanel(Engine engine) {
-        Font font = engine.getFontLoader().getLoadedFonts().get(FontLoader.RGE_SHADOW);
+        Font font = engine.getFontLoader().getLoadedFonts().get(FontLoader.RGE_SHADOW_BACKGROUND);
         statistics = engine.getStatistics();
         fontRenderer = new FontRenderer(font);
 

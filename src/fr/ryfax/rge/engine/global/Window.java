@@ -1,5 +1,8 @@
 package fr.ryfax.rge.engine.global;
 
+import fr.ryfax.rge.engine.global.listeners.KeyEvents;
+import fr.ryfax.rge.engine.global.listeners.MouseEvents;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,6 +31,10 @@ public class Window {
         frame.setMaximumSize(size);
         frame.setPreferredSize(size);
         frame.setResizable(false);
+
+        frame.addKeyListener(new KeyEvents(engine));
+        canvas.addKeyListener(new KeyEvents(engine));
+        canvas.addMouseListener(new MouseEvents(engine));
 
         frame.addComponentListener(new ComponentAdapter() {
             @Override

@@ -62,19 +62,28 @@ public class Drawer {
     }
 
     /*
-     * Draw String with a Font at x, y
+     * Draw Image/BufferedImage at x, y
      * x, y relative to camera
      */
-    public void image(Image image, double x, double y) {
-        g2d.drawImage(image.getBufferedImage(),
-                (int) (x - camera.getPosition().x),
-                (int) (y - camera.getPosition().y), null);
+    public void image(Image img, double x, double y) {
+        if(img != null)
+            g2d.drawImage(img.getBufferedImage(),
+                    (int) (x - camera.getPosition().x),
+                    (int) (y - camera.getPosition().y), null);
     }
 
     public void image(BufferedImage img, double x, double y) {
         g2d.drawImage(img,
                 (int) (x - camera.getPosition().x),
                 (int) (y - camera.getPosition().y), null);
+    }
+
+    /*
+     * Draw Image/BufferedImage at x, y
+     */
+    public void imageNotRelative(Image img, int x, int y) {
+        if(img != null)
+            g2d.drawImage(img.getBufferedImage(), x , y, null);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {

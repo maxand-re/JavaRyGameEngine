@@ -11,10 +11,11 @@ public class Player {
 
     private final Entity entity;
 
-    private SpriteAnimation runRight;
+    private AnimatedSprite playerSprite;
+    private SpriteAnimation runRight, runLeft, runTop, runBottom;
 
     public Player(Engine engine) {
-        AnimatedSprite playerSprite = new AnimatedSprite();
+        playerSprite = new AnimatedSprite();
 
         entity = new Entity(engine);
         entity.setWidth(100);
@@ -25,6 +26,8 @@ public class Player {
         loadSprites();
 
         playerSprite.play(runRight);
+
+        engine.addListener(new PlayerKeyboardEvents(this));
     }
 
     private void loadSprites() {
@@ -37,6 +40,38 @@ public class Player {
         runRight.setTickRate(5);
         runRight.setStartIndex(6);
         runRight.setEndIndex(11);
+
+        runLeft = new SpriteAnimation(ssl.getSprites());
+        runLeft.setTickRate(5);
+        runLeft.setStartIndex(18);
+        runLeft.setEndIndex(23);
+
+        runBottom = new SpriteAnimation(ssl.getSprites());
+        runBottom.setTickRate(5);
+        runBottom.setStartIndex(0);
+        runBottom.setEndIndex(5);
+
+        runTop = new SpriteAnimation(ssl.getSprites());
+        runTop.setTickRate(5);
+        runTop.setStartIndex(12);
+        runTop.setEndIndex(17);
+    }
+
+    public void playAnimation(PlayerAnimation animation) {
+        switch (animation) {
+            case UP:
+                playerSprite.play(runTop);
+                break;
+            case DOWN:
+                playerSprite.play(runBottom);
+                break;
+            case LEFT:
+                playerSprite.play(runLeft);
+                break;
+            case RIGHT:
+                playerSprite.play(runRight);
+                break;
+        }
     }
 
 

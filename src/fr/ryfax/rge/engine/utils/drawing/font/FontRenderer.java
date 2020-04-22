@@ -1,7 +1,9 @@
 package fr.ryfax.rge.engine.utils.drawing.font;
 
+import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.global.image.ImageBuilder;
+
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class FontRenderer {
@@ -13,25 +15,27 @@ public class FontRenderer {
         this.font = font;
     }
 
-    public BufferedImage build(String str) {
+    public Image build(String str) {
         int width = str.length()*size;
         int height = size;
 
-        BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = (Graphics2D) out.getGraphics();
+        int[] xRemoves = new int[str.length()+1];
 
-        int xRemove= 0;
+        int xRemove = 0;
         for(int s = 0; s < str.length(); s++) {
             char c = str.charAt(s);
+            if(font.sizeChars.containsKey(c)) xRemove += font.sizeChars.get(c) + font.defaultSpace;
+            else xRemove += font.defaultSpace;
+            xRemoves[s+1] = xRemove;
+        }
 
+        Image out = ImageBuilder.createBlankImage(width - xRemove, height, true);
+        Graphics2D g2d = (Graphics2D) out.getBufferedImage().getGraphics();
+
+        for(int s = 0; s < str.length(); s++) {
+            char c = str.charAt(s);
             BufferedImage img = font.getChars().get(c).getBufferedImage();
-
-            g2d.drawImage(img, s*16 - xRemove, 0, null);
-
-            if(font.sizeChars.containsKey(c))
-                xRemove += font.sizeChars.get(c) + font.defaultSpace;
-            else
-                xRemove += font.defaultSpace;
+            g2d.drawImage(img, s*16 - xRemoves[s], 0, null);
         }
 
         g2d.dispose();

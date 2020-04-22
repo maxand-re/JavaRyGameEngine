@@ -9,10 +9,12 @@ import java.util.HashMap;
 
 public class FontLoader {
 
-    public static final String RGE_DEFAULT_FONT = "RGE_DEFAULT";
+    public static final String RGE_DEFAULT = "RGE_DEFAULT";
+    public static final String RGE_DEFAULT_BACKGROUND = "RGE_DEFAULT_BACKGROUND";
     public static final String RGE_SHADOW = "RGE_SHADOW";
+    public static final String RGE_SHADOW_BACKGROUND = "RGE_SHADOW_BACKGROUND";
 
-    private Color backgroundColor, fontColor;
+    private Color backgroundColor = new Color(0, 0, 0, 0), fontColor;
     private String path;
     private int spaceToRemove = 0;
     private final int[] shadow = new int[]{0, 0};
@@ -55,6 +57,6 @@ public class FontLoader {
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public Font getDefaultFont() { return fonts.get(RGE_DEFAULT_FONT); }
+    public Font getDefaultFont() { return fonts.get(RGE_DEFAULT); }
     public HashMap<String, Font> getLoadedFonts() { return fonts; }
 }
