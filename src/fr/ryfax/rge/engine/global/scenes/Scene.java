@@ -59,6 +59,8 @@ public class Scene {
     public void addGameObject(GameObject gameObject, int zindex) {
         boolean isVisualGO = gameObject instanceof VisualGameObject;
 
+        gameObject.init(engine);
+
         if(gameObjs.containsKey(zindex)) {
             gameObjs.get(zindex).add(gameObject);
             if(isVisualGO) visualGameObjs.get(zindex).add((VisualGameObject) gameObject);

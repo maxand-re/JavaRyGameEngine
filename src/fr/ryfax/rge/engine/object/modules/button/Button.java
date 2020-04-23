@@ -4,34 +4,50 @@ import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.global.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
+import fr.ryfax.rge.engine.utils.drawing.font.Font;
+import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
+import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
 
 public class Button implements VisualGameObject {
 
-    private final Engine engine;
     private final ButtonListener listener;
 
+    private Engine engine;
+    private Font font;
+    private String textStr;
     private Image sprite, text;
-    private Vector2D position = new Vector2D(0, 0);
-    private Dimension size    = new Dimension(200, 50);
+    private Vector2D position;
+    private Dimension size;
     private boolean hover = false, click = false;
 
-    public Button(Engine engine, ButtonListener listener) {
-        this.engine = engine;
+    public Button(Vector2D position, Dimension size, Image sprite, String text, ButtonListener listener, Font font) {
         this.listener = listener;
-        listener.init(this);
+        this.position = position;
+        this.size = size;
+        this.sprite = sprite;
+        this.textStr = text;
+
+        if(listener != null) listener.init(this);
+    }
+
+    public void init(Engine engine) {
+        this.engine = engine;
+
+        Font font = engine.getFontLoader().getLoadedFonts().get(FontLoader.RGE_SHADOW);
+        FontRenderer fr = new FontRenderer(font);
+
+        this.text = fr.build(textStr);
     }
 
     public void update(int tick) {
         Point mouse = engine.getMousePosition();
 
         if(mouse != null) {
-            if(mouse.x <= position.x + size.width
-                    && mouse.x >= position.x
-                    && mouse.y <= position.y + size.height
-                    && mouse.y >= position.y){
+            // "If the mouse is on the button"
+            if(mouse.x <= position.x + size.width && mouse.x >= position.x && mouse.y <= position.y + size.height && mouse.y >= position.y){
                 if(!hover) {
                     listener.onMouseEntered();
                     hover = true;
@@ -43,7 +59,8 @@ public class Button implements VisualGameObject {
                         click = true;
                     }
                 }else if(!engine.getButtonsPressed().contains(1)) {
-                        click = false;
+                    listener.onClickExit();
+                    click = false;
                 }
 
             }else if(hover) {
@@ -61,6 +78,11 @@ public class Button implements VisualGameObject {
                 (int) position.y + size.height/2 - text.getBufferedImage().getHeight()/2);
     }
 
+
+    /*
+     * Getters
+     */
+    public String getText() { return textStr; }
 
     /*
      * Setters

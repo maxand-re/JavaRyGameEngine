@@ -16,17 +16,18 @@ public class MouseEvents implements MouseListener {
         this.engine = engine;
     }
 
-    public void mouseClicked(MouseEvent mouseEvent) {
-        engine.getButtonsPressed().remove((Object) mouseEvent.getButton());
-        engine.getMouseListeners().forEach(list -> list.onButtonReleased(mouseEvent.getButton()));
-    }
+    public void mouseClicked(MouseEvent mouseEvent) {}
 
     public void mousePressed(MouseEvent mouseEvent) {
-        engine.getButtonsPressed().add(mouseEvent.getButton());
+        if(!engine.getButtonsPressed().contains(mouseEvent.getButton()))
+            engine.getButtonsPressed().add(mouseEvent.getButton());
         engine.getMouseListeners().forEach(list -> list.onButtonPressed(mouseEvent.getButton()));
     }
 
-    public void mouseReleased(MouseEvent mouseEvent) {}
+    public void mouseReleased(MouseEvent mouseEvent) {
+        engine.getButtonsPressed().remove((Object) mouseEvent.getButton());
+        engine.getMouseListeners().forEach(list -> list.onButtonReleased(mouseEvent.getButton()));
+    }
     public void mouseEntered(MouseEvent mouseEvent) {}
     public void mouseExited(MouseEvent mouseEvent) {}
 }

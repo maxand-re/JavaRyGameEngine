@@ -6,5 +6,6 @@ public interface ButtonListener {
     void onMouseEntered();
     void onMouseExited();
     void onClick();
+    void onClickExit();
 
 }

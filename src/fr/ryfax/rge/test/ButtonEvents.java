@@ -1,6 +1,7 @@
 package fr.ryfax.rge.test;
 
 import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.global.sounds.SoundManager;
 import fr.ryfax.rge.engine.object.modules.button.Button;
 import fr.ryfax.rge.engine.object.modules.button.ButtonListener;
 
@@ -29,7 +30,15 @@ public class ButtonEvents implements ButtonListener {
     }
 
     public void onClick() {
-        System.out.println("Click !");
+        button.setSprite(sprites.get(2)); }
+
+    public void onClickExit() {
+        SoundManager.play("click");
+        button.setSprite(sprites.get(1));
+
+        if(button.getText().equals("Quit")) {
+            System.exit(0);
+        }
     }
 
 }

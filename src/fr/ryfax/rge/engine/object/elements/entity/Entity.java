@@ -18,13 +18,10 @@ public class Entity implements VisualGameObject {
 
     private double height, width;
     private Vector2D position;
-
     private Engine engine;
-    public Entity(Engine engine) { this.engine = engine; }
 
-    /*
-     * Methods
-     */
+    public void init(Engine engine) { this.engine = engine; }
+
     public void update(int tick) {
         modules.forEach((z, modules) ->
                 modules.forEach(module -> module.update(tick)));
@@ -34,6 +31,7 @@ public class Entity implements VisualGameObject {
         visualModules.forEach((z, visualModules) ->
                 visualModules.forEach(visualModule -> visualModule.draw(drawer)));
     }
+
 
     /*
      * Setters
@@ -62,6 +60,7 @@ public class Entity implements VisualGameObject {
     public void setPosition(Vector2D position) { this.position = position; }
     public void setHeight(double height) { this.height = height; }
     public void setWidth(double width) { this.width = width; }
+
 
     /*
      * Getters

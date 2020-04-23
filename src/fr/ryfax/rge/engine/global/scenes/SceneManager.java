@@ -12,7 +12,7 @@ public class SceneManager {
     private Engine engine;
     private Scene currentScene;
 
-    private ArrayList<Scene> scenes = new ArrayList<>();
+    private final static ArrayList<Scene> scenes = new ArrayList<>();
 
     public SceneManager(Engine engine) {
         this.engine = engine;
@@ -30,7 +30,7 @@ public class SceneManager {
     /*
      * Getters
      */
-    public Scene getSceneById(int id) {
+    public static Scene getSceneById(int id) {
         Scene out = null;
 
         for(Scene scene : scenes) {
@@ -43,7 +43,7 @@ public class SceneManager {
         return out;
     }
 
-    public Scene getSceneByName(String name) {
+    public static Scene getSceneByName(String name) {
         Scene out = null;
 
         for(Scene scene : scenes) {

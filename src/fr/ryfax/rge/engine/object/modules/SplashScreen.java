@@ -18,28 +18,19 @@ import java.awt.image.RescaleOp;
 
 public class SplashScreen implements VisualGameObject {
 
-    Color background;
-    Engine engine;
-    Scene sceneAfter;
-    Image image;
+    private final Color background;
+    private final Scene sceneAfter;
+    private final Image image;
+    private Engine engine;
 
-    double width, height;
+    private double width, height;
+    private int screenW;
+    private int screenH;
+    private int opacity;
+    private int sec = 0;
 
-    int screenW, screenH;
-
-    int tick,opacity;
-    int sec = 0;
-
-    RescaleOp op;
-
-    /*
-     * Methods
-     */
-    public SplashScreen(Engine engine, Image image, Color background, Scene sceneAfter) {
+    public void init(Engine engine) {
         this.engine = engine;
-        this.background = background;
-        this.sceneAfter = sceneAfter;
-        this.image = image;
 
         screenW = engine.getWindow().getCanvas().getWidth();
         screenH = engine.getWindow().getCanvas().getHeight();
@@ -48,16 +39,14 @@ public class SplashScreen implements VisualGameObject {
         height = image.getBufferedImage().getHeight();
     }
 
-    public void setSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-
-        image.resize(width, height);
+    public SplashScreen(Image image, Color background, Scene sceneAfter) {
+        this.background = background;
+        this.sceneAfter = sceneAfter;
+        this.image = image;
     }
 
     public void update(int tick) {
         if(tick == 60) sec ++;
-        this.tick = tick;
 
         if(sec < 2) {
             opacity++;
@@ -78,6 +67,16 @@ public class SplashScreen implements VisualGameObject {
         d.getGraphics2D().drawImage(image.getBufferedImage(),
                 (int) (screenW / 2 - width / 2),
                 (int) (screenH / 2 - height / 2), null);
+    }
+
+    /*
+     * Setters
+     */
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+
+        image.resize(width, height);
     }
 
 }

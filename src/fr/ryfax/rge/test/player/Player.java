@@ -6,6 +6,7 @@ import fr.ryfax.rge.engine.global.sprite.SpriteSheetLoader;
 import fr.ryfax.rge.engine.object.elements.entity.Entity;
 import fr.ryfax.rge.engine.object.elements.entity.modules.AnimatedSprite;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
+import fr.ryfax.rge.test.Main;
 
 public class Player {
 
@@ -14,10 +15,11 @@ public class Player {
     private AnimatedSprite playerSprite;
     private SpriteAnimation runRight, runLeft, runTop, runBottom;
 
-    public Player(Engine engine) {
+    public Player() {
+        Engine engine = Main.getInstance();
         playerSprite = new AnimatedSprite();
 
-        entity = new Entity(engine);
+        entity = new Entity();
         entity.setWidth(100);
         entity.setHeight(100);
         entity.setPosition(new Vector2D(engine.getWindow().getCanvas().getWidth()/2d - 50, engine.getWindow().getCanvas().getHeight()/2d - 50));

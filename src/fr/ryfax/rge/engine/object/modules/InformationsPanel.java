@@ -10,26 +10,16 @@ import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
 public class InformationsPanel implements VisualGameObject {
 
-    /*
-     * Vars
-     */
-    private final Statistics statistics;
-    private final FontRenderer fontRenderer;
+    // Variables
+    private Statistics statistics;
+    private FontRenderer fontRenderer;
+    private Image version = null, fpsAndTick = null, ticks = null, time = null, cam = null, ram = null;
     private int tick = 0;
 
-    private final Image version;
-    private Image fpsAndTick = null, ticks = null, time = null, cam = null, ram = null;
-
-    /*
-     * Methods
-     */
-    public InformationsPanel(Engine engine) {
-        Font font = engine.getFontLoader().getLoadedFonts().get(FontLoader.RGE_SHADOW_BACKGROUND);
+    public void init(Engine engine) {
+        Font font = FontLoader.getLoadedFonts().get(FontLoader.RGE_SHADOW_BACKGROUND);
         statistics = engine.getStatistics();
         fontRenderer = new FontRenderer(font);
 
