@@ -50,12 +50,10 @@ public class Menu {
         scalerLabel.setPosition(new Vector2D(0, -150));
         Label title = new Label(scalerLabel, "RyGameEngine", FontLoader.getLoadedFonts().get(FontLoader.RGE_SHADOW), 32);
 
-        Player player = new Player();
-
         scene.addGameObject(playButton, 10);
         scene.addGameObject(quitButton, 10);
         scene.addGameObject(title, 10);
-        scene.addGameObject(player.getEntity(), 1);
+
         scene.addGameObject(new InformationsPanel(), 10);
     }
 

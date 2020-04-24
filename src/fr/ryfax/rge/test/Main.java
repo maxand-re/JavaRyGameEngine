@@ -37,7 +37,7 @@ public class Main {
         param.setAntiAliasing(false);
         param.setQualityRendering(false);
         param.setCursor(Parameters.RGE_CURSOR_DEFAULT);
-        param.setLimitOverload(Parameters.RGE_OVERLOAD_HIGH);
+        param.setLimitOverload(Parameters.RGE_OVERLOAD_MEDIUM);
         param.setClearBufferColor(new Color(26, 150, 238));
 
         Menu menu = new Menu();

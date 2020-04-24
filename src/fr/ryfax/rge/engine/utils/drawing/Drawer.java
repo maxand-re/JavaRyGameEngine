@@ -35,10 +35,17 @@ public class Drawer {
      * x, y relative to camera.
      */
     public void line(double x, double y, double toX, double toY) {
-        g2d.drawLine((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) (camera.getPosition().x + toX), (int) (camera.getPosition().y + toY));
+        int newX = (int) (x - camera.getPosition().x);
+        int newY = (int) (y - camera.getPosition().y);
+        int newToX = (int) (camera.getPosition().x + toX);
+        int newToY = (int) (camera.getPosition().y + toY);
+
+        if(!isNeedToBeDraw(newX, newY, newToX, newToY)) return;
+        g2d.drawLine(newX, newY, newToX, newToY);
     }
 
     public void lineNotRelative(double x, double y, double toX, double toY) {
+        if(!isNeedToBeDraw(x, y, toX, toY)) return;
         g2d.drawLine((int) x, (int) y, (int) toX, (int) toY);
     }
 
@@ -47,10 +54,16 @@ public class Drawer {
      * x, y relative to camera.
      */
     public void fillRect(double x, double y, double width, double height) {
+        int newX = (int) (x - camera.getPosition().x);
+        int newY = (int) (y - camera.getPosition().y);
+        if(!isNeedToBeDraw(newX, newY, width, height)) return;
         g2d.fillRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
     }
 
     public void borderRect(double x, double y, double width, double height) {
+        int newX = (int) (x - camera.getPosition().x);
+        int newY = (int) (y - camera.getPosition().y);
+        if(!isNeedToBeDraw(newX, newY, width, height)) return;
         g2d.drawRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
     }
 
@@ -58,10 +71,12 @@ public class Drawer {
      * Draw fill rectangle at x, y with width, height and color.
      */
     public void fillRectNotRelative(int x, int y, int width, int height) {
+        if(!isNeedToBeDraw(x, y, width, height)) return;
         g2d.fillRect(x, y, width, height);
     }
 
     public void fillRectNotRelative(int x, int y, int width, int height, Color color) {
+        if(!isNeedToBeDraw(x, y, width, height)) return;
         g2d.setColor(color);
         g2d.fillRect(x, y, width, height);
     }
@@ -71,13 +86,26 @@ public class Drawer {
      * x, y relative to camera
      */
     public void image(Image img, double x, double y) {
-        if(img != null)
-            g2d.drawImage(img.getBufferedImage(),
-                    (int) (x - camera.getPosition().x),
-                    (int) (y - camera.getPosition().y), null);
+        if(img == null) return;
+
+        int newX = (int) (x - camera.getPosition().x);
+        int newY = (int) (y - camera.getPosition().y);
+
+        if(!isNeedToBeDraw(newX, newY, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
+
+        g2d.drawImage(img.getBufferedImage(),
+                newX,
+                newY, null);
     }
 
     public void image(BufferedImage img, double x, double y) {
+        if(img == null) return;
+
+        int newX = (int) (x - camera.getPosition().x);
+        int newY = (int) (y - camera.getPosition().y);
+
+        if(!isNeedToBeDraw(newX, newY, img.getWidth(), img.getHeight())) return;
+
         g2d.drawImage(img,
                 (int) (x - camera.getPosition().x),
                 (int) (y - camera.getPosition().y), null);
@@ -86,17 +114,19 @@ public class Drawer {
     /*
      * Draw Image/BufferedImage at x, y
      */
-    public void imageNotRelative(Image img, int x, int y) {
-        if(img != null)
-            g2d.drawImage(img.getBufferedImage(), x , y, null);
-    }
-
     public void imageNotRelative(Image img, double x, double y) {
-        if(img != null)
-            g2d.drawImage(img.getBufferedImage(), (int) x , (int) y, null);
+        if(img == null) return;
+        if(img.getBufferedImage() == null) return;
+
+        if(!isNeedToBeDraw(x, y, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
+
+        g2d.drawImage(img.getBufferedImage(), (int) x , (int) y, null);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {
+        if(img == null) return;
+        if(!isNeedToBeDraw(x, y, img.getWidth(), img.getHeight())) return;
+
         g2d.drawImage(img, x , y, null);
     }
 
@@ -122,6 +152,16 @@ public class Drawer {
 
 
     //TODO: add transform, and resetTransform after every draw
+
+    /*
+     * If the object to draw is outside the screen, return false
+     */
+    private boolean isNeedToBeDraw(double x, double y, double width, double height) {
+        int screenW = engine.getWindow().getCanvas().getWidth();
+        int screenH = engine.getWindow().getCanvas().getHeight();
+
+        return (x < screenW && x + width > 0 && y < screenH && y + height > 0);
+    }
 
     /*
      * Getters

@@ -1,21 +1,16 @@
 package fr.ryfax.rge.engine.object.modules;
 
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.Statistics;
 import fr.ryfax.rge.engine.global.image.Image;
-import fr.ryfax.rge.engine.global.image.ImageBuilder;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.object.VisualGameObject;
-import fr.ryfax.rge.engine.utils.Tools;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
-import fr.ryfax.rge.engine.utils.drawing.font.Font;
-import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
+import fr.ryfax.rge.engine.utils.drawing.scaler.Scaler;
+import fr.ryfax.rge.engine.utils.drawing.scaler.ScalerLayout;
+import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
 public class SplashScreen implements VisualGameObject {
 
@@ -24,7 +19,7 @@ public class SplashScreen implements VisualGameObject {
     private final Image image;
     private Engine engine;
 
-    private double width, height;
+    private Scaler scaler;
     private int screenW;
     private int screenH;
     private int opacity;
@@ -33,11 +28,16 @@ public class SplashScreen implements VisualGameObject {
     public void init(Engine engine) {
         this.engine = engine;
 
+        int width = image.getBufferedImage().getWidth();
+        int height = image.getBufferedImage().getHeight();
+
+        scaler = new Scaler(engine);
+        scaler.setSize(new Dimension(width, height));
+        scaler.setLayout(ScalerLayout.CENTER);
+
         screenW = engine.getWindow().getCanvas().getWidth();
         screenH = engine.getWindow().getCanvas().getHeight();
 
-        width = image.getBufferedImage().getWidth();
-        height = image.getBufferedImage().getHeight();
     }
 
     public SplashScreen(Image image, Color background, Scene sceneAfter) {
@@ -58,25 +58,28 @@ public class SplashScreen implements VisualGameObject {
             if(sec == 5) SceneManager.setScene(sceneAfter);
         }
 
+        screenW = engine.getWindow().getCanvas().getWidth();
+        screenH = engine.getWindow().getCanvas().getHeight();
+
         image.opacity(opacity/100f);
     }
 
     public void draw(Drawer d) {
+        Vector2D position = scaler.getPosition();
+
         d.setColor(background);
         d.fillRectNotRelative(0, 0, screenW, screenH);
 
-        d.getGraphics2D().drawImage(image.getBufferedImage(),
-                (int) (screenW / 2 - width / 2),
-                (int) (screenH / 2 - height / 2), null);
+        d.image(image, position.x,position.y);
     }
 
     /*
      * Setters
      */
     public void setSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-
+        if(engine != null) {
+            scaler.setSize(new Dimension(width, height));
+        }
         image.resize(width, height);
     }
 

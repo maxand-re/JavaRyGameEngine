@@ -9,7 +9,7 @@ import java.awt.*;
 public class Scaler {
 
     private final GameCanvas canvas;
-    private Vector2D position;
+    private Vector2D position = new Vector2D(0, 0);
     private Dimension size;
     private ScalerLayout layout = null;
 
