@@ -14,9 +14,8 @@ public class SceneBuilder {
     }
 
     public Scene build() {
-        SceneManager sm = engine.getSceneManager();
-        Scene scene = new Scene(engine, sm.getScenes().size(), name);
-        sm.getScenes().add(scene);
+        Scene scene = new Scene(engine, SceneManager.getScenes().size(), name);
+        SceneManager.getScenes().add(scene);
         return scene;
     }
 

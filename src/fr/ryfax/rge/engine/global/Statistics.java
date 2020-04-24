@@ -1,5 +1,6 @@
 package fr.ryfax.rge.engine.global;
 
+import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.utils.Tools;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
@@ -49,7 +50,7 @@ public class Statistics {
     public int getTotalRam() { return totalRam; }
     public int getUsedRam() { return usedRam; }
 
-    public Vector2D getCameraPosition() { return engine.getSceneManager().getCurrentScene().getCamera().getPosition(); }
+    public Vector2D getCameraPosition() { return SceneManager.getCurrentScene().getCamera().getPosition(); }
 
     public String getElapsedTime() {
         long current = System.currentTimeMillis() - timestamp;

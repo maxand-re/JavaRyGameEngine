@@ -73,4 +73,15 @@ public class GameCanvas extends Canvas {
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);*/
     }
+
+    /*
+     * Setters
+     */
+
+    public void setSize(Dimension size) {
+        this.size = size;
+        super.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        super.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        super.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+    }
 }

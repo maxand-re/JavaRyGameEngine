@@ -4,11 +4,16 @@ import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.sprite.SpriteSheetLoader;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
-import fr.ryfax.rge.engine.object.modules.button.Button;
-import fr.ryfax.rge.engine.object.modules.button.ButtonBuilder;
+import fr.ryfax.rge.engine.object.modules.ui.Label;
+import fr.ryfax.rge.engine.object.modules.ui.button.Button;
+import fr.ryfax.rge.engine.object.modules.ui.button.ButtonBuilder;
+import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
+import fr.ryfax.rge.engine.utils.drawing.scaler.Scaler;
+import fr.ryfax.rge.engine.utils.drawing.scaler.ScalerLayout;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 import fr.ryfax.rge.test.ButtonEvents;
 import fr.ryfax.rge.test.Main;
+import fr.ryfax.rge.test.player.Player;
 
 public class Menu {
 
@@ -26,21 +31,31 @@ public class Menu {
         ssl.setSpritesSize(200, 87);
         ssl.load();
 
-        ButtonBuilder bb = new ButtonBuilder();
+        ButtonBuilder bb = new ButtonBuilder(engine);
         bb.setBackground(ssl.getSprites().get(0));
+        bb.setScalerLayout(ScalerLayout.CENTER);
         bb.setListener(new ButtonEvents(ssl.getSprites()));
-        bb.setPosition(new Vector2D(engine.getWindow().getCanvas().getWidth()/2d - 100, engine.getWindow().getCanvas().getHeight()/2d - 100));
+        bb.setPosition(new Vector2D(0, -50));
         bb.setSize(200, 87);
         bb.setText("Play");
         Button playButton = bb.build();
 
-        bb.setPosition(new Vector2D(engine.getWindow().getCanvas().getWidth()/2d - 100, engine.getWindow().getCanvas().getHeight()/2d));
+        bb.setPosition(new Vector2D(0, 50));
         bb.setListener(new ButtonEvents(ssl.getSprites()));
         bb.setText("Quit");
         Button quitButton = bb.build();
 
+        Scaler scalerLabel = new Scaler(engine);
+        scalerLabel.setLayout(ScalerLayout.CENTER);
+        scalerLabel.setPosition(new Vector2D(0, -150));
+        Label title = new Label(scalerLabel, "RyGameEngine", FontLoader.getLoadedFonts().get(FontLoader.RGE_SHADOW), 32);
+
+        Player player = new Player();
+
         scene.addGameObject(playButton, 10);
         scene.addGameObject(quitButton, 10);
+        scene.addGameObject(title, 10);
+        scene.addGameObject(player.getEntity(), 1);
         scene.addGameObject(new InformationsPanel(), 10);
     }
 

@@ -1,27 +1,16 @@
 package fr.ryfax.rge.engine.global.scenes;
 
-import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.object.GameObject;
-import fr.ryfax.rge.engine.object.VisualGameObject;
-
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 public class SceneManager {
 
-    private Engine engine;
-    private Scene currentScene;
-
+    private static Scene currentScene;
     private final static ArrayList<Scene> scenes = new ArrayList<>();
-
-    public SceneManager(Engine engine) {
-        this.engine = engine;
-    }
 
     /*
      * Setters
      */
-    public void setScene(Scene scene) {
+    public static void setScene(Scene scene) {
         if(currentScene != null) currentScene.disable();
         scene.enable();
         currentScene = scene;
@@ -56,7 +45,7 @@ public class SceneManager {
         return out;
     }
 
-    public Scene getCurrentScene() { return currentScene; }
-    public ArrayList<Scene> getScenes() { return scenes; }
+    public static Scene getCurrentScene() { return currentScene; }
+    public static ArrayList<Scene> getScenes() { return scenes; }
 
 }

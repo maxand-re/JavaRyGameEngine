@@ -19,6 +19,11 @@ public class SoundManager {
     }
 
 
+    public static void setVolume(String name, float volume) {
+        Sound sound = sounds.get(name);
+        sound.volume(volume);
+    }
+
     public static void play(String name) {
         Sound sound = sounds.get(name);
         sound.play(false);

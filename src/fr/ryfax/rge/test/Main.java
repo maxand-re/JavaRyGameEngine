@@ -23,11 +23,13 @@ public class Main {
     public static void main(String[] args) {
         engine = new Engine("RGE - Example", 1280, 720);
 
-        SceneManager sm = engine.getSceneManager();
         Parameters param = engine.getParameters();
 
         SoundManager.load("click", "fr/ryfax/rge/assets/sounds/click.wav");
         SoundManager.load("music1", "fr/ryfax/rge/assets/sounds/vlad-gluschenko-everything-you-need-is-by-your-side.wav");
+
+        SoundManager.setVolume("music1", 0.07f);
+        SoundManager.setVolume("click", 0.25f);
 
         SoundManager.play("music1", true);
 
@@ -35,15 +37,13 @@ public class Main {
         param.setAntiAliasing(false);
         param.setQualityRendering(false);
         param.setCursor(Parameters.RGE_CURSOR_DEFAULT);
-        param.setLimitOverload(Parameters.RGE_OVERLOAD_MEDIUM);
+        param.setLimitOverload(Parameters.RGE_OVERLOAD_HIGH);
         param.setClearBufferColor(new Color(26, 150, 238));
 
-        // Player player = new Player();
-
-        Menu menu =  new Menu();
+        Menu menu = new Menu();
         Introduction introduction = new Introduction();
 
-        sm.setScene(introduction.getScene());
+        SceneManager.setScene(introduction.getScene());
 
         engine.init();
     }

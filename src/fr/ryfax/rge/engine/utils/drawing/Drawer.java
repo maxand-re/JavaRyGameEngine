@@ -3,6 +3,7 @@ package fr.ryfax.rge.engine.utils.drawing;
 import fr.ryfax.rge.engine.elements.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.global.scenes.SceneManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,13 +13,17 @@ import java.awt.image.BufferedImage;
  */
 public class Drawer {
 
+    /*
+     * Todo: Refaire les position avec un affineTransform et translate
+     */
+
     private Engine engine;
     private Camera camera;
     private Graphics2D g2d;
 
     public Drawer(Engine engine) {
         this.engine = engine;
-        this.camera = engine.getSceneManager().getCurrentScene().getCamera();
+        this.camera = SceneManager.getCurrentScene().getCamera();
         this.g2d = engine.getWindow().getCanvas().getGraphics();
     }
 
@@ -84,6 +89,11 @@ public class Drawer {
     public void imageNotRelative(Image img, int x, int y) {
         if(img != null)
             g2d.drawImage(img.getBufferedImage(), x , y, null);
+    }
+
+    public void imageNotRelative(Image img, double x, double y) {
+        if(img != null)
+            g2d.drawImage(img.getBufferedImage(), (int) x , (int) y, null);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {

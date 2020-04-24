@@ -2,10 +2,9 @@ package fr.ryfax.rge.test;
 
 import fr.ryfax.rge.engine.global.image.Image;
 import fr.ryfax.rge.engine.global.sounds.SoundManager;
-import fr.ryfax.rge.engine.object.modules.button.Button;
-import fr.ryfax.rge.engine.object.modules.button.ButtonListener;
+import fr.ryfax.rge.engine.object.modules.ui.button.Button;
+import fr.ryfax.rge.engine.object.modules.ui.button.ButtonListener;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ButtonEvents implements ButtonListener {

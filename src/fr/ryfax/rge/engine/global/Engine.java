@@ -29,7 +29,6 @@ public class Engine {
     private final Parameters parameters = new Parameters();
     private final Statistics statistics = new Statistics(this);
     private final SceneBuilder sceneBuilder = new SceneBuilder(this);
-    private final SceneManager sceneManager = new SceneManager(this);
     private final Logger logger = new Logger(this);
     private final Window window;
 
@@ -44,6 +43,12 @@ public class Engine {
     public Engine(String title, int width, int height) {
         loadText();
         window = new Window(title, width, height, this);
+    }
+
+    public Engine(String title, int width, int height, boolean fullscreen) {
+        loadText();
+        window = new Window(title, width, height, this);
+        window.setFullScreen(fullscreen);
     }
 
     public synchronized void init() {
@@ -104,7 +109,7 @@ public class Engine {
 
     private synchronized void update(int tick) {
         mousePosition = window.getCanvas().getMousePosition();
-        sceneManager.getCurrentScene().update(tick);
+        SceneManager.getCurrentScene().update(tick);
     }
 
     private synchronized void draw() {
@@ -112,7 +117,7 @@ public class Engine {
         canvas.ready(); // Prepare the draw
 
         Drawer drawer = new Drawer(this);
-        sceneManager.getCurrentScene().draw(drawer);
+        SceneManager.getCurrentScene().draw(drawer);
 
         canvas.finish(); // show
     }
@@ -155,7 +160,6 @@ public class Engine {
     public ArrayList<MouseListener> getMouseListeners() { return mouseListeners; }
     public ArrayList<Integer> getButtonsPressed() { return buttonsPressed; }
     public SceneBuilder getSceneBuilder() { return sceneBuilder; }
-    public SceneManager getSceneManager() { return sceneManager; }
     public Point getMousePosition() { return mousePosition; }
     public Parameters getParameters() { return parameters; }
     public Statistics getStatistics() { return statistics; }

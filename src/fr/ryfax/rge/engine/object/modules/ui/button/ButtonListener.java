@@ -1,4 +1,4 @@
-package fr.ryfax.rge.engine.object.modules.button;
+package fr.ryfax.rge.engine.object.modules.ui.button;
 
 public interface ButtonListener {
 

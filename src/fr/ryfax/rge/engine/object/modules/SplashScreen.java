@@ -5,6 +5,7 @@ import fr.ryfax.rge.engine.global.Statistics;
 import fr.ryfax.rge.engine.global.image.Image;
 import fr.ryfax.rge.engine.global.image.ImageBuilder;
 import fr.ryfax.rge.engine.global.scenes.Scene;
+import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.Tools;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
@@ -54,7 +55,7 @@ public class SplashScreen implements VisualGameObject {
         }else if(sec >= 3) {
             opacity--;
             if(opacity < 0) opacity = 0;
-            if(sec == 5) engine.getSceneManager().setScene(sceneAfter);
+            if(sec == 5) SceneManager.setScene(sceneAfter);
         }
 
         image.opacity(opacity/100f);

@@ -25,10 +25,6 @@ public class Window {
 
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(size);
-        frame.setLocationRelativeTo(null);
-        frame.setMinimumSize(size);
-        frame.setMaximumSize(size);
         frame.setPreferredSize(size);
         frame.setResizable(false);
 
@@ -63,9 +59,27 @@ public class Window {
         oldX = frame.getX();
         oldY = frame.getY();
 
-        frame.setVisible(true);
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
+        frame.setLocationRelativeTo(null);
+
+        frame.setVisible(true);
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        if(fullScreen) {
+            frame.dispose();
+
+            frame.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+            frame.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+
+            canvas.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frame.setUndecorated(true);
+            frame.setVisible(true);
+        }
     }
 
     /*

@@ -1,6 +1,7 @@
 package fr.ryfax.rge.test.player;
 
 import fr.ryfax.rge.engine.global.listeners.KeyboardListener;
+import fr.ryfax.rge.test.Main;
 
 import java.awt.event.KeyEvent;
 
@@ -16,6 +17,7 @@ public class PlayerKeyboardEvents implements KeyboardListener {
         switch (key.getKeyCode()) {
             case 90: //Z
                 player.playAnimation(PlayerAnimation.UP);
+                Main.getInstance().getWindow().setFullScreen(true);
                 break;
             case 81: //Q
                 player.playAnimation(PlayerAnimation.LEFT);

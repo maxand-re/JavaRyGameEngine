@@ -1,4 +1,4 @@
-package fr.ryfax.rge.engine.object.modules.button;
+package fr.ryfax.rge.engine.object.modules.ui.button;
 
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.global.image.Image;
@@ -7,6 +7,7 @@ import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
+import fr.ryfax.rge.engine.utils.drawing.scaler.Scaler;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
@@ -19,14 +20,17 @@ public class Button implements VisualGameObject {
     private Font font;
     private String textStr;
     private Image sprite, text;
+    private Scaler scaler;
     private Vector2D position;
     private Dimension size;
     private boolean hover = false, click = false;
 
-    public Button(Vector2D position, Dimension size, Image sprite, String text, ButtonListener listener, Font font) {
+    //TODO: Faire les fonts
+    public Button(Scaler scaler, Image sprite, String text, ButtonListener listener, Font font) {
         this.listener = listener;
-        this.position = position;
-        this.size = size;
+        this.scaler = scaler;
+        this.position = scaler.getPosition();
+        this.size = scaler.getSize();
         this.sprite = sprite;
         this.textStr = text;
 
@@ -36,13 +40,15 @@ public class Button implements VisualGameObject {
     public void init(Engine engine) {
         this.engine = engine;
 
-        Font font = engine.getFontLoader().getLoadedFonts().get(FontLoader.RGE_SHADOW);
+        Font font = FontLoader.getLoadedFonts().get(FontLoader.RGE_SHADOW);
         FontRenderer fr = new FontRenderer(font);
 
         this.text = fr.build(textStr);
     }
 
     public void update(int tick) {
+        position = scaler.getPosition();
+
         Point mouse = engine.getMousePosition();
 
         if(mouse != null) {

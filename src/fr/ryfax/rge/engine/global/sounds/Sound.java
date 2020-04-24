@@ -17,11 +17,15 @@ class Sound {
         }
     }
 
-
     public void play(boolean loop) {
         if(loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
         clip.setFramePosition(0);
         clip.start();
+    }
+
+    public void volume(float volume) {
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        control.setValue(20f * (float) Math.log10(volume));
     }
 
     public void stop() {

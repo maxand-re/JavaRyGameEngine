@@ -4,11 +4,13 @@ import fr.ryfax.rge.engine.global.image.Image;
 import fr.ryfax.rge.engine.global.image.ImageBuilder;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class FontRenderer {
 
-    private int size = 16;
+    private final int defaultSize = 16;
+    private int size = defaultSize;
     private final Font font;
 
     public FontRenderer(Font font) {
@@ -16,9 +18,6 @@ public class FontRenderer {
     }
 
     public Image build(String str) {
-        int width = str.length()*size;
-        int height = size;
-
         int[] xRemoves = new int[str.length()+1];
 
         int xRemove = 0;
@@ -29,8 +28,15 @@ public class FontRenderer {
             xRemoves[s+1] = xRemove;
         }
 
-        Image out = ImageBuilder.createBlankImage(width - xRemove, height, true);
+        int width = str.length()*size - xRemove*(size/defaultSize);
+        int height = size;
+
+        Image out = ImageBuilder.createBlankImage(width, height, true);
         Graphics2D g2d = (Graphics2D) out.getBufferedImage().getGraphics();
+
+        AffineTransform transform = new AffineTransform();
+        transform.scale((double) size / defaultSize, (double) size / defaultSize);
+        g2d.setTransform(transform);
 
         for(int s = 0; s < str.length(); s++) {
             char c = str.charAt(s);
