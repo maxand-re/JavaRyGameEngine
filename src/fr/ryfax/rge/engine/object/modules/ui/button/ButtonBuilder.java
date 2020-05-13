@@ -1,7 +1,7 @@
 package fr.ryfax.rge.engine.object.modules.ui.button;
 
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.scaler.Scaler;

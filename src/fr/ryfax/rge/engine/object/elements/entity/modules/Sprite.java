@@ -1,7 +1,7 @@
 package fr.ryfax.rge.engine.object.elements.entity.modules;
 
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.object.elements.entity.Entity;
 import fr.ryfax.rge.engine.object.elements.entity.VisualEntityModule;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;

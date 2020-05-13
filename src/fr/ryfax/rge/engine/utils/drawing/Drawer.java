@@ -1,8 +1,8 @@
 package fr.ryfax.rge.engine.utils.drawing;
 
-import fr.ryfax.rge.engine.elements.camera.Camera;
+import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 
 import java.awt.*;

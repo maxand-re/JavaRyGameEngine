@@ -1,7 +1,7 @@
 package fr.ryfax.rge.engine.utils.drawing.font;
 
-import fr.ryfax.rge.engine.global.image.Image;
-import fr.ryfax.rge.engine.global.image.ImageBuilder;
+import fr.ryfax.rge.engine.image.Image;
+import fr.ryfax.rge.engine.image.ImageBuilder;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

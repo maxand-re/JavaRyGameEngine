@@ -1,7 +1,8 @@
 package fr.ryfax.rge.engine.global.sprite;
 
-import fr.ryfax.rge.engine.global.image.Image;
-import fr.ryfax.rge.engine.global.image.ImageBuilder;
+import fr.ryfax.rge.engine.image.Image;
+import fr.ryfax.rge.engine.image.ImageBuilder;
+import fr.ryfax.rge.engine.utils.path.Resource;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class SpriteSheetLoader {
     private int width = 16, height = 16;
     private int resizedWidth = -1, resizedHeigth = -1;
 
-    public SpriteSheetLoader(String path) { image = new ImageBuilder(path).build(); }
+    public SpriteSheetLoader(Resource resource) { image = new ImageBuilder(resource).build(); }
     public SpriteSheetLoader(Image image) { this.image = image; }
     public SpriteSheetLoader(BufferedImage image) { this.image = new ImageBuilder(image).build(); }
 

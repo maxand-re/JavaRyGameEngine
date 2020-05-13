@@ -1,11 +1,10 @@
 package fr.ryfax.rge.engine.object.modules.ui;
 
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
-import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
 import fr.ryfax.rge.engine.utils.drawing.scaler.Scaler;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;

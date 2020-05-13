@@ -1,6 +1,6 @@
 package fr.ryfax.rge.engine.global.scenes;
 
-import fr.ryfax.rge.engine.elements.camera.Camera;
+import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.VisualGameObject;

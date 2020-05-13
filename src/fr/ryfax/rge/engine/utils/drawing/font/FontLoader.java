@@ -1,5 +1,7 @@
 package fr.ryfax.rge.engine.utils.drawing.font;
 
+import fr.ryfax.rge.engine.utils.path.Resource;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,12 +19,11 @@ public class FontLoader {
 
     // Variables
     private Color backgroundColor = new Color(0, 0, 0, 0), fontColor;
-    private String path;
+    private BufferedImage buff;
     private HashMap<Character, Integer> chars;
     private int spaceToRemove = 0;
     private final int[] shadow = new int[]{0, 0};
 
-    private final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     private static final HashMap<String, Font> fonts = new HashMap<>();
 
     // Setters
@@ -35,8 +36,9 @@ public class FontLoader {
     public void setFontColor(Color fontColor) {
         this.fontColor = fontColor;
     }
-    public void setPath(String path) {
-        this.path = path;
+    public void setASCII(Resource resource) {
+        try { this.buff = ImageIO.read(resource.getStream()); }
+        catch (IOException ignore) {}
     }
     public void setSpacingChar(int toRemove) {
         this.spaceToRemove = toRemove;
@@ -49,12 +51,7 @@ public class FontLoader {
 
 
     public void load(String nameFont) {
-        InputStream stream = classloader.getResourceAsStream(path);
-        try {
-            assert stream != null;
-            BufferedImage buff = ImageIO.read(stream);
-            fonts.put(nameFont, new Font(buff, chars, fontColor, backgroundColor, spaceToRemove, shadow));
-        } catch (IOException e) { e.printStackTrace(); }
+        fonts.put(nameFont, new Font(buff, chars, fontColor, backgroundColor, spaceToRemove, shadow));
     }
 
     // Getters

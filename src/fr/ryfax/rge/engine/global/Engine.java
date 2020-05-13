@@ -8,6 +8,8 @@ import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.utils.Logger;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
+import fr.ryfax.rge.engine.utils.path.Resource;
+import fr.ryfax.rge.engine.utils.path.PathType;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -46,9 +48,8 @@ public class Engine {
     }
 
     public Engine(String title, int width, int height, boolean fullscreen) {
-        loadText();
-        window = new Window(title, width, height, this);
-        window.setFullScreen(fullscreen);
+        this(title, width, height);
+        if(fullscreen) window.setFullScreen();
     }
 
     public synchronized void init() {
@@ -123,7 +124,7 @@ public class Engine {
     }
 
     private void loadText() {
-        fontLoader.setPath("fr/ryfax/rge/assets/fonts/ascii.png");
+        fontLoader.setASCII(new Resource("resource/fonts/ascii.png", PathType.OUTSIDE));
         fontLoader.setFontColor(new Color(255, 255, 255));
 
         HashMap<Character, Integer> chars = new HashMap<>();

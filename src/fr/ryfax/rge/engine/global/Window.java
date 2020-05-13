@@ -16,11 +16,14 @@ public class Window {
     private int oldX, oldY;
     private Timer timer;
 
+    private final Engine engine;
     private final GameCanvas canvas;
     private final JFrame frame;
 
     public Window(String title, int width, int height, Engine engine) {
         Dimension size = new Dimension(width, height);
+        this.engine = engine;
+
         canvas = new GameCanvas(size, engine);
 
         frame = new JFrame(title);
@@ -66,20 +69,36 @@ public class Window {
         frame.setVisible(true);
     }
 
-    public void setFullScreen(boolean fullScreen) {
-        if(fullScreen) {
-            frame.dispose();
+    public void setFullScreen() {
+        engine.setPause(true);
+        frame.dispose();
 
-            frame.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
-            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-            frame.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
-            canvas.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        canvas.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.setUndecorated(true);
-            frame.setVisible(true);
-        }
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setVisible(true);
+        engine.setPause(false);
+    }
+
+    public void resize(Dimension size) {
+        engine.setPause(true);
+        frame.dispose();
+
+        frame.setMaximumSize(size);
+        frame.setSize(size);
+        frame.setMinimumSize(size);
+
+        canvas.setSize(size);
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(false);
+        frame.setVisible(true);
+        engine.setPause(false);
     }
 
     /*

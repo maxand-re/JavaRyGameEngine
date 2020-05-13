@@ -1,7 +1,7 @@
 package fr.ryfax.rge.engine.object.modules;
 
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.object.VisualGameObject;

@@ -1,6 +1,6 @@
 package fr.ryfax.rge.engine.global.sprite;
 
-import fr.ryfax.rge.engine.global.image.Image;
+import fr.ryfax.rge.engine.image.Image;
 
 import java.util.ArrayList;
 
