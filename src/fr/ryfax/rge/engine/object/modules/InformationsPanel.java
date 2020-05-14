@@ -29,13 +29,13 @@ public class InformationsPanel implements VisualGameObject {
     public void update(int tick) {
         this.tick = tick;
 
-        if(tick % 10 == 0) {
+        if(tick % 20 == 0) {
             fpsAndTick = fontRenderer.build("FPS: " + statistics.getCurrentFps() + " Average: " + statistics.getAverageFps());
             ticks = fontRenderer.build("Ticks: " + Tools.intToDigit(tick) + "/60" + " TPS: " + statistics.getCurrentTps());
             time = fontRenderer.build("Elapsed time: " + statistics.getElapsedTime());
+            ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +
                     " y: " + Tools.round(statistics.getCameraPosition().y, 0));
-            ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
         }
     }
 
@@ -44,8 +44,8 @@ public class InformationsPanel implements VisualGameObject {
         d.imageNotRelative(fpsAndTick, 5, 21);
         d.imageNotRelative(ticks, 5, 37);
         d.imageNotRelative(time, 5, 53);
-        d.imageNotRelative(cam, 5, 69);
-        d.imageNotRelative(ram, 5, 85);
+        d.imageNotRelative(ram, 5, 69);
+        d.imageNotRelative(cam, 5, 100);
     }
 
 }

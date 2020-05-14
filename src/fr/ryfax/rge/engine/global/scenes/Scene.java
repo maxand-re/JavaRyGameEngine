@@ -66,12 +66,15 @@ public class Scene {
             if(isVisualGO) visualGameObjs.get(zindex).add((VisualGameObject) gameObject);
         }else {
             ArrayList<GameObject> list = new ArrayList<>();
-            ArrayList<VisualGameObject> list2 = new ArrayList<>();
             list.add(gameObject);
-            list2.add((VisualGameObject) gameObject);
+
+            if(isVisualGO) {
+                ArrayList<VisualGameObject> list2 = new ArrayList<>();
+                list2.add((VisualGameObject) gameObject);
+                visualGameObjs.put(zindex, list2);
+            }
 
             gameObjs.put(zindex, list);
-            if(isVisualGO) visualGameObjs.put(zindex, list2);
         }
     }
 

@@ -6,6 +6,7 @@ import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /*
@@ -25,6 +26,10 @@ public class Drawer {
         this.engine = engine;
         this.camera = SceneManager.getCurrentScene().getCamera();
         this.g2d = engine.getWindow().getCanvas().getGraphics();
+
+        AffineTransform af = new AffineTransform();
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     public void setColor(Color color) { g2d.setColor(color); }
@@ -46,7 +51,15 @@ public class Drawer {
 
     public void lineNotRelative(double x, double y, double toX, double toY) {
         if(!isNeedToBeDraw(x, y, toX, toY)) return;
+
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.drawLine((int) x, (int) y, (int) toX, (int) toY);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     /*
@@ -72,13 +85,29 @@ public class Drawer {
      */
     public void fillRectNotRelative(int x, int y, int width, int height) {
         if(!isNeedToBeDraw(x, y, width, height)) return;
+
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.fillRect(x, y, width, height);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     public void fillRectNotRelative(int x, int y, int width, int height, Color color) {
         if(!isNeedToBeDraw(x, y, width, height)) return;
+
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.setColor(color);
         g2d.fillRect(x, y, width, height);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     /*
@@ -117,17 +146,30 @@ public class Drawer {
     public void imageNotRelative(Image img, double x, double y) {
         if(img == null) return;
         if(img.getBufferedImage() == null) return;
-
         if(!isNeedToBeDraw(x, y, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
 
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.drawImage(img.getBufferedImage(), (int) x , (int) y, null);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     public void imageNotRelative(BufferedImage img, int x, int y) {
         if(img == null) return;
         if(!isNeedToBeDraw(x, y, img.getWidth(), img.getHeight())) return;
 
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.drawImage(img, x , y, null);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
     /*
@@ -147,7 +189,14 @@ public class Drawer {
      */
     @Deprecated
     public void textNotRelative(String string, int x, int y) {
+        AffineTransform af = new AffineTransform();
+        af.scale(1, 1);
+        g2d.setTransform(af);
+
         g2d.drawString(string, x, y);
+
+        af.scale(camera.getZoom(), camera.getZoom());
+        g2d.setTransform(af);
     }
 
 

@@ -1,6 +1,7 @@
 package fr.ryfax.rge.engine.global;
 
 
+import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.listeners.KeyboardListener;
 import fr.ryfax.rge.engine.global.listeners.MouseListener;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
@@ -12,6 +13,7 @@ import fr.ryfax.rge.engine.utils.path.Resource;
 import fr.ryfax.rge.engine.utils.path.PathType;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,7 +40,7 @@ public class Engine {
     private final ArrayList<MouseListener> mouseListeners = new ArrayList<>();
     private final ArrayList<Integer> buttonsPressed = new ArrayList<>();
 
-    private Point mousePosition = new Point(0, 0);
+    private Point mousePosition = null;
     private boolean isRunning = true, pause = false;
     private final double UPDATE_OBJECTIVE = 1/60D;
 
@@ -110,11 +112,14 @@ public class Engine {
 
     private synchronized void update(int tick) {
         mousePosition = window.getCanvas().getMousePosition();
+
+        window.getMouseEvents().update(tick);
         SceneManager.getCurrentScene().update(tick);
     }
 
     private synchronized void draw() {
         GameCanvas canvas = window.getCanvas();
+        Camera camera = SceneManager.getCurrentScene().getCamera();
         canvas.ready(); // Prepare the draw
 
         Drawer drawer = new Drawer(this);
