@@ -69,7 +69,6 @@ public class TileMap implements VisualGameObject {
         for(int[] coords : cells.keySet())
             g2d.drawImage(tiles[cells.get(coords)].getBufferedImage(), coords[0] * cellWidth, coords[1] * cellHeight, null);
 
-        cells.clear();
         tilesImg = img.getBufferedImage();
         return this;
     }

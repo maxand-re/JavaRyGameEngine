@@ -35,8 +35,6 @@ public class Main {
 
         TileMap tm = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
 
-        // G N O
-        // 0 1 2
         tm.setLocation(new Vector2D(250, 250));
 
         for (int x = 0; x < 1000; x++) {
@@ -48,7 +46,6 @@ public class Main {
         tm.build();
 
         scene.addGameObject(tm, 1);
-
         engine.init();
     }
 
