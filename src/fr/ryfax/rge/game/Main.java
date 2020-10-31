@@ -33,7 +33,7 @@ public class Main {
         scene.addGameObject(new DebugTitle(), 0);
         scene.addGameObject(new InformationsPanel(), 9999);
 
-        TileMap tm = new TileMap(new Resource("resource/MineTile.png"), 0, 0, 16, 16);
+        TileMap tm = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
 
         // G N O
         // 0 1 2
@@ -41,7 +41,7 @@ public class Main {
 
         for (int x = 0; x < 1000; x++) {
             for (int y = 0; y < 1000; y++) {
-                tm.setCell(x, y, new Random().nextInt(3));
+                tm.setCell(x, y, new Random().nextInt(6));
             }
         }
 

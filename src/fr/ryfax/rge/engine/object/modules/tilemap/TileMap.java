@@ -40,7 +40,7 @@ public class TileMap implements VisualGameObject {
 
         for (int y = 0; y < nbCellsY; y++) {
             for (int x = 0; x < nbCellsX; x++) {
-                tiles[y*nbCellsY + x] = new ImageBuilder(image.getBufferedImage().getSubimage(baseX + x * width, baseY + y * height, width, height)).build();
+                tiles[y*nbCellsX + x] = new ImageBuilder(image.getBufferedImage().getSubimage(baseX + x * width, baseY + y * height, width, height)).build();
             }
         }
     }
