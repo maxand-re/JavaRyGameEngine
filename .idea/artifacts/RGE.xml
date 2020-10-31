@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RGE">
+    <output-path>$PROJECT_DIR$/out/artifacts/RGE</output-path>
+    <root id="archive" name="RGE.jar">
+      <element id="module-output" name="RGE" />
+    </root>
+  </artifact>
+</component>

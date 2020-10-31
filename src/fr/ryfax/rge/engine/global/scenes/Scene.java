@@ -56,14 +56,14 @@ public class Scene {
     /*
      * Setters
      */
-    public void addGameObject(GameObject gameObject, int zindex) {
+    public void addGameObject(GameObject gameObject, int layer) {
         boolean isVisualGO = gameObject instanceof VisualGameObject;
 
         gameObject.init(engine);
 
-        if(gameObjs.containsKey(zindex)) {
-            gameObjs.get(zindex).add(gameObject);
-            if(isVisualGO) visualGameObjs.get(zindex).add((VisualGameObject) gameObject);
+        if(gameObjs.containsKey(layer)) {
+            gameObjs.get(layer).add(gameObject);
+            if(isVisualGO) visualGameObjs.get(layer).add((VisualGameObject) gameObject);
         }else {
             ArrayList<GameObject> list = new ArrayList<>();
             list.add(gameObject);
@@ -71,10 +71,10 @@ public class Scene {
             if(isVisualGO) {
                 ArrayList<VisualGameObject> list2 = new ArrayList<>();
                 list2.add((VisualGameObject) gameObject);
-                visualGameObjs.put(zindex, list2);
+                visualGameObjs.put(layer, list2);
             }
 
-            gameObjs.put(zindex, list);
+            gameObjs.put(layer, list);
         }
     }
 

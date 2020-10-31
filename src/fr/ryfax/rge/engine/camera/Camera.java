@@ -4,6 +4,8 @@ import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 public class Camera {
 
+    // Todo: Ajouter rotation
+
     private Vector2D position = new Vector2D(0, 0);
     private double zoom = 1;
 

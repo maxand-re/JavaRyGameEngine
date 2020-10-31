@@ -22,7 +22,7 @@ public class InformationsPanel implements VisualGameObject {
         statistics = engine.getStatistics();
         fontRenderer = new FontRenderer(font);
 
-        version = fontRenderer.build("RGE Version 0.1.0");
+        version = fontRenderer.build("RGE Version " + statistics.VERSION);
     }
 
     public void update(int tick) {

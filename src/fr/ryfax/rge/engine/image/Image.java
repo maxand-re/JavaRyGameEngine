@@ -94,5 +94,13 @@ public class Image {
         original = bufferedImage = resized;
     }
 
+    public int getWidth() {
+        return bufferedImage.getWidth();
+    }
+
+    public int getHeight() {
+        return bufferedImage.getHeight();
+    }
+
     public BufferedImage getBufferedImage() { return bufferedImage; }
 }

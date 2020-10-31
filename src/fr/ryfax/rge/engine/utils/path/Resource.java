@@ -10,6 +10,13 @@ public class Resource {
 
     private URL resource;
 
+    public Resource(String path) {
+        File file = new File(path);
+        try {
+            this.resource = file.toURI().toURL();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
     public Resource(String path, PathType type) {
         switch (type) {
             case INSIDE:

@@ -80,8 +80,8 @@ public class Button implements VisualGameObject {
     public void draw(Drawer drawer) {
         drawer.imageNotRelative(sprite, (int) position.x, (int) position.y);
         drawer.imageNotRelative(text,
-                (int) position.x + size.width/2 - text.getBufferedImage().getWidth()/2,
-                (int) position.y + size.height/2 - text.getBufferedImage().getHeight()/2);
+                (int) position.x + size.width/2.f - text.getBufferedImage().getWidth()/2.f,
+                (int) position.y + size.height/2.f - text.getBufferedImage().getHeight()/2.f);
     }
 
 

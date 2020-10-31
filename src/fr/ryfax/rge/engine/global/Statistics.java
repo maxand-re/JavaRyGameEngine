@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class Statistics {
 
+    public static final String VERSION = "0.0.5 - Alpha (pre-build)";
+
     private Engine engine;
 
     private int currentFps = 0, currentTps = 0, usedRam = 0, totalRam = 0;
@@ -16,7 +18,6 @@ public class Statistics {
     public static final long timestamp = System.currentTimeMillis();
 
     public Statistics(Engine engine) { this.engine = engine; }
-
 
     /*
      * Setters

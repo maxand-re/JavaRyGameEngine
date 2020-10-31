@@ -9,10 +9,8 @@ import fr.ryfax.rge.engine.utils.Logger;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.path.Resource;
-import fr.ryfax.rge.engine.utils.path.PathType;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -132,7 +130,7 @@ public class Engine {
     }
 
     private void loadText() {
-        fontLoader.setASCII(new Resource("resource/fonts/ascii.png", PathType.OUTSIDE));
+        fontLoader.setASCII(new Resource("resource/fonts/ascii.png"));
         fontLoader.setFontColor(new Color(255, 255, 255));
 
         HashMap<Character, Integer> chars = new HashMap<>();
