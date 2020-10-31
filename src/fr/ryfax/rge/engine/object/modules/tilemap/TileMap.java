@@ -19,12 +19,14 @@ public class TileMap implements VisualGameObject {
      * TODO: Système chunk pour opti l'affichage
      */
 
-    private Image[] tiles;
+    private final Image[] tiles;
+    private final int cellWidth;
+    private final int cellHeight;
+    private final HashMap<Vector2D, Integer> cells = new HashMap<>();
+
     private Vector2D location = new Vector2D(0, 0);
     private Vector2D highestLoc = new Vector2D(0, 0);
-    private int cellWidth, cellHeight;
     private BufferedImage tilesImg;
-    private HashMap<int[], Integer> cells = new HashMap<>();
 
     public void init(Engine engine) {}
     public TileMap(Resource resource, int baseX, int baseY, int width, int height) {
@@ -53,7 +55,7 @@ public class TileMap implements VisualGameObject {
     public TileMap setCell(int x, int y, int id) {
         Vector2D pos = new Vector2D(x, y);
         Vector2D nullVec = new Vector2D(0, 0);
-        cells.put(pos.toTableInt(), id);
+        cells.put(pos, id);
 
         if(pos.distance(nullVec) > highestLoc.distance(nullVec)) {
             highestLoc = pos;
@@ -62,12 +64,16 @@ public class TileMap implements VisualGameObject {
         return this;
     }
 
+    public int getCell(int x, int y) {
+        return cells.get(new Vector2D(x, y));
+    }
+
     public TileMap build() {
         Image img = ImageBuilder.createBlankImage((int) highestLoc.x * cellWidth + cellWidth, (int) highestLoc.y * cellHeight + cellHeight, true);
         Graphics2D g2d = (Graphics2D) img.getBufferedImage().getGraphics();
 
-        for(int[] coords : cells.keySet())
-            g2d.drawImage(tiles[cells.get(coords)].getBufferedImage(), coords[0] * cellWidth, coords[1] * cellHeight, null);
+        for(Vector2D coords : cells.keySet())
+            g2d.drawImage(tiles[cells.get(coords)].getBufferedImage(), (int)coords.x * cellWidth, (int)coords.y * cellHeight, null);
 
         tilesImg = img.getBufferedImage();
         return this;
