@@ -69,6 +69,18 @@ public class TileMap implements VisualGameObject {
         return cells.get(new Vector2D(x, y));
     }
 
+    public Image[] getTiles() {
+        return tiles;
+    }
+
+    public Map<Vector2D, Integer> getCells() {
+        return cells;
+    }
+
+    public Vector2D getLocation() {
+        return location;
+    }
+
     public TileMap build() {
         Image img = ImageBuilder.createBlankImage((int) highestLoc.x * cellWidth + cellWidth, (int) highestLoc.y * cellHeight + cellHeight, true);
         Graphics2D g2d = (Graphics2D) img.getBufferedImage().getGraphics();
