@@ -51,8 +51,6 @@ public class Main {
             }
         }
 
-        tm.build();
-
         Entity test = new Entity();
         test.setHeight(32);
         test.setWidth(32);
