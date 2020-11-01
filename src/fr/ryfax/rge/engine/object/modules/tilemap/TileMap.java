@@ -57,7 +57,7 @@ public class TileMap implements VisualGameObject {
         Vector2D nullVec = new Vector2D(0, 0);
         if(!chunks.containsKey(new Vector2D(Math.floor(x/16), Math.floor(y/16)))) chunks.put(new Vector2D(Math.floor(x/16), Math.floor(y/16)), new TileMapChunk(16, this));
         chunks.get(new Vector2D(Math.floor(x/16), Math.floor(y/16))).cells.put(new Vector2D(x%16, y%16), id);
-
+        chunks.get(new Vector2D(Math.floor(x/16), Math.floor(y/16))).build();
         return this;
     }
 
@@ -82,17 +82,13 @@ public class TileMap implements VisualGameObject {
         return new Vector2D(cellWidth, cellHeight);
     }
 
-    public TileMap build() {
-        return this;
-    }
-
     /*
      * Visuals
      */
     public void draw(Drawer drawer) {
         for (Map.Entry<Vector2D, TileMapChunk> chunks: chunks.entrySet()) {
             chunks.getValue().build();
-            drawer.image(chunks.getValue().chunkImg, location.x + chunks.getKey().x*cellWidth, location.y + chunks.getKey().y*cellHeight);
+            drawer.image(chunks.getValue().chunkImg, location.x + chunks.getKey().x*(cellWidth*chunks.getValue().size), location.y + chunks.getKey().y*(cellHeight*chunks.getValue().size));
         }
     }
 
