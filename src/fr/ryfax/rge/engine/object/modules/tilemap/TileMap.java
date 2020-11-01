@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 public class TileMap implements VisualGameObject {
 
@@ -23,11 +24,9 @@ public class TileMap implements VisualGameObject {
     private final Image[] tiles;
     private final int cellWidth;
     private final int cellHeight;
-    private final Map<Vector2D, Integer> cells = new HashMap<>();
+    private final Map<Vector2D, TileMapChunk> chunks = new HashMap<>();
 
     private Vector2D location = new Vector2D(0, 0);
-    private Vector2D highestLoc = new Vector2D(0, 0);
-    private BufferedImage tilesImg;
 
     public void init(Engine engine) {}
     public TileMap(Resource resource, int baseX, int baseY, int width, int height) {
@@ -56,39 +55,34 @@ public class TileMap implements VisualGameObject {
     public TileMap setCell(int x, int y, int id) {
         Vector2D pos = new Vector2D(x, y);
         Vector2D nullVec = new Vector2D(0, 0);
-        cells.put(pos, id);
-
-        if(pos.distance(nullVec) > highestLoc.distance(nullVec)) {
-            highestLoc = pos;
-        }
+        if(!chunks.containsKey(new Vector2D(Math.floor(x/16), Math.floor(y/16)))) chunks.put(new Vector2D(Math.floor(x/16), Math.floor(y/16)), new TileMapChunk(16, this));
+        chunks.get(new Vector2D(Math.floor(x/16), Math.floor(y/16))).cells.put(new Vector2D(x%16, y%16), id);
 
         return this;
     }
 
     public int getCell(int x, int y) {
-        return cells.get(new Vector2D(x, y));
+        if(!chunks.containsKey(new Vector2D(Math.floor(x/16), Math.floor(y/16)))) chunks.put(new Vector2D(Math.floor(x/16), Math.floor(y/16)), new TileMapChunk(16, this));
+        return chunks.get(new Vector2D(Math.floor(x/16), Math.floor(y/16))).cells.get(new Vector2D(x%16, y%16));
     }
 
     public Image[] getTiles() {
         return tiles;
     }
 
-    public Map<Vector2D, Integer> getCells() {
-        return cells;
+    public Map<Vector2D, TileMapChunk> getChunks() {
+        return chunks;
     }
 
     public Vector2D getLocation() {
         return location;
     }
 
+    public Vector2D getCellSize(){
+        return new Vector2D(cellWidth, cellHeight);
+    }
+
     public TileMap build() {
-        Image img = ImageBuilder.createBlankImage((int) highestLoc.x * cellWidth + cellWidth, (int) highestLoc.y * cellHeight + cellHeight, true);
-        Graphics2D g2d = (Graphics2D) img.getBufferedImage().getGraphics();
-
-        for(Vector2D coords : cells.keySet())
-            g2d.drawImage(tiles[cells.get(coords)].getBufferedImage(), (int)coords.x * cellWidth, (int)coords.y * cellHeight, null);
-
-        tilesImg = img.getBufferedImage();
         return this;
     }
 
@@ -96,7 +90,10 @@ public class TileMap implements VisualGameObject {
      * Visuals
      */
     public void draw(Drawer drawer) {
-        drawer.image(tilesImg, location.x, location.y);
+        for (Map.Entry<Vector2D, TileMapChunk> chunks: chunks.entrySet()) {
+            chunks.getValue().build();
+            drawer.image(chunks.getValue().chunkImg, location.x + chunks.getKey().x*cellWidth, location.y + chunks.getKey().y*cellHeight);
+        }
     }
 
     public void update(int tick) {}
