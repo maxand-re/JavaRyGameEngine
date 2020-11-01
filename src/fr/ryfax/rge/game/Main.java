@@ -45,8 +45,8 @@ public class Main {
 
         tm.setLocation(new Vector2D(250, 250));
 
-        for (int x = 0; x < 20; x++) {
-            for (int y = 0; y < 10; y++) {
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 100; y++) {
                 tm.setCell(x, y, new Random().nextInt(6));
             }
         }

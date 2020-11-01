@@ -92,7 +92,7 @@ public class TileMap implements VisualGameObject {
     public void draw(Drawer drawer) {
         for (Map.Entry<Vector2D, TileMapChunk> chunks: chunks.entrySet()) {
             chunks.getValue().build();
-            drawer.image(chunks.getValue().chunkImg, location.x + chunks.getKey().x*cellWidth, location.y + chunks.getKey().y*cellHeight);
+            drawer.image(chunks.getValue().chunkImg, location.x + chunks.getKey().x*(cellWidth*chunks.getValue().size), location.y + chunks.getKey().y*(cellHeight*chunks.getValue().size));
         }
     }
 
