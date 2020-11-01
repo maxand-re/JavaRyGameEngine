@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TileMap implements VisualGameObject {
 
@@ -22,7 +23,7 @@ public class TileMap implements VisualGameObject {
     private final Image[] tiles;
     private final int cellWidth;
     private final int cellHeight;
-    private final HashMap<Vector2D, Integer> cells = new HashMap<>();
+    private final Map<Vector2D, Integer> cells = new HashMap<>();
 
     private Vector2D location = new Vector2D(0, 0);
     private Vector2D highestLoc = new Vector2D(0, 0);

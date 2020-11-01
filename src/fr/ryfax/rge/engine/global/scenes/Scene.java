@@ -2,9 +2,11 @@ package fr.ryfax.rge.engine.global.scenes;
 
 import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
+import fr.ryfax.rge.engine.global.GameCanvas;
 import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
+import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -30,6 +32,9 @@ public class Scene {
         this.engine = engine;
         this.id = id;
         this.name = name;
+
+        GameCanvas gc = engine.getWindow().getCanvas();
+        camera.getRotation().offset = new Vector2D(gc.getWidth() / 2.f, gc.getHeight() / 2.f);
     }
 
     public void enable() {
@@ -63,7 +68,16 @@ public class Scene {
 
         if(gameObjs.containsKey(layer)) {
             gameObjs.get(layer).add(gameObject);
-            if(isVisualGO) visualGameObjs.get(layer).add((VisualGameObject) gameObject);
+
+            if(isVisualGO) {
+                if(visualGameObjs.containsKey(layer))
+                    visualGameObjs.get(layer).add((VisualGameObject) gameObject);
+                else {
+                    ArrayList<VisualGameObject> list2 = new ArrayList<>();
+                    list2.add((VisualGameObject) gameObject);
+                    visualGameObjs.put(layer, list2);
+                }
+            }
         }else {
             ArrayList<GameObject> list = new ArrayList<>();
             list.add(gameObject);

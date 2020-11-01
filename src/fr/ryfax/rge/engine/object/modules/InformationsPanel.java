@@ -1,5 +1,6 @@
 package fr.ryfax.rge.engine.object.modules;
 
+import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.Tools;
@@ -32,7 +33,8 @@ public class InformationsPanel implements VisualGameObject {
             time = fontRenderer.build("Elapsed time: " + statistics.getElapsedTime());
             ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +
-                    " y: " + Tools.round(statistics.getCameraPosition().y, 0));
+                    " y: " + Tools.round(statistics.getCameraPosition().y, 0) + " /" +
+                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) + "rad");
         }
     }
 
