@@ -21,10 +21,9 @@ public class Main {
         Engine engine = new Engine("RyGame", 1280, 720);
         Parameters parameters = engine.getParameters();
         parameters.setClearBufferColor(Color.BLACK);
-        parameters.setLimitFps(false);
-        parameters.setAntiAliasing(true);
-        parameters.setQualityRendering(true);
-        parameters.setLimitOverload(0);
+        parameters.setFPSLimit(0);
+        parameters.setAntiAliasing(false);
+        parameters.setQualityRendering(false);
 
         SceneBuilder sb = engine.getSceneBuilder();
 
@@ -34,16 +33,21 @@ public class Main {
         scene.addGameObject(new DebugTitle(), 0);
         scene.addGameObject(new InformationsPanel(), 9999);
 
-        TileMap tm = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
-        tm.setLocation(new Vector2D(200, 200));
+        TileMap tm1 = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
+        TileMap tm2 = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
+        tm1.setLocation(new Vector2D(200, 200));
+        tm2.setLocation(new Vector2D(200, 200));
 
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 100; y++) {
-                tm.setCell(x, y, new Random().nextInt(6));
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 16; y++) {
+                tm1.setCell(x, y, new Random().nextInt(5));
             }
         }
 
-        scene.addGameObject(tm, 1);
+        tm2.setCell(0, 0, 5);
+
+        scene.addGameObject(tm1, 1);
+        scene.addGameObject(tm2, 2);
         engine.init();
     }
 

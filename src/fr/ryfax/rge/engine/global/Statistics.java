@@ -40,9 +40,9 @@ public class Statistics {
 
     public int getAverageFps() {
         if(averageFps.size() > 0) {
-            int calc = 0;
+            float calc = 0;
             for(int n : averageFps) calc += n;
-            return calc / averageFps.size();
+            return (int) Math.floor(calc / averageFps.size());
         }else return 0;
     }
 

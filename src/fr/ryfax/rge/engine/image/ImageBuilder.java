@@ -38,10 +38,9 @@ public class ImageBuilder {
     }
 
     public static Image createBlankImage(int width, int height, boolean transparent) {
-        if(transparent)
-            return new Image(config.createCompatibleImage(width, height, Transparency.TRANSLUCENT), true);
-        else
-            return new Image(config.createCompatibleImage(width, height, Transparency.OPAQUE), false);
+        return transparent ?
+                new Image(config.createCompatibleImage(width, height, Transparency.TRANSLUCENT), true) :
+                new Image(config.createCompatibleImage(width, height, Transparency.OPAQUE), false);
     }
 
     public Image build() {

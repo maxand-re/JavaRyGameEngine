@@ -66,21 +66,29 @@ public class Engine {
     }
 
     private synchronized void loop() {
-        int overload = parameters.getLimitOverload();
         int frameCount = 0;
 
         double firstTime, frameTime = 0;
         double lastTime = System.nanoTime() / 1e9;
+        double currentTime = 0.0;
 
         while(isRunning) {
             firstTime = lastTime;
             lastTime = System.nanoTime() / 1e9;
             frameTime += lastTime - firstTime;
+            currentTime += lastTime - firstTime;
 
             if(!pause) {
                 update((lastTime - firstTime) * 1000);
-                draw();
-                frameCount++;
+
+                if(parameters.getFPSLimit() == 0) {
+                    draw();
+                    frameCount++;
+                }else if(currentTime >= 1.0/parameters.getFPSLimit()) {
+                    currentTime = 0;
+                    draw();
+                    frameCount++;
+                }
 
                 if (frameTime >= 1) {
                     statistics.setCurrentFps(frameCount);
@@ -89,8 +97,6 @@ public class Engine {
                     frameCount = 0;
                 }
             }
-
-            if(overload != 0) sleepMicro(overload);
         }
     }
 
@@ -103,8 +109,6 @@ public class Engine {
             statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
         if(getAccumulator() % (1000 / 75) == 0)
             mousePosition = window.getCanvas().getMousePosition();
-
-
 
         window.getMouseEvents().update(delta, getAccumulator());
         SceneManager.getCurrentScene().update(delta, getAccumulator());

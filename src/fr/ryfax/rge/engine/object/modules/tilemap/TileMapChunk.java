@@ -31,7 +31,9 @@ public class TileMapChunk {
         cells[y * cellWidth + x] = id;
 
         Graphics2D g2d = (Graphics2D) chunkImg.getGraphics();
-        g2d.clearRect((x * cellWidth), (y * cellHeight), cellWidth, cellHeight);
+        g2d.setComposite(AlphaComposite.Clear);
+        g2d.fillRect((x * cellWidth), (y * cellHeight), cellWidth, cellHeight);
+        g2d.setComposite(AlphaComposite.SrcOver);
 
         if(id >= 0) {
             g2d.drawImage(tileMap.getTiles()[id].getBufferedImage(), (x * cellWidth), (y * cellHeight), null);
