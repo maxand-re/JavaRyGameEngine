@@ -28,15 +28,18 @@ public class TileMapChunk {
     public void setCell(int x, int y, int id) {
         x %= size;
         y %= size;
-        cells[y * size + x] = id;
 
-        Graphics2D g2d = (Graphics2D) chunkImg.getGraphics();
-        g2d.setComposite(AlphaComposite.Clear);
-        g2d.fillRect((x * cellWidth), (y * cellHeight), cellWidth, cellHeight);
-        g2d.setComposite(AlphaComposite.SrcOver);
+        if(cells[y * size + x] != id) {
+            cells[y * size + x] = id;
 
-        if(id >= 0) {
-            g2d.drawImage(tileMap.getTiles()[id].getBufferedImage(), (x * cellWidth), (y * cellHeight), null);
+            Graphics2D g2d = (Graphics2D) chunkImg.getGraphics();
+            g2d.setComposite(AlphaComposite.Clear);
+            g2d.fillRect((x * cellWidth), (y * cellHeight), cellWidth, cellHeight);
+            g2d.setComposite(AlphaComposite.SrcOver);
+
+            if (id >= 0) {
+                g2d.drawImage(tileMap.getTiles()[id].getBufferedImage(), (x * cellWidth), (y * cellHeight), null);
+            }
         }
     }
 
