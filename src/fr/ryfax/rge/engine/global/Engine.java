@@ -116,12 +116,11 @@ public class Engine {
 
     private synchronized void draw() {
         GameCanvas canvas = window.getCanvas();
-        canvas.ready(); // Prepare the draw
 
         Drawer drawer = new Drawer(this);
         SceneManager.getCurrentScene().draw(drawer);
 
-        canvas.finish(); // show
+        canvas.finish();
     }
 
     private void loadText() {

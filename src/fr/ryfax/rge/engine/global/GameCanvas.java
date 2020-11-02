@@ -1,5 +1,9 @@
 package fr.ryfax.rge.engine.global;
 
+import fr.ryfax.rge.engine.camera.Camera;
+import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.utils.drawing.Drawer;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -27,11 +31,6 @@ public class GameCanvas extends Canvas {
         bs = getBufferStrategy();
 
         refreshGraphics();
-    }
-
-    public void ready() {
-        g2d.setColor(engine.getParameters().getClearBufferColor());
-        g2d.fillRect(0, 0, size.width, size.height);
     }
 
     public void finish() {

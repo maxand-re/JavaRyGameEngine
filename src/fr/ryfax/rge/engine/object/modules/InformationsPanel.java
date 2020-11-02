@@ -34,7 +34,8 @@ public class InformationsPanel implements VisualGameObject {
             ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +
                     " y: " + Tools.round(statistics.getCameraPosition().y, 0) + " /" +
-                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) + "rad");
+                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) + "rad" +
+                    " z: " + Tools.round(SceneManager.getCurrentScene().getCamera().getZoom(), 0));
         }
     }
 

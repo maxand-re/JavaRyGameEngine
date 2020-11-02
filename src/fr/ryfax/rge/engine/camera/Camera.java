@@ -22,4 +22,6 @@ public class Camera {
     public Vector2D getPosition() { return position; }
     public double getZoom() { return zoom; }
     public Rotation2D getRotation() { return rotation; }
+
+
 }
