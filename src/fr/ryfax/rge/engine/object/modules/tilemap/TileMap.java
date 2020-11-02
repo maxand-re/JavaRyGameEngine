@@ -9,10 +9,10 @@ import fr.ryfax.rge.engine.utils.movements.Vector2D;
 import fr.ryfax.rge.engine.utils.path.Resource;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.RecursiveTask;
 
 public class TileMap implements VisualGameObject {
 
@@ -23,7 +23,6 @@ public class TileMap implements VisualGameObject {
     private final Map<Vector2D, TileMapChunk> chunks = new HashMap<>();
 
     private Vector2D location = new Vector2D(0, 0);
-    private boolean debug = false;
 
     public void init(Engine engine) {}
 
@@ -45,33 +44,21 @@ public class TileMap implements VisualGameObject {
         }
     }
 
-    public void build() {
-        for (Map.Entry<Vector2D, TileMapChunk> chunks : chunks.entrySet())
-            if(chunks.getValue().modified)
-                chunks.getValue().build();
-    }
-
     /*
      * Setters
      */
-    public TileMap setLocation(Vector2D location) {
+    public void setLocation(Vector2D location) {
         this.location = location;
-        return this;
     }
 
-    public TileMap setCell(int x, int y, int id) {
+    public void setCell(int x, int y, int id) {
         Vector2D chunkPosition = new Vector2D(Math.floor(x/(float)chunkSize), Math.floor(y/(float)chunkSize));
 
         if(!chunks.containsKey(chunkPosition))
             chunks.put(chunkPosition, new TileMapChunk(chunkSize, this));
 
-        chunks.get(chunkPosition).cells[(y%chunkSize)*cellWidth + (x%chunkSize)] = id;
-        chunks.get(chunkPosition).modified = true;
-
-        return this;
+        chunks.get(chunkPosition).setCell(x, y, id);
     }
-
-
 
     /*
      * Getters
@@ -87,7 +74,6 @@ public class TileMap implements VisualGameObject {
 
     public Image[] getTiles() { return tiles; }
     public Vector2D getLocation() { return location; }
-    public void setDebug(boolean debug) { this.debug = debug; }
     public Map<Vector2D, TileMapChunk> getChunks() { return chunks; }
     public Vector2D getCellSize(){ return new Vector2D(cellWidth, cellHeight); }
 
@@ -100,19 +86,6 @@ public class TileMap implements VisualGameObject {
                     chunks.getValue().chunkImg,
                     location.x + chunks.getKey().x * (cellWidth * chunkSize),
                     location.y + chunks.getKey().y * (cellHeight * chunkSize));
-        }
-
-        if(debug) {
-            Random r = new Random(6666L);
-            for (Map.Entry<Vector2D, TileMapChunk> chunks : chunks.entrySet()) {
-                drawer.setColor(new Color(r.nextInt(0xFFFFFF)));
-                drawer.setLineWidth(3);
-                drawer.borderRect(
-                        location.x + chunks.getKey().x * (cellWidth * chunkSize),
-                        location.y + chunks.getKey().y * (cellHeight * chunkSize),
-                        chunks.getValue().chunkImg.getWidth(),
-                        chunks.getValue().chunkImg.getHeight());
-            }
         }
     }
 

@@ -1,10 +1,11 @@
-package fr.ryfax.rge.game;
+package fr.ryfax.rge.test;
 
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.global.Parameters;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.modules.DebugTitle;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
 import fr.ryfax.rge.engine.object.modules.tilemap.TileMap;
@@ -20,7 +21,7 @@ public class Main {
         Engine engine = new Engine("RyGame", 1280, 720);
         Parameters parameters = engine.getParameters();
         parameters.setClearBufferColor(Color.BLACK);
-        parameters.setLimitFps(true);
+        parameters.setLimitFps(false);
         parameters.setAntiAliasing(true);
         parameters.setQualityRendering(true);
         parameters.setLimitOverload(0);
@@ -35,7 +36,6 @@ public class Main {
 
         TileMap tm = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
         tm.setLocation(new Vector2D(200, 200));
-        tm.setDebug(true);
 
         for (int x = 0; x < 200; x++) {
             for (int y = 0; y < 1000; y++) {
@@ -43,9 +43,23 @@ public class Main {
             }
         }
 
-        tm.build();
-
         scene.addGameObject(tm, 1);
+        scene.addGameObject(new GameObject() {
+            @Override
+            public void init(Engine engine) {
+
+            }
+
+            @Override
+            public void update(int tick) {
+                if(tick == 1)
+                    for (int x = 0; x < 100; x++) {
+                        for (int y = 0; y < 100; y++) {
+                            tm.setCell(x, y, new Random().nextInt(6));
+                        }
+                    }
+            }
+        }, 1);
         engine.init();
     }
 

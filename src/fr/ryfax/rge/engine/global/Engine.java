@@ -86,8 +86,10 @@ public class Engine {
 
             if(!pause) {
 
-                while (currentTime >= UPDATE_OBJECTIVE) {
-                    currentTime -= UPDATE_OBJECTIVE;
+                /*while (currentTime >= UPDATE_OBJECTIVE) {
+                    currentTime -= UPDATE_OBJECTIVE;*/
+                if(currentTime >= UPDATE_OBJECTIVE) {
+                    currentTime = 0;
                     tick++;
                     render = true;
                     update(tick);

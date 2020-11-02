@@ -1,6 +1,5 @@
 package fr.ryfax.rge.engine.object.modules.tilemap;
 
-import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.image.ImageBuilder;
 
 import java.awt.*;
@@ -9,44 +8,34 @@ import java.util.Arrays;
 
 public class TileMapChunk {
 
-    public final int size, cellSizeX, cellSizeY;
-    public boolean modified = false;
+    public final int size, cellWidth, cellHeight;
     public final int[] cells;
     public BufferedImage chunkImg;
     public TileMap tileMap;
 
     public TileMapChunk(int size, TileMap tileMap){
         this.size = size;
-        this.cellSizeX = (int) tileMap.getCellSize().x;
-        this.cellSizeY = (int) tileMap.getCellSize().y;
+        this.cellWidth = (int) tileMap.getCellSize().x;
+        this.cellHeight = (int) tileMap.getCellSize().y;
         this.tileMap = tileMap;
         this.cells = new int[size*size];
+
+        chunkImg = ImageBuilder.createBlankImage(size * cellWidth, size * cellHeight, true).getBufferedImage();
 
         Arrays.fill(cells, -1);
     }
 
-    public TileMapChunk build(){
-        Image img = ImageBuilder.createBlankImage(size * cellSizeX, size * cellSizeY, true);
-        Graphics2D g2d = (Graphics2D) img.getBufferedImage().getGraphics();
+    public void setCell(int x, int y, int id) {
+        x %= size;
+        y %= size;
+        cells[y * cellWidth + x] = id;
 
-        int x = 0, y = 0;
+        Graphics2D g2d = (Graphics2D) chunkImg.getGraphics();
+        g2d.clearRect((x * cellWidth), (y * cellHeight), cellWidth, cellHeight);
 
-        for(int tile : cells) {
-            if(tile >= 0)
-                g2d.drawImage(
-                        tileMap.getTiles()[tile].getBufferedImage(),
-                        (x * cellSizeX), (y * cellSizeY), null);
-
-            x++;
-            if(x == size) {
-                y++;
-                x = 0;
-            }
+        if(id >= 0) {
+            g2d.drawImage(tileMap.getTiles()[id].getBufferedImage(), (x * cellWidth), (y * cellHeight), null);
         }
-
-        chunkImg = img.getBufferedImage();
-        modified = false;
-        return this;
     }
 
 }

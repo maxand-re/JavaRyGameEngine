@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Statistics {
 
-    public static final String VERSION = "0.0.6 - Alpha (pre-build)";
+    public static final String VERSION = "0.0.6b - Alpha (pre-build)";
 
     private Engine engine;
 
