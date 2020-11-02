@@ -64,7 +64,7 @@ public class TileMap implements VisualGameObject {
         Vector2D chunkPosition = new Vector2D(Math.floor(x/(float)chunkSize), Math.floor(y/(float)chunkSize));
 
         if(chunks.containsKey(chunkPosition))
-            return chunks.get(chunkPosition).cells[(y%chunkSize)*cellWidth + (x%chunkSize)];
+            return chunks.get(chunkPosition).cells[(y%chunkSize)*chunkSize + (x%chunkSize)];
 
         return -1;
     }
