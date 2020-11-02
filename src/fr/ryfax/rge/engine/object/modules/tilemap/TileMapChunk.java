@@ -28,7 +28,7 @@ public class TileMapChunk {
     public void setCell(int x, int y, int id) {
         x %= size;
         y %= size;
-        cells[y * cellWidth + x] = id;
+        cells[y * size + x] = id;
 
         Graphics2D g2d = (Graphics2D) chunkImg.getGraphics();
         g2d.setComposite(AlphaComposite.Clear);
