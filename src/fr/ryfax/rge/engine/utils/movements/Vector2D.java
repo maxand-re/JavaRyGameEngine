@@ -1,5 +1,6 @@
 package fr.ryfax.rge.engine.utils.movements;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Vector2D {

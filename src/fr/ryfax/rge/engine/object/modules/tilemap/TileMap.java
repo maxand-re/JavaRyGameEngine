@@ -6,8 +6,7 @@ import fr.ryfax.rge.engine.image.ImageBuilder;
 import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
-import fr.ryfax.rge.engine.utils.path.Resource;
-
+import fr.ryfax.rge.engine.utils.path.Resource;import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ public class TileMap implements VisualGameObject {
     private final int cellWidth;
     private final int cellHeight;
     private final int chunkSize = 16;
+    private final int[] EMPTY_CHUNK = new int[chunkSize^2];
     private final Map<Vector2D, TileMapChunk> chunks = new HashMap<>();
 
     private Vector2D location = new Vector2D(0, 0);
@@ -29,6 +29,8 @@ public class TileMap implements VisualGameObject {
         cellWidth = width;
         cellHeight = height;
 
+        Arrays.fill(EMPTY_CHUNK, -1);
+
         int nbCellsX = image.getWidth() / width;
         int nbCellsY = image.getHeight() / height;
 
@@ -39,6 +41,15 @@ public class TileMap implements VisualGameObject {
                 tiles[y*nbCellsX + x] = new ImageBuilder(image.getBufferedImage().getSubimage(baseX + x * width, baseY + y * height, width, height)).build();
             }
         }
+    }
+
+    public void removeCell(int x, int y) {
+        Vector2D chunkPosition = new Vector2D(Math.floor(x/(float)chunkSize), Math.floor(y/(float)chunkSize));
+        if(!chunks.containsKey(chunkPosition))
+            chunks.put(chunkPosition, new TileMapChunk(chunkSize, this));
+        chunks.get(chunkPosition).setCell(x, y, -1);
+
+        if(Arrays.equals(chunks.get(chunkPosition).cells, EMPTY_CHUNK)) chunks.remove(chunkPosition);
     }
 
     /*

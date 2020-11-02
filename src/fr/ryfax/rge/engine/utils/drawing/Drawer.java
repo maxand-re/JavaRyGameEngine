@@ -7,33 +7,40 @@ import fr.ryfax.rge.engine.global.scenes.SceneManager;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /*
  * Upgraded class of Graphics2D
  */
 public class Drawer {
 
-    /*
-     * Todo: Refaire les position avec un affineTransform et translate
-     */
-
-    private Engine engine;
-    private Camera camera;
-    private Graphics2D g2d;
+    private final Engine engine;
+    private final Camera camera;
+    private final Graphics2D g2d;
+    private final AffineTransform baseTransform;
 
     public Drawer(Engine engine) {
         this.engine = engine;
         this.camera = SceneManager.getCurrentScene().getCamera();
         this.g2d = engine.getWindow().getCanvas().getGraphics();
 
-        AffineTransform af = new AffineTransform();
-        af.scale(camera.getZoom(), camera.getZoom());
-        af.rotate(
+        baseTransform = new AffineTransform();
+        baseTransform.rotate(
                 -camera.getRotation().getRadians(),
                 camera.getRotation().offset.x,
                 camera.getRotation().offset.y);
-        g2d.setTransform(af);
+
+        baseTransform.translate(engine.getWindow().getFrame().getWidth() / 2.0, engine.getWindow().getFrame().getHeight() / 2.0);
+        baseTransform.scale(camera.getZoom(), camera.getZoom());
+
+
+        // Clear Buffer
+        g2d.setColor(engine.getParameters().getClearBufferColor());
+        g2d.fillRect(0, 0, engine.getWindow().getFrame().getWidth(), engine.getWindow().getFrame().getHeight());
+
+        g2d.setTransform(baseTransform);
     }
 
     public void setColor(Color color) { g2d.setColor(color); }
@@ -54,7 +61,7 @@ public class Drawer {
     }
 
     public void lineNotRelative(double x, double y, double toX, double toY) {
-        if(isUselessToDraw(x, y, toX, toY)) return;
+        if(isUselessToDrawNotRelative(x, y, toX, toY)) return;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
@@ -88,7 +95,7 @@ public class Drawer {
      * Draw fill rectangle at x, y with width, height and color.
      */
     public void fillRectNotRelative(int x, int y, int width, int height) {
-        if(isUselessToDraw(x, y, width, height)) return;
+        if(isUselessToDrawNotRelative(x, y, width, height)) return;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
@@ -101,7 +108,7 @@ public class Drawer {
     }
 
     public void fillRectNotRelative(int x, int y, int width, int height, Color color) {
-        if(isUselessToDraw(x, y, width, height)) return;
+        if(isUselessToDrawNotRelative(x, y, width, height)) return;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
@@ -121,8 +128,8 @@ public class Drawer {
     public void image(Image img, double x, double y) {
         if(img == null) return;
 
-        int newX = (int) (x - camera.getPosition().x);
-        int newY = (int) (y - camera.getPosition().y);
+        int newX = (int) (x - camera.getPosition().x * camera.getZoom());
+        int newY = (int) (y - camera.getPosition().y * camera.getZoom());
 
         if(isUselessToDraw(newX, newY, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
 
@@ -150,7 +157,8 @@ public class Drawer {
     public void imageNotRelative(Image img, double x, double y) {
         if(img == null) return;
         if(img.getBufferedImage() == null) return;
-        if(isUselessToDraw(x, y, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
+
+        if(isUselessToDrawNotRelative(x, y, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
@@ -164,7 +172,7 @@ public class Drawer {
 
     public void imageNotRelative(BufferedImage img, int x, int y) {
         if(img == null) return;
-        if(isUselessToDraw(x, y, img.getWidth(), img.getHeight())) return;
+        if(isUselessToDrawNotRelative(x, y, img.getWidth(), img.getHeight())) return;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
@@ -204,17 +212,36 @@ public class Drawer {
     }
 
     /*
+     * TODO:
+     *      - Useless for the moment, can be useful for rotating screen isUselessToDraw() method
+     *      - https://www.gamedevelopment.blog/collision-detection-circles-rectangles-and-polygons/
+     */
+    public Point2D[] getPointsAfterTransform(Point2D[] src) {
+        Point2D[] dest = new Point2D[src.length];
+        baseTransform.transform(src, 0, dest, 0, src.length);
+        return dest;
+    }
+
+    /*
      * If the object to draw is outside the screen, return false
      */
-    private boolean isUselessToDraw(double x, double y, double width, double height) {
-        int screenW = engine.getWindow().getCanvas().getWidth();
-        int screenH = engine.getWindow().getCanvas().getHeight();
+    public boolean isUselessToDraw(double x, double y, double width, double height) {
+        int screenW = (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom());
+        int screenH = (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom());
 
-        return (!(x < screenW) || !(x + width > 0) || !(y < screenH) || !(y + height > 0));
+        return !((x < screenW / 2.0) && (x + width > -screenW / 2.0) && (y < screenH / 2.0) && (y + height > -screenH / 2.0));
+    }
+
+    public boolean isUselessToDrawNotRelative(double x, double y, double width, double height) {
+        int screenW = (engine.getWindow().getFrame().getWidth());
+        int screenH = (engine.getWindow().getFrame().getHeight());
+
+        return !((x < screenW) && (x + width > 0) && (y < screenH) && (y + height > 0));
     }
 
     /*
      * Getters
      */
     public Graphics2D getGraphics2D() { return g2d; }
+    public Engine getEngine() { return engine; }
 }

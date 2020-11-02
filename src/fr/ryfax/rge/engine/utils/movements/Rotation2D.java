@@ -25,4 +25,11 @@ public class Rotation2D {
         this.offset = rotation2D.offset;
     }
 
+    @Override
+    public String toString() {
+        return "Rotation2D{" +
+                "degree=" + degree +
+                ", offset=" + offset +
+                '}';
+    }
 }
