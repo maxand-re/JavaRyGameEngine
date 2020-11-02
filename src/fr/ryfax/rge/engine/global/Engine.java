@@ -1,11 +1,11 @@
 package fr.ryfax.rge.engine.global;
 
-import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.listeners.KeyboardListener;
 import fr.ryfax.rge.engine.global.listeners.MouseListener;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.utils.Logger;
+import fr.ryfax.rge.engine.utils.Sleep;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.path.Resource;
@@ -14,7 +14,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static fr.ryfax.rge.engine.utils.Sleep.*;
+import static fr.ryfax.rge.engine.utils.Sleep.sleep;
+import static fr.ryfax.rge.engine.utils.Sleep.sleepMicro;
 
 
 /*
@@ -53,13 +54,17 @@ public class Engine {
 
     public synchronized void init() {
         window.getCanvas().init();
+
         statistics.setTotalRam((int) (runtime.totalMemory()/1024/1024));
+
+        logger.info("RyGameEngine\n\tVersion: " + Statistics.VERSION +
+                "\n\tAllocated RAM: " + statistics.getTotalRam() + "Mo");
 
         if(SceneManager.getCurrentScene() == null)
             logger.warn("No scenes, please set a scene to start correctly");
 
         new Thread(this::loop).start();
-        update(0);
+        update(1);
     }
 
     private synchronized void loop() {
@@ -69,7 +74,7 @@ public class Engine {
 
         boolean render;
 
-        int frameCount = 0, tick = 0;
+        int frameCount = 0, tick = 1;
         double frameTime = 0;
 
         while(isRunning) {
@@ -96,7 +101,7 @@ public class Engine {
                 if (frameTime >= 1) {
                     statistics.setCurrentFps(frameCount);
                     statistics.setCurrentTps(tick);
-                    statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
+
 
                     frameTime = 0;
                     frameCount = 0;
@@ -111,6 +116,7 @@ public class Engine {
     }
 
     private synchronized void update(int tick) {
+        if(tick % 5 == 0) statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
         mousePosition = window.getCanvas().getMousePosition();
 
         window.getMouseEvents().update(tick);
@@ -119,11 +125,9 @@ public class Engine {
 
     private synchronized void draw() {
         GameCanvas canvas = window.getCanvas();
-        Camera camera = SceneManager.getCurrentScene().getCamera();
         canvas.ready(); // Prepare the draw
 
         Drawer drawer = new Drawer(this);
-
         SceneManager.getCurrentScene().draw(drawer);
 
         canvas.finish(); // show

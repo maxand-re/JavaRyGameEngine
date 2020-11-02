@@ -27,7 +27,7 @@ public class InformationsPanel implements VisualGameObject {
     }
 
     public void update(int tick) {
-        if(tick % 3 == 0) {
+        if(tick % 5 == 0) {
             fpsAndTick = fontRenderer.build("FPS: " + statistics.getCurrentFps() + " Average: " + statistics.getAverageFps());
             ticks = fontRenderer.build("Ticks: " + Tools.intToDigit(tick) + "/60" + " TPS: " + statistics.getCurrentTps());
             time = fontRenderer.build("Elapsed time: " + statistics.getElapsedTime());

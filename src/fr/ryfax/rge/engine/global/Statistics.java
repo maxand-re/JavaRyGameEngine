@@ -5,11 +5,10 @@ import fr.ryfax.rge.engine.utils.Tools;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Statistics {
 
-    public static final String VERSION = "0.0.5 - Alpha (pre-build)";
+    public static final String VERSION = "0.0.6 - Alpha (pre-build)";
 
     private Engine engine;
 
