@@ -37,29 +37,13 @@ public class Main {
         TileMap tm = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
         tm.setLocation(new Vector2D(200, 200));
 
-        for (int x = 0; x < 200; x++) {
-            for (int y = 0; y < 1000; y++) {
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 100; y++) {
                 tm.setCell(x, y, new Random().nextInt(6));
             }
         }
 
         scene.addGameObject(tm, 1);
-        scene.addGameObject(new GameObject() {
-            @Override
-            public void init(Engine engine) {
-
-            }
-
-            @Override
-            public void update(int tick) {
-                if(tick == 1)
-                    for (int x = 0; x < 100; x++) {
-                        for (int y = 0; y < 100; y++) {
-                            tm.setCell(x, y, new Random().nextInt(6));
-                        }
-                    }
-            }
-        }, 1);
         engine.init();
     }
 

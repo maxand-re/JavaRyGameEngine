@@ -46,8 +46,8 @@ public class SplashScreen implements VisualGameObject {
         this.image = image;
     }
 
-    public void update(int tick) {
-        if(tick == 60) sec ++;
+    public void update(double delta, int accumulator) {
+        if(delta == 60) sec ++;
 
         if(sec < 2) {
             opacity++;

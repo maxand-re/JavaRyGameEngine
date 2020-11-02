@@ -6,6 +6,6 @@ import fr.ryfax.rge.engine.global.Engine;
 public interface GameObject {
 
     void init(Engine engine);
-    void update(int tick);
+    void update(double delta, int accumulator);
 
 }

@@ -5,7 +5,6 @@ import fr.ryfax.rge.engine.global.listeners.MouseListener;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.utils.Logger;
-import fr.ryfax.rge.engine.utils.Sleep;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.path.Resource;
@@ -14,7 +13,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static fr.ryfax.rge.engine.utils.Sleep.sleep;
 import static fr.ryfax.rge.engine.utils.Sleep.sleepMicro;
 
 
@@ -40,7 +38,7 @@ public class Engine {
 
     private Point mousePosition = null;
     private boolean isRunning = true, pause = false;
-    private final double UPDATE_OBJECTIVE = 1/60D;
+    public double accumulator = 0;
 
     public Engine(String title, int width, int height) {
         loadText();
@@ -69,60 +67,47 @@ public class Engine {
 
     private synchronized void loop() {
         int overload = parameters.getLimitOverload();
-        double firstTime = System.nanoTime() / 1e9;
-        double lastTime, currentTime = 0.0;
+        int frameCount = 0;
 
-        boolean render;
-
-        int frameCount = 0, tick = 1;
-        double frameTime = 0;
+        double firstTime, frameTime = 0;
+        double lastTime = System.nanoTime() / 1e9;
 
         while(isRunning) {
-            render = false;
-
+            firstTime = lastTime;
             lastTime = System.nanoTime() / 1e9;
-            currentTime += lastTime - firstTime;
             frameTime += lastTime - firstTime;
 
             if(!pause) {
-
-                /*while (currentTime >= UPDATE_OBJECTIVE) {
-                    currentTime -= UPDATE_OBJECTIVE;*/
-                if(currentTime >= UPDATE_OBJECTIVE) {
-                    currentTime = 0;
-                    tick++;
-                    render = true;
-                    update(tick);
-                }
-
-                if(render || !parameters.isLimitFps()) {
-                    frameCount++;
-                    draw();
-                }
+                update((lastTime - firstTime) * 1000);
+                draw();
+                frameCount++;
 
                 if (frameTime >= 1) {
                     statistics.setCurrentFps(frameCount);
-                    statistics.setCurrentTps(tick);
-
 
                     frameTime = 0;
                     frameCount = 0;
-                    tick = 0;
                 }
             }
 
             if(overload != 0) sleepMicro(overload);
-
-            firstTime = lastTime;
         }
     }
 
-    private synchronized void update(int tick) {
-        if(tick % 5 == 0) statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
-        mousePosition = window.getCanvas().getMousePosition();
+    private synchronized void update(double delta) {
+        accumulator += delta;
 
-        window.getMouseEvents().update(tick);
-        SceneManager.getCurrentScene().update(tick);
+        if(accumulator >= 1000) accumulator -= 1000;
+
+        if(getAccumulator() % (1000 / 2) == 0)
+            statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
+        if(getAccumulator() % (1000 / 75) == 0)
+            mousePosition = window.getCanvas().getMousePosition();
+
+
+
+        window.getMouseEvents().update(delta, getAccumulator());
+        SceneManager.getCurrentScene().update(delta, getAccumulator());
     }
 
     private synchronized void draw() {
@@ -177,6 +162,7 @@ public class Engine {
     public Parameters getParameters() { return parameters; }
     public Statistics getStatistics() { return statistics; }
     public FontLoader getFontLoader() { return fontLoader; }
+    public int getAccumulator() { return (int) accumulator; }
     public Logger getLogger() { return logger; }
     public Window getWindow() { return window; }
 

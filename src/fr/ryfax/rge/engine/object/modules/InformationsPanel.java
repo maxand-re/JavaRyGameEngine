@@ -26,10 +26,10 @@ public class InformationsPanel implements VisualGameObject {
         version = fontRenderer.build("RGE Version " + statistics.VERSION);
     }
 
-    public void update(int tick) {
-        if(tick % 5 == 0) {
-            fpsAndTick = fontRenderer.build("FPS: " + statistics.getCurrentFps() + " Average: " + statistics.getAverageFps());
-            ticks = fontRenderer.build("Ticks: " + Tools.intToDigit(tick) + "/60" + " TPS: " + statistics.getCurrentTps());
+    public void update(double delta, int accumulator) {
+        if(accumulator % 500 == 0) {
+            fpsAndTick = fontRenderer.build("FPS: " + statistics.getCurrentFps() + " Average: " + statistics.getAverageFps() + " Estimated: " + (int)(1000 / delta));
+            ticks = fontRenderer.build("Render: " + Tools.round(delta, 0) + "ms ACC: " + accumulator);
             time = fontRenderer.build("Elapsed time: " + statistics.getElapsedTime());
             ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +

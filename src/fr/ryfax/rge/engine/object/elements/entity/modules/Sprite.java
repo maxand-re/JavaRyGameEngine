@@ -20,7 +20,7 @@ public class Sprite implements VisualEntityModule {
         this.image.resize((int) entity.getWidth(), (int) entity.getHeight());
     }
 
-    public void update(int tick) {}
+    public void update(double delta, int accumulator) {}
 
     public void draw(Drawer drawer) {
         drawer.image(image, entity.getPosition().x, entity.getPosition().y);

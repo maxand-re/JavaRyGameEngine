@@ -8,11 +8,8 @@ import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 import fr.ryfax.rge.engine.utils.path.Resource;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class TileMap implements VisualGameObject {
 
@@ -89,5 +86,5 @@ public class TileMap implements VisualGameObject {
         }
     }
 
-    public void update(int tick) {}
+    public void update(double delta, int accumulator) {}
 }

@@ -22,8 +22,8 @@ public class DebugTitle implements GameObject {
         originalName = frame.getTitle();
     }
 
-    public void update(int tick) {
-        if(tick == 1) frame.setTitle(originalName + " - " + statistics.getCurrentFps() + "FPS [" + statistics.getElapsedTime() + "]");
+    public void update(double delta, int accumulator) {
+        if(accumulator % 1000 == 0) frame.setTitle(originalName + " - " + statistics.getCurrentFps() + "FPS [" + statistics.getElapsedTime() + "]");
     }
 
     /*

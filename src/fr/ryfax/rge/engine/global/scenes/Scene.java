@@ -45,10 +45,10 @@ public class Scene {
         //TODO: Add to SceneListener
     }
 
-    public void update(int tick) {
+    public void update(double delta, int accumulator) {
         gameObjs.forEach((z, gameObjects) ->
                 gameObjects.forEach(gameObject ->
-                        gameObject.update(tick)));
+                        gameObject.update(delta, accumulator)));
     }
 
     public void draw(Drawer d) {

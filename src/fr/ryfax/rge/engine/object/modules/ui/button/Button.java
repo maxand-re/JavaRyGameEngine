@@ -46,7 +46,7 @@ public class Button implements VisualGameObject {
         this.text = fr.build(textStr);
     }
 
-    public void update(int tick) {
+    public void update(double delta, int accumulator) {
         position = scaler.getPosition();
 
         Point mouse = engine.getMousePosition();

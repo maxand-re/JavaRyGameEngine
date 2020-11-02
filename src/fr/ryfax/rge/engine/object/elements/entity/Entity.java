@@ -22,9 +22,9 @@ public class Entity implements VisualGameObject {
 
     public void init(Engine engine) { this.engine = engine; }
 
-    public void update(int tick) {
+    public void update(double delta, int accumulator) {
         modules.forEach((z, modules) ->
-                modules.forEach(module -> module.update(tick)));
+                modules.forEach(module -> module.update(delta, accumulator)));
     }
 
     public void draw(Drawer drawer) {

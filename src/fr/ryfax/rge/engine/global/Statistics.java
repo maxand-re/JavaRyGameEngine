@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class Statistics {
 
-    public static final String VERSION = "0.0.6b - Alpha (pre-build)";
+    public static final String VERSION = "0.0.7 - Alpha (pre-build)";
 
     private Engine engine;
 
-    private int currentFps = 0, currentTps = 0, usedRam = 0, totalRam = 0;
+    private int currentFps = 0, usedRam = 0, totalRam = 0;
     private ArrayList<Integer> averageFps = new ArrayList<>();
     public static final long timestamp = System.currentTimeMillis();
 
@@ -28,7 +28,6 @@ public class Statistics {
         if(this.averageFps.size() > 20)
             this.averageFps.remove(0);
     }
-    public void setCurrentTps(int currentTps) { this.currentTps = currentTps; }
 
     public void setTotalRam(int totalRam) { this.totalRam = totalRam; }
     public void setUsedRam(int usedRam) { this.usedRam = usedRam; }
@@ -37,7 +36,7 @@ public class Statistics {
      * Getters
      */
     public int getCurrentFps() { return currentFps; }
-    public int getCurrentTps() { return currentTps; }
+    public double getCurrentAccumulator() { return engine.accumulator; }
 
     public int getAverageFps() {
         if(averageFps.size() > 0) {

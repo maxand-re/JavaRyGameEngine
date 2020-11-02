@@ -28,7 +28,7 @@ public class Label implements VisualGameObject {
     }
 
     public void init(Engine engine) {}
-    public void update(int tick) {}
+    public void update(double delta, int accumulator) {}
 
     public void draw(Drawer drawer) {
         Vector2D position = scaler.getPosition();

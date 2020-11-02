@@ -33,7 +33,7 @@ public class MouseEvents implements MouseListener, GameObject {
     public void mouseExited(MouseEvent mouseEvent) {}
     public void mouseClicked(MouseEvent mouseEvent) {}
 
-    public void update(int tick) {
+    public void update(double delta, int accumulator) {
         if(engine.getMousePosition() != null)
             if(!engine.getMousePosition().equals(p)) {
                 engine.getMouseListeners().forEach(list -> list.onMove(p));

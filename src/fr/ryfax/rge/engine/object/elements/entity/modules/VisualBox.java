@@ -14,7 +14,7 @@ public class VisualBox implements VisualEntityModule {
 
     public void init(Engine engine, Entity entity) { this.entity = entity; }
 
-    public void update(int tick) {}
+    public void update(double delta, int accumulator) {}
 
     public void draw(Drawer drawer) {
         Vector2D pos = entity.getPosition();

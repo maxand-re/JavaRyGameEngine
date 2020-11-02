@@ -22,10 +22,10 @@ public class AnimatedSprite implements VisualEntityModule {
 
     public void init(Engine engine, Entity entity) { this.entity = entity; }
 
-    public void update(int tick) {
+    public void update(double delta, int accumulator) {
         if(animation == null) return;
 
-        if(tick % animation.getTickRate() == 0) {
+        if(delta % animation.getTickRate() == 0) {
             imageIdx++;
 
             if(imageIdx > animation.getEndIndex())
