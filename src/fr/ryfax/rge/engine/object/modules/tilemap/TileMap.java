@@ -83,6 +83,7 @@ public class TileMap implements VisualGameObject {
     public Image[] getTiles() { return tiles; }
     public Vector2D getLocation() { return location; }
     public Map<Vector2D, TileMapChunk> getChunks() { return chunks; }
+    public int getChunkSize() { return chunkSize; }
     public Vector2D getCellSize(){ return new Vector2D(cellWidth, cellHeight); }
 
     /*
