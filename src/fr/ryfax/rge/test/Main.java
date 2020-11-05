@@ -5,9 +5,12 @@ import fr.ryfax.rge.engine.global.Parameters;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.image.Image;
+import fr.ryfax.rge.engine.image.ImageBuilder;
 import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.modules.DebugTitle;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
+import fr.ryfax.rge.engine.object.modules.SplashScreen;
 import fr.ryfax.rge.engine.object.modules.tilemap.TileMap;
 import fr.ryfax.rge.engine.utils.movements.Rotation2D;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
@@ -29,8 +32,17 @@ public class Main {
 
         SceneBuilder sb = engine.getSceneBuilder();
 
+        Scene splash = sb.setName("Splash").build();
         Scene scene = sb.setName("TestingScene").build();
-        SceneManager.setScene(scene);
+
+        Image logo = new ImageBuilder(new Resource("resource/logos/detailed-icon.png")).build();
+
+        logo.resize(512, 512);
+
+        splash.addGameObject(new SplashScreen(logo, Color.BLACK, scene), 1);
+
+        SceneManager.setScene(splash);
+
 
         //scene.getCamera().setZoom(100);
         scene.getCamera().setPosition(new Vector2D(0, 0));

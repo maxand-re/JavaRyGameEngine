@@ -103,15 +103,17 @@ public class Engine {
     private synchronized void update(double delta) {
         accumulator += delta;
 
-        if(accumulator >= 1000) accumulator -= 1000;
+        if(accumulator > 1000) accumulator -= 1000;
+
+        int accumulatorInt = (int) Math.floor(accumulator);
 
         if(getAccumulator() % (1000 / 2) == 0)
             statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
         if(getAccumulator() % (1000 / 75) == 0)
             mousePosition = window.getCanvas().getMousePosition();
 
-        window.getMouseEvents().update(delta, getAccumulator());
-        SceneManager.getCurrentScene().update(delta, getAccumulator());
+        window.getMouseEvents().update(delta, accumulatorInt);
+        SceneManager.getCurrentScene().update(delta, accumulatorInt);
     }
 
     private synchronized void draw() {
@@ -165,7 +167,7 @@ public class Engine {
     public Parameters getParameters() { return parameters; }
     public Statistics getStatistics() { return statistics; }
     public FontLoader getFontLoader() { return fontLoader; }
-    public int getAccumulator() { return (int) accumulator; }
+    public int getAccumulator() { return (int) Math.floor(accumulator); }
     public Logger getLogger() { return logger; }
     public Window getWindow() { return window; }
 

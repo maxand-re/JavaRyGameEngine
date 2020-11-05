@@ -47,19 +47,18 @@ public class SplashScreen implements VisualGameObject {
     }
 
     public void update(double delta, int accumulator) {
-        if(delta == 60) sec ++;
+        if(accumulator == 999) sec ++;
 
         if(sec < 2) {
             opacity++;
             if(opacity > 100) opacity = 100;
         }else if(sec >= 3) {
             opacity--;
-            if(opacity < 0) opacity = 0;
-            if(sec == 5) SceneManager.setScene(sceneAfter);
+            if(opacity < 0) {
+                opacity = 0;
+                SceneManager.setScene(sceneAfter);
+            }
         }
-
-        screenW = engine.getWindow().getCanvas().getWidth();
-        screenH = engine.getWindow().getCanvas().getHeight();
 
         image.opacity(opacity/100f);
     }
