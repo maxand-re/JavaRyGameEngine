@@ -23,6 +23,11 @@ public class Vector2D {
         this.y += y;
     }
 
+    public void translate(Vector2D dest) {
+        this.x += dest.x;
+        this.y += dest.y;
+    }
+
     /*
      * Return distance between this vector and the vec2
      */

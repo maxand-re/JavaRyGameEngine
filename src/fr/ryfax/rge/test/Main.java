@@ -5,20 +5,13 @@ import fr.ryfax.rge.engine.global.Parameters;
 import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
-import fr.ryfax.rge.engine.image.Image;
-import fr.ryfax.rge.engine.image.ImageBuilder;
 import fr.ryfax.rge.engine.object.GameObject;
-import fr.ryfax.rge.engine.object.modules.DebugTitle;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
-import fr.ryfax.rge.engine.object.modules.SplashScreen;
-import fr.ryfax.rge.engine.object.modules.tilemap.TileMap;
-import fr.ryfax.rge.engine.utils.movements.Rotation2D;
+import fr.ryfax.rge.engine.object.modules.particules.Particules;
+import fr.ryfax.rge.engine.object.modules.particules.emitters.FireEmitter;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
-import fr.ryfax.rge.engine.utils.path.Resource;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 public class Main {
 
@@ -31,57 +24,32 @@ public class Main {
         parameters.setQualityRendering(true);
 
         SceneBuilder sb = engine.getSceneBuilder();
-
-        Scene splash = sb.setName("Splash").build();
-        Scene scene = sb.setName("TestingScene").build();
-
-        Image logo = new ImageBuilder(new Resource("resource/logos/detailed-icon.png")).build();
-
-        logo.resize(512, 512);
-
-        splash.addGameObject(new SplashScreen(logo, Color.BLACK, scene), 1);
-
-        SceneManager.setScene(splash);
+        Scene labScene = sb.setName("RGELab").build();
+        SceneManager.setScene(labScene);
 
 
-        //scene.getCamera().setZoom(100);
-        scene.getCamera().setPosition(new Vector2D(0, 0));
-        //scene.getCamera().getRotation().setDegree(45);
-        //scene.getCamera().setRotation(new Rotation2D(45, 0, 0));
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(0, 0))), 1);
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(50, 0))), 1);
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(100, 0))), 1);
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(-50, 0))), 1);
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(-100, 0))), 1);
+        labScene.addGameObject(new GameObject() {
+            double zDir = -0.001, z = 0;
 
+            public void init(Engine engine) { }
 
-        scene.addGameObject(new DebugTitle(), 0);
-        scene.addGameObject(new InformationsPanel(), 9999);
-
-        TileMap tm1 = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
-        tm1.setLocation(new Vector2D(-500, -500));
-
-        for (int x = 0; x < 64; x++) {
-            for (int y = 0; y < 64; y++) {
-                tm1.setCell(x, y, new Random().nextInt(5));
-            }
-        }
-
-        scene.addGameObject(tm1, 1);
-        scene.addGameObject(new GameObject() {
-            double dir = -0.002;
-
-            Engine engine;
-
-            @Override
-            public void init(Engine engine) { this.engine = engine; }
-
-            @Override
             public void update(double delta, int accumulator) {
-                if(scene.getCamera().getZoom() < 0.5 || scene.getCamera().getZoom() > 25) dir = -dir;
-                scene.getCamera().setZoom(scene.getCamera().getZoom() + dir * delta);
-                scene.getCamera().getRotation().addAngle(delta * 0.01);
+                z += zDir * (delta * 2);
+                labScene.getCamera().setZoom(z);
+                labScene.getCamera().getRotation().addAngle(delta / 20);
 
-                //System.out.println(scene.getCamera().getRotation());
-
-                //scene.getCamera().getPosition().translate(-delta/10, 0);
+                if(z > 10) zDir = -0.001;
+                if(z < 0.1) zDir = 0.001;
             }
-        }, 1);
+        }, 2);
+
+        labScene.addGameObject(new InformationsPanel(), 10000);
+
         engine.init();
     }
 
