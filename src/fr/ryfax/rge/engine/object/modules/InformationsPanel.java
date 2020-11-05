@@ -14,9 +14,11 @@ import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
 public class InformationsPanel implements VisualGameObject {
 
     // Variables
+    private int timesPerSec = 100;
     private Statistics statistics;
     private FontRenderer fontRenderer;
-    private Image version = null, fpsAndTick = null, ticks = null, time = null, cam = null, ram = null;
+    private Image version = null, fpsAndTick = null, ticks = null,
+                  time = null, cam = null, ram = null;
 
     public void init(Engine engine) {
         Font font = FontLoader.getLoadedFonts().get(FontLoader.RGE_SHADOW_BACKGROUND);
@@ -26,15 +28,20 @@ public class InformationsPanel implements VisualGameObject {
         version = fontRenderer.build("RGE Version " + statistics.VERSION);
     }
 
+    public InformationsPanel() {};
+    public InformationsPanel(int timesPerSec) {
+        this.timesPerSec = 1000 / timesPerSec;
+    }
+
     public void update(double delta, int accumulator) {
-        if(accumulator % 500 == 0) {
+        if(accumulator % timesPerSec == 0) {
             fpsAndTick = fontRenderer.build("FPS: " + statistics.getCurrentFps() + " Average: " + statistics.getAverageFps() + " Estimated: " + (int)(1000 / delta));
             ticks = fontRenderer.build("Render: " + Tools.round(delta, 0) + "ms ACC: " + accumulator);
             time = fontRenderer.build("Elapsed time: " + statistics.getElapsedTime());
             ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +
                     " y: " + Tools.round(statistics.getCameraPosition().y, 0) + " /" +
-                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) + "rad" +
+                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) +
                     " z: " + Tools.round(SceneManager.getCurrentScene().getCamera().getZoom(), 0));
         }
     }

@@ -32,9 +32,9 @@ public class Main {
         Scene scene = sb.setName("TestingScene").build();
         SceneManager.setScene(scene);
 
-        scene.getCamera().setZoom(1);
+        //scene.getCamera().setZoom(100);
         scene.getCamera().setPosition(new Vector2D(0, 0));
-        scene.getCamera().getRotation().setDegree(45);
+        //scene.getCamera().getRotation().setDegree(45);
         //scene.getCamera().setRotation(new Rotation2D(45, 0, 0));
 
 
@@ -42,10 +42,10 @@ public class Main {
         scene.addGameObject(new InformationsPanel(), 9999);
 
         TileMap tm1 = new TileMap(new Resource("resource/Tiles.png"), 0, 0, 16, 16);
-        tm1.setLocation(new Vector2D(-16*8, -16*8));
+        tm1.setLocation(new Vector2D(-500, -500));
 
-        for (int x = 0; x < 16; x++) {
-            for (int y = 0; y < 16; y++) {
+        for (int x = 0; x < 64; x++) {
+            for (int y = 0; y < 64; y++) {
                 tm1.setCell(x, y, new Random().nextInt(5));
             }
         }
@@ -61,14 +61,13 @@ public class Main {
 
             @Override
             public void update(double delta, int accumulator) {
-                /*if(scene.getCamera().getZoom() <= 1 || scene.getCamera().getZoom() >= 2) dir = -dir;
-
+                if(scene.getCamera().getZoom() < 0.5 || scene.getCamera().getZoom() > 25) dir = -dir;
                 scene.getCamera().setZoom(scene.getCamera().getZoom() + dir * delta);
-                */
+                scene.getCamera().getRotation().addAngle(delta * 0.01);
 
                 //System.out.println(scene.getCamera().getRotation());
 
-                scene.getCamera().getPosition().translate(-delta/10, 0);
+                //scene.getCamera().getPosition().translate(-delta/10, 0);
             }
         }, 1);
         engine.init();

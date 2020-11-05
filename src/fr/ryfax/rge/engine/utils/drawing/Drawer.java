@@ -229,14 +229,19 @@ public class Drawer {
         int screenW = (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom());
         int screenH = (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom());
 
-        return !((x < screenW / 2.0) && (x + width > -screenW / 2.0) && (y < screenH / 2.0) && (y + height > -screenH / 2.0));
+        return isOutsideView(x, y, width, height, screenW, screenH);
     }
 
     public boolean isUselessToDrawNotRelative(double x, double y, double width, double height) {
         int screenW = (engine.getWindow().getFrame().getWidth());
         int screenH = (engine.getWindow().getFrame().getHeight());
 
-        return !((x < screenW) && (x + width > 0) && (y < screenH) && (y + height > 0));
+        return isOutsideView(x, y, width, height, screenW, screenH);
+    }
+
+    private boolean isOutsideView(double x, double y, double width, double height, int screenW, int screenH) {
+        double diag = Math.sqrt(Math.pow(screenW, 2) + Math.pow(screenH, 2));
+        return !((x < diag/2.0) && (x + width > -diag/2.0) && (y < diag/2.0) && (y + height > -diag/2.0));
     }
 
     /*
