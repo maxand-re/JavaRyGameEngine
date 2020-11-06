@@ -23,11 +23,11 @@ public class Parameters {
     /*
      * Setters
      */
-    public void setCursor(Cursor cursor) { this.cursor = cursor; }
-    public void setFPSLimit(int FPSLimit) { this.FPSLimit = FPSLimit; }
-    public void setAntiAliasing(boolean antiAliasing) { this.antiAliasing = antiAliasing; }
-    public void setQualityRendering(boolean qualityRendering) { this.qualityRendering = qualityRendering; }
-    public void setClearBufferColor(Color clearBufferColor) { this.clearBufferColor = clearBufferColor; }
+    public Parameters setCursor(Cursor cursor) { this.cursor = cursor; return this; }
+    public Parameters setFPSLimit(int FPSLimit) { this.FPSLimit = FPSLimit; return this; }
+    public Parameters setAntiAliasing(boolean antiAliasing) { this.antiAliasing = antiAliasing; return this; }
+    public Parameters setQualityRendering(boolean qualityRendering) { this.qualityRendering = qualityRendering; return this; }
+    public Parameters setClearBufferColor(Color clearBufferColor) { this.clearBufferColor = clearBufferColor; return this; }
 
     /*
      * Getters

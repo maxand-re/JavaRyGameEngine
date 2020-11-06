@@ -21,16 +21,17 @@ public class Statistics {
     /*
      * Setters
      */
-    public void setCurrentFps(int currentFps) {
+    public Statistics setCurrentFps(int currentFps) {
         this.currentFps = currentFps;
         this.averageFps.add(currentFps);
 
         if(this.averageFps.size() > 20)
             this.averageFps.remove(0);
+        return this;
     }
 
-    public void setTotalRam(int totalRam) { this.totalRam = totalRam; }
-    public void setUsedRam(int usedRam) { this.usedRam = usedRam; }
+    public Statistics setTotalRam(int totalRam) { this.totalRam = totalRam; return this; }
+    public Statistics setUsedRam(int usedRam) { this.usedRam = usedRam; return this; }
 
     /*
      * Getters

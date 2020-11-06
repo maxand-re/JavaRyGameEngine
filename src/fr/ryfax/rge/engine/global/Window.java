@@ -14,17 +14,12 @@ import java.awt.event.ComponentEvent;
  */
 public class Window {
 
-    private boolean onDrag = false;
-    private int oldX, oldY;
-    private Timer timer;
-
     private final Engine engine;
     private final GameCanvas canvas;
     private final JFrame frame;
     private final MouseEvents me;
 
-    public Window(String title, int width, int height, Engine engine) {
-        Dimension size = new Dimension(width, height);
+    public Window(String title, Dimension size, Engine engine) {
         this.engine = engine;
         this.me = new MouseEvents(engine);
 
@@ -46,7 +41,7 @@ public class Window {
         frame.setVisible(true);
     }
 
-    public void setFullScreen() {
+    public Window setFullScreen() {
         engine.setPause(true);
         frame.dispose();
 
@@ -60,9 +55,10 @@ public class Window {
         frame.setUndecorated(true);
         frame.setVisible(true);
         engine.setPause(false);
+        return this;
     }
 
-    public void resize(Dimension size) {
+    public Window resize(Dimension size) {
         engine.setPause(true);
         frame.dispose();
 
@@ -76,6 +72,7 @@ public class Window {
         frame.setUndecorated(false);
         frame.setVisible(true);
         engine.setPause(false);
+        return this;
     }
 
     /*

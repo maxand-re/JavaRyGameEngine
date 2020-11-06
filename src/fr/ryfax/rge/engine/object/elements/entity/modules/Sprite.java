@@ -17,19 +17,19 @@ public class Sprite implements VisualEntityModule {
 
     public void init(Engine engine, Entity entity) {
         this.entity = entity;
-        this.image.resize((int) entity.getWidth(), (int) entity.getHeight());
+        this.image.resize((int) entity.getSize().getWidth(), (int) entity.getSize().getHeight());
     }
 
     public void update(double delta, int accumulator) {}
 
     public void draw(Drawer drawer) {
-        drawer.image(image, entity.getPosition().x, entity.getPosition().y);
+        drawer.image(image, entity.getPosition());
     }
 
     /*
      * Setters
      */
-    public void setSize(int width, int height) { image.resize(width, height); }
+    public Sprite setSize(int width, int height) { image.resize(width, height); return this; }
 
 
 }

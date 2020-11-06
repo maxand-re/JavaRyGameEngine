@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class Label implements VisualGameObject {
 
-    private Scaler scaler;
+    private final Scaler scaler;
     private Image textImg;
     private String text;
     private int fontSize;
@@ -32,31 +32,30 @@ public class Label implements VisualGameObject {
 
     public void draw(Drawer drawer) {
         Vector2D position = scaler.getPosition();
-        drawer.imageNotRelative(textImg, position.x, position.y);
+        drawer.imageNotRelative(textImg, position);
     }
 
-    private void rebuildFont() {
-        FontRenderer fr = new FontRenderer(font);
-        fr.setSize(fontSize);
-        textImg = fr.build(text);
+    private Label rebuildFont() {
+        textImg = new FontRenderer(font).setSize(fontSize).build(text);
         scaler.setSize(new Dimension(textImg.getBufferedImage().getWidth(), textImg.getBufferedImage().getHeight()));
+        return this;
     }
 
     /*
      * Setters
      */
-    public void setText(String text) {
+    public Label setText(String text) {
         this.text = text;
-        rebuildFont();
+        return rebuildFont();
     }
 
-    public void setFont(Font font) {
+    public Label setFont(Font font) {
         this.font = font;
-        rebuildFont();
+        return rebuildFont();
     }
 
-    public void setFontSize(int fontSize) {
+    public Label setFontSize(int fontSize) {
         this.fontSize = fontSize;
-        rebuildFont();
+        return rebuildFont();
     }
 }

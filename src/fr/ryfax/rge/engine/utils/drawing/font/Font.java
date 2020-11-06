@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Font {
 
     private final HashMap<Character, Image> chars = new HashMap<>();
-    int defaultSpace;
+    private final int defaultSpace;
     HashMap<Character, Integer> sizeChars;
 
 
@@ -33,8 +33,7 @@ public class Font {
                 if(shadow[0] != 0 && shadow[1] != 0)
                     image.addShadow(shadow[0], shadow[1]);
 
-                image.addBackgroundColor(backgroundColor);
-                image.changeColor(fontColor);
+                image.addBackgroundColor(backgroundColor).setColor(fontColor);
 
 
                 chars.put(ch, image);
@@ -47,4 +46,5 @@ public class Font {
      * Getters
      */
     public HashMap<Character, Image> getChars() { return chars; }
+    public int getDefaultSpace() { return defaultSpace; }
 }

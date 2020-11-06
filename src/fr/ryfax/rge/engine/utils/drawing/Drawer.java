@@ -4,6 +4,7 @@ import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -43,145 +44,155 @@ public class Drawer {
         g2d.setTransform(baseTransform);
     }
 
-    public void setColor(Color color) { g2d.setColor(color); }
-    public void setLineWidth(int width) { g2d.setStroke(new BasicStroke(width)); }
+    public Drawer setColor(Color color) { g2d.setColor(color); return this; }
+    public Drawer setLineWidth(int width) { g2d.setStroke(new BasicStroke(width)); return this; }
 
     /*
      * Draw fill rectangle at x, y with width, height and color.
      * x, y relative to camera.
      */
-    public void line(double x, double y, double toX, double toY) {
-        int newX = (int) (x - camera.getPosition().x);
-        int newY = (int) (y - camera.getPosition().y);
-        int newToX = (int) (camera.getPosition().x + toX);
-        int newToY = (int) (camera.getPosition().y + toY);
+    public Drawer line(Vector2D from, Vector2D to) {
+        Vector2D newFrom = new Vector2D(
+                from.x - camera.getPosition().x,
+                from.y - camera.getPosition().y);
+        Vector2D newTo = new Vector2D(
+                camera.getPosition().x + to.x,
+                camera.getPosition().y + to.y);
 
-        if(isUselessToDraw(newX, newY, newToX, newToY)) return;
-        g2d.drawLine(newX, newY, newToX, newToY);
+        if(isUselessToDraw(new Vector2D(newFrom.x, newFrom.y), new Dimension((int) newTo.x, (int) newTo.y))) return null;
+        g2d.drawLine((int) newFrom.x, (int) newFrom.y, (int) newTo.x, (int) newTo.y);
+        return this;
     }
 
-    public void lineNotRelative(double x, double y, double toX, double toY) {
-        if(isUselessToDrawNotRelative(x, y, toX, toY)) return;
+    public Drawer lineNotRelative(Vector2D from, Vector2D to) {
+        if(isUselessToDrawNotRelative(from, new Dimension((int) to.x, (int) to.y))) return null;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
-        g2d.drawLine((int) x, (int) y, (int) toX, (int) toY);
+        g2d.drawLine((int) from.x, (int) from.y, (int) to.x, (int) to.y);
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
     /*
      * Draw fill rectangle at x, y with width, height and color.
      * x, y relative to camera.
      */
-    public void fillRect(double x, double y, double width, double height) {
-        int newX = (int) (x - camera.getPosition().x);
-        int newY = (int) (y - camera.getPosition().y);
-        if(isUselessToDraw(newX, newY, width, height)) return;
-        g2d.fillRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
+    public Drawer fillRect(Vector2D pos, Dimension size) {
+        int newX = (int) (pos.x - camera.getPosition().x);
+        int newY = (int) (pos.y - camera.getPosition().y);
+        if(isUselessToDraw(new Vector2D(newX, newY), size)) return null;
+        g2d.fillRect((int) (pos.x - camera.getPosition().x), (int) (pos.y - camera.getPosition().y), (int) size.getWidth(), (int) size.getHeight());
+        return this;
     }
 
-    public void borderRect(double x, double y, double width, double height) {
-        int newX = (int) (x - camera.getPosition().x);
-        int newY = (int) (y - camera.getPosition().y);
-        if(isUselessToDraw(newX, newY, width, height)) return;
-        g2d.drawRect((int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y), (int) width, (int) height);
+    public Drawer borderRect(Vector2D pos, Dimension size) {
+        int newX = (int) (pos.x - camera.getPosition().x);
+        int newY = (int) (pos.y - camera.getPosition().y);
+        if(isUselessToDraw(new Vector2D(newX, newY), size)) return null;
+        g2d.drawRect((int) (pos.x - camera.getPosition().x), (int) (pos.y - camera.getPosition().y), (int) size.getWidth(), (int) size.getHeight());
+        return this;
     }
 
     /*
      * Draw fill rectangle at x, y with width, height and color.
      */
-    public void fillRectNotRelative(int x, int y, int width, int height) {
-        if(isUselessToDrawNotRelative(x, y, width, height)) return;
+    public Drawer fillRectNotRelative(Vector2D pos, Dimension size) {
+        if(isUselessToDrawNotRelative(pos, size)) return null;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
-        g2d.fillRect(x, y, width, height);
+        g2d.fillRect((int) pos.x, (int) pos.y, (int) size.getWidth(), (int) size.getHeight());
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
-    public void fillRectNotRelative(int x, int y, int width, int height, Color color) {
-        if(isUselessToDrawNotRelative(x, y, width, height)) return;
+    public Drawer fillRectNotRelative(Vector2D pos, Dimension size, Color color) {
+        if(isUselessToDrawNotRelative(pos, size)) return null;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
         g2d.setColor(color);
-        g2d.fillRect(x, y, width, height);
+        g2d.fillRect((int) pos.x, (int) pos.y, (int) size.getWidth(), (int) size.getHeight());
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
     /*
      * Draw Image/BufferedImage at x, y
      * x, y relative to camera
      */
-    public void image(Image img, double x, double y) {
-        if(img == null) return;
+    public Drawer image(Image img, Vector2D pos) {
+        if(img == null) return null;
 
-        int newX = (int) (x - camera.getPosition().x * camera.getZoom());
-        int newY = (int) (y - camera.getPosition().y * camera.getZoom());
+        int newX = (int) (pos.x - camera.getPosition().x * camera.getZoom());
+        int newY = (int) (pos.y - camera.getPosition().y * camera.getZoom());
 
-        if(isUselessToDraw(newX, newY, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
+        if(isUselessToDraw(pos, new Dimension(img.getWidth(), img.getHeight()))) return null;
 
         g2d.drawImage(img.getBufferedImage(),
                 newX,
                 newY, null);
+        return this;
     }
 
-    public void image(BufferedImage img, double x, double y) {
-        if(img == null) return;
+    public Drawer image(BufferedImage img, Vector2D pos) {
+        if(img == null) return null;
 
-        int newX = (int) (x - camera.getPosition().x);
-        int newY = (int) (y - camera.getPosition().y);
+        int newX = (int) (pos.x - camera.getPosition().x);
+        int newY = (int) (pos.y - camera.getPosition().y);
 
-        if(isUselessToDraw(newX, newY, img.getWidth(), img.getHeight())) return;
+        if(isUselessToDraw(pos, new Dimension(img.getWidth(), img.getHeight()))) return null;
 
-        g2d.drawImage(img,
-                (int) (x - camera.getPosition().x),
-                (int) (y - camera.getPosition().y), null);
+        g2d.drawImage(img, newX, newY, null);
+        return this;
     }
 
     /*
      * Draw Image/BufferedImage at x, y
      */
-    public void imageNotRelative(Image img, double x, double y) {
-        if(img == null) return;
-        if(img.getBufferedImage() == null) return;
+    public Drawer imageNotRelative(Image img, Vector2D pos) {
+        if(img == null) return null;
+        if(img.getBufferedImage() == null) return null;
 
-        if(isUselessToDrawNotRelative(x, y, img.getBufferedImage().getWidth(), img.getBufferedImage().getHeight())) return;
+        if(isUselessToDrawNotRelative(pos, new Dimension(img.getWidth(), img.getHeight()))) return null;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
-        g2d.drawImage(img.getBufferedImage(), (int) x , (int) y, null);
+        g2d.drawImage(img.getBufferedImage(), (int) pos.x , (int) pos.y, null);
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
-    public void imageNotRelative(BufferedImage img, int x, int y) {
-        if(img == null) return;
-        if(isUselessToDrawNotRelative(x, y, img.getWidth(), img.getHeight())) return;
+    public Drawer imageNotRelative(BufferedImage img, Vector2D pos) {
+        if(img == null) return null;
+        if(isUselessToDrawNotRelative(pos, new Dimension(img.getWidth(), img.getHeight()))) return null;
 
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
-        g2d.drawImage(img, x , y, null);
+        g2d.drawImage(img, (int) pos.x , (int) pos.y, null);
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
     /*
@@ -190,8 +201,9 @@ public class Drawer {
      * Todo: Change to Text and not drawString()
      */
     @Deprecated
-    public void text(String string, int x, int y) {
-        g2d.drawString(string, (int) (x - camera.getPosition().x), (int) (y - camera.getPosition().y));
+    public Drawer text(String string, Vector2D pos) {
+        g2d.drawString(string, (int) (pos.x - camera.getPosition().x), (int) (pos.y - camera.getPosition().y));
+        return this;
     }
 
 
@@ -200,15 +212,16 @@ public class Drawer {
      * Todo: Change to Text and not drawString()
      */
     @Deprecated
-    public void textNotRelative(String string, int x, int y) {
+    public Drawer textNotRelative(String string, Vector2D pos) {
         AffineTransform af = new AffineTransform();
         af.scale(1, 1);
         g2d.setTransform(af);
 
-        g2d.drawString(string, x, y);
+        g2d.drawString(string, (int) pos.x, (int) pos.y);
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
     }
 
     /*
@@ -225,23 +238,25 @@ public class Drawer {
     /*
      * If the object to draw is outside the screen, return false
      */
-    public boolean isUselessToDraw(double x, double y, double width, double height) {
-        int screenW = (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom());
-        int screenH = (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom());
+    public boolean isUselessToDraw(Vector2D pos, Dimension size) {
+        Dimension screenSize = new Dimension(
+                (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom()),
+                (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom()));
 
-        return isOutsideView(x, y, width, height, screenW, screenH);
+        return isOutsideView(pos, size, screenSize);
     }
 
-    public boolean isUselessToDrawNotRelative(double x, double y, double width, double height) {
-        int screenW = (engine.getWindow().getFrame().getWidth());
-        int screenH = (engine.getWindow().getFrame().getHeight());
+    public boolean isUselessToDrawNotRelative(Vector2D pos, Dimension size) {
+        Dimension screenSize = new Dimension(
+                (engine.getWindow().getFrame().getWidth()),
+                (engine.getWindow().getFrame().getHeight()));
 
-        return isOutsideView(x, y, width, height, screenW, screenH);
+        return isOutsideView(pos, size, screenSize);
     }
 
-    private boolean isOutsideView(double x, double y, double width, double height, int screenW, int screenH) {
-        double diag = Math.sqrt(Math.pow(screenW, 2) + Math.pow(screenH, 2));
-        return !((x < diag/2.0) && (x + width > -diag/2.0) && (y < diag/2.0) && (y + height > -diag/2.0));
+    private boolean isOutsideView(Vector2D pos, Dimension size, Dimension screenSize) {
+        double diag = Math.sqrt(Math.pow(screenSize.getWidth(), 2) + Math.pow(screenSize.getHeight(), 2));
+        return !((pos.x < diag/2.0) && (pos.x + size.getWidth() > -diag/2.0) && (pos.y < diag/2.0) && (pos.y + size.getHeight() > -diag/2.0));
     }
 
     /*

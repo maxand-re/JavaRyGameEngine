@@ -36,7 +36,5 @@ public class DebugTitle implements GameObject {
     /*
      * Setters
      */
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
-    }
+    public DebugTitle setOriginalName(String originalName) { this.originalName = originalName; return this; }
 }

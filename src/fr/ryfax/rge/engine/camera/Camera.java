@@ -12,9 +12,9 @@ public class Camera {
     /*
      * Setters
      */
-    public void setPosition(Vector2D position) { this.position = position; }
-    public void setZoom(double zoom) { this.zoom = zoom; }
-    public void setRotation(Rotation2D rotation) { this.rotation = rotation; }
+    public Camera setPosition(Vector2D position) { this.position = position; return this; }
+    public Camera setZoom(double zoom) { this.zoom = zoom; return this; }
+    public Camera setRotation(Rotation2D rotation) { this.rotation = rotation; return this; }
 
     /*
      * Getters

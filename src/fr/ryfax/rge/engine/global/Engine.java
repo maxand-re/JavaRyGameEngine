@@ -4,6 +4,7 @@ import fr.ryfax.rge.engine.global.listeners.KeyboardListener;
 import fr.ryfax.rge.engine.global.listeners.MouseListener;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.object.elements.entity.Entity;
 import fr.ryfax.rge.engine.utils.Logger;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
@@ -40,13 +41,13 @@ public class Engine {
     private boolean isRunning = true, pause = false;
     public double accumulator = 0;
 
-    public Engine(String title, int width, int height) {
+    public Engine(String title, Dimension size) {
         loadText();
-        window = new Window(title, width, height, this);
+        window = new Window(title, size, this);
     }
 
-    public Engine(String title, int width, int height, boolean fullscreen) {
-        this(title, width, height);
+    public Engine(String title, Dimension size, boolean fullscreen) {
+        this(title, size);
         if(fullscreen) window.setFullScreen();
     }
 
@@ -139,22 +140,14 @@ public class Engine {
         chars.put(':', 8);
         chars.put('!', 8);
 
-        fontLoader.setSpacingChar(4);
-        fontLoader.setSpecialCharsSize(chars);
-        fontLoader.load(FontLoader.RGE_DEFAULT);
+        fontLoader.setSpacingChar(4).setSpecialCharsSize(chars).load(FontLoader.RGE_DEFAULT).setShadow(2, 2).load(FontLoader.RGE_SHADOW)
+                .setBackgroundColor(new Color(0, 0, 0, 100)).load(FontLoader.RGE_SHADOW_BACKGROUND).setShadow(0, 0)
+                .load(FontLoader.RGE_DEFAULT_BACKGROUND);
 
-        fontLoader.setShadow(2, 2);
-        fontLoader.load(FontLoader.RGE_SHADOW);
-
-        fontLoader.setBackgroundColor(new Color(0, 0, 0, 100));
-        fontLoader.load(FontLoader.RGE_SHADOW_BACKGROUND);
-
-        fontLoader.setShadow(0, 0);
-        fontLoader.load(FontLoader.RGE_DEFAULT_BACKGROUND);
     }
 
-    public void addListener(KeyboardListener keyboardListener) { keyboardListeners.add(keyboardListener); }
-    public void addListener(MouseListener mouseListener) { mouseListeners.add(mouseListener); }
+    public Engine addListener(KeyboardListener keyboardListener) { keyboardListeners.add(keyboardListener); return this; }
+    public Engine addListener(MouseListener mouseListener) { mouseListeners.add(mouseListener); return this; }
 
     /*
      * Getters
@@ -174,6 +167,6 @@ public class Engine {
     /*
      * Setters
      */
-    public void setPause(boolean pause)     { this.pause = pause; }
-    public void setRunning(boolean running) { isRunning = running; }
+    public Engine setPause(boolean pause) { this.pause = pause; return this; }
+    public Engine setRunning(boolean running) { isRunning = running; return this; }
 }

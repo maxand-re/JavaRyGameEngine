@@ -17,7 +17,7 @@ public class Image {
         this.transparent = transparent;
     }
 
-    public void opacity(float value) { //TODO: Opti peut etre possible si on ne créer pas a chaque fois mais qu'on getGraphics seulement /!\
+    public Image setOpacity(float value) { //TODO: Opti peut etre possible si on ne créer pas a chaque fois mais qu'on getGraphics seulement /!\
         BufferedImage out = ImageBuilder.createBlankImage(bufferedImage.getWidth(), bufferedImage.getHeight(), transparent).getBufferedImage(); // chaque create prends du temps
 
         Graphics2D g2d = (Graphics2D) out.getGraphics();
@@ -28,18 +28,20 @@ public class Image {
         g2d.setComposite(old);
 
         bufferedImage = out;
+        return this;
     }
 
-    public void crop(int top, int bottom, int left, int right) {
+    public Image crop(int top, int bottom, int left, int right) {
         BufferedImage out = ImageBuilder.createBlankImage(bufferedImage.getWidth() - left - right, bufferedImage.getHeight() - top - bottom, transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) out.getGraphics();
 
         g2d.drawImage(bufferedImage.getSubimage(left, top, bufferedImage.getWidth() - right, bufferedImage.getHeight() - bottom), 0, 0, null);
 
         original = bufferedImage = out;
+        return this;
     }
 
-    public void addShadow(int x, int y) {
+    public Image addShadow(int x, int y) {
         BufferedImage shadow = ImageBuilder.createBlankImage(bufferedImage.getWidth(), bufferedImage.getHeight(), transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) shadow.getGraphics();
         RescaleOp op = new RescaleOp(new float[]{0, 0, 0, 1}, new float[4], null);
@@ -48,9 +50,10 @@ public class Image {
         g2d.drawImage(bufferedImage, 0, 0, null);
 
         original = bufferedImage = shadow;
+        return this;
     }
 
-    public void changeColor(Color color) {
+    public Image setColor(Color color) {
         BufferedImage out = ImageBuilder.createBlankImage(bufferedImage.getWidth(), bufferedImage.getHeight(), transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) out.getGraphics();
 
@@ -68,9 +71,10 @@ public class Image {
         g2d.drawImage(bufferedImage, op, 0, 0);
 
         bufferedImage = out;
+        return this;
     }
 
-    public void addBackgroundColor(Color color) {
+    public Image addBackgroundColor(Color color) {
         BufferedImage out = ImageBuilder.createBlankImage(bufferedImage.getWidth(), bufferedImage.getHeight(), transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) out.getGraphics();
 
@@ -79,9 +83,10 @@ public class Image {
         g2d.drawImage(bufferedImage, 0, 0, null);
 
         bufferedImage = out;
+        return this;
     }
 
-    public void resize(int width, int height) {
+    public Image resize(int width, int height) {
         BufferedImage resized = ImageBuilder.createBlankImage(width, height, transparent).getBufferedImage();
         Graphics2D g2d = (Graphics2D) resized.getGraphics();
 
@@ -92,6 +97,7 @@ public class Image {
         g2d.drawImage(original, 0, 0, null);
 
         original = bufferedImage = resized;
+        return this;
     }
 
     public int getWidth() {

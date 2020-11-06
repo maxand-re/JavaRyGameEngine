@@ -9,6 +9,7 @@ import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
 import fr.ryfax.rge.engine.object.modules.particules.Particules;
 import fr.ryfax.rge.engine.object.modules.particules.emitters.FireEmitter;
+import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
@@ -16,39 +17,33 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) {
-        Engine engine = new Engine("RyGame", 1280, 720);
-        Parameters parameters = engine.getParameters();
-        parameters.setClearBufferColor(Color.BLACK);
-        parameters.setFPSLimit(0);
-        parameters.setAntiAliasing(true);
-        parameters.setQualityRendering(true);
+        Engine engine = new Engine("RyGame", new Dimension(1280, 720));
+        engine.getParameters().setClearBufferColor(Color.BLACK).setFPSLimit(0).setAntiAliasing(true).setQualityRendering(true);
 
         SceneBuilder sb = engine.getSceneBuilder();
         Scene labScene = sb.setName("RGELab").build();
         SceneManager.setScene(labScene);
 
+        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(0, 0))), 1)
+                .addGameObject(new Particules(new FireEmitter(new Vector2D(50, 0))), 1)
+                .addGameObject(new Particules(new FireEmitter(new Vector2D(100, 0))), 1)
+                .addGameObject(new Particules(new FireEmitter(new Vector2D(-50, 0))), 1)
+                .addGameObject(new Particules(new FireEmitter(new Vector2D(-100, 0))), 1)
+                .addGameObject(new GameObject() {
+                    double zDir = -0.001, z = 0;
 
-        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(0, 0))), 1);
-        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(50, 0))), 1);
-        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(100, 0))), 1);
-        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(-50, 0))), 1);
-        labScene.addGameObject(new Particules(new FireEmitter(new Vector2D(-100, 0))), 1);
-        labScene.addGameObject(new GameObject() {
-            double zDir = -0.001, z = 0;
+                    public void init(Engine engine) { }
 
-            public void init(Engine engine) { }
+                    public void update(double delta, int accumulator) {
+                        z += zDir * (delta * 2);
+                        labScene.getCamera().setZoom(z);
+                        labScene.getCamera().getRotation().addAngle(delta / 20);
 
-            public void update(double delta, int accumulator) {
-                z += zDir * (delta * 2);
-                labScene.getCamera().setZoom(z);
-                labScene.getCamera().getRotation().addAngle(delta / 20);
-
-                if(z > 10) zDir = -0.001;
-                if(z < 0.1) zDir = 0.001;
-            }
-        }, 2);
-
-        labScene.addGameObject(new InformationsPanel(), 10000);
+                        if(z > 10) zDir = -0.001;
+                        if(z < 0.1) zDir = 0.001;
+                    }
+                }, 2)
+                .addGameObject(new InformationsPanel(), 10000);
 
         engine.init();
     }

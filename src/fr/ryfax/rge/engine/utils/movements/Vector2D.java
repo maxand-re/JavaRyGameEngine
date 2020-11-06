@@ -18,14 +18,31 @@ public class Vector2D {
     /*
      * Add x, y to the current x, y
      */
-    public void translate(double x, double y) {
+    public Vector2D translate(double x, double y) {
         this.x += x;
         this.y += y;
+        return this;
     }
 
-    public void translate(Vector2D dest) {
+    public Vector2D translate(Vector2D dest) {
         this.x += dest.x;
         this.y += dest.y;
+        return this;
+    }
+
+    /*
+     * Replace x, y by the value
+     */
+    public Vector2D moveTo(double x, double y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
+    public Vector2D moveTo(Vector2D newPos) {
+        this.x = newPos.x;
+        this.y = newPos.y;
+        return this;
     }
 
     /*
@@ -33,14 +50,6 @@ public class Vector2D {
      */
     public double distance(Vector2D vec2) {
         return Math.sqrt(Math.pow(vec2.x - this.x, 2) + Math.pow(vec2.y - this.y, 2));
-    }
-
-    /*
-     * Replace x, y by the value
-     */
-    public void moveTo(double x, double y) {
-        this.x = x;
-        this.y = y;
     }
 
     /*

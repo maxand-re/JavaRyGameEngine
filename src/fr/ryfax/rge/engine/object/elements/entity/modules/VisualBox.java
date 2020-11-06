@@ -19,12 +19,9 @@ public class VisualBox implements VisualEntityModule {
     public void draw(Drawer drawer) {
         Vector2D pos = entity.getPosition();
 
-        drawer.setColor(new Color(0x0161C1));
-        drawer.setLineWidth(3);
-        drawer.borderRect(pos.x, pos.y, entity.getWidth(), entity.getHeight());
-        drawer.setLineWidth(1);
-        drawer.line(pos.x, pos.y, pos.x + entity.getWidth(), pos.y + entity.getHeight());
-        drawer.line(pos.x + entity.getWidth(), pos.y, pos.x, pos.y + entity.getHeight());
+        drawer.setColor(new Color(0x0161C1)).setLineWidth(3).borderRect(pos, entity.getSize()).setLineWidth(1)
+                .line(pos, new Vector2D(pos.x + entity.getSize().getWidth(), pos.y + entity.getSize().getHeight()))
+                .line(new Vector2D(pos.x + entity.getSize().getWidth(), pos.y), new Vector2D(pos.x, pos.y + entity.getSize().getHeight()));
     }
 
 }
