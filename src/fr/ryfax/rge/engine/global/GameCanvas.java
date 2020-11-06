@@ -1,9 +1,5 @@
 package fr.ryfax.rge.engine.global;
 
-import fr.ryfax.rge.engine.camera.Camera;
-import fr.ryfax.rge.engine.global.scenes.SceneManager;
-import fr.ryfax.rge.engine.utils.drawing.Drawer;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -40,8 +36,7 @@ public class GameCanvas extends Canvas {
     /*
      * Getters
      */
-    public int getWidth() { return size.width; }
-    public int getHeight() { return size.height; }
+    public Dimension getSize() { return size; }
 
     public Graphics2D getGraphics() {
         try { refreshGraphics(); } catch (Exception ignore) {}

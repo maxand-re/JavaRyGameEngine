@@ -25,13 +25,13 @@ public class ButtonBuilder {
         this.engine = engine;
     }
 
-    public void setListener(ButtonListener listener) { this.listener = listener; }
-    public void setBackground(Image background) { this.background = background; }
-    public void setPosition(Vector2D position) { this.position = position; }
-    public void setScalerLayout(ScalerLayout layout) { this.layout = layout; }
-    public void setSize(int width, int height) { this.size = new Dimension(width, height); }
-    public void setText(String text) { this.text = text; }
-    public void setFont(Font font) { this.font = font; }
+    public ButtonBuilder setListener(ButtonListener listener) { this.listener = listener; return this; }
+    public ButtonBuilder setBackground(Image background) { this.background = background; return this; }
+    public ButtonBuilder setPosition(Vector2D position) { this.position = position; return this; }
+    public ButtonBuilder setScalerLayout(ScalerLayout layout) { this.layout = layout; return this; }
+    public ButtonBuilder setSize(int width, int height) { this.size = new Dimension(width, height); return this; }
+    public ButtonBuilder setText(String text) { this.text = text; return this; }
+    public ButtonBuilder setFont(Font font) { this.font = font; return this; }
 
     public Button build() {
         Scaler scaler = new Scaler(engine, layout, position, size);

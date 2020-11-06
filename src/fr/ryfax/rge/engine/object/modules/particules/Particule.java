@@ -6,12 +6,12 @@ import java.awt.*;
 
 public class Particule {
 
-    public int size;
-    public double life = 100;
-    public Vector2D position;
-    public Vector2D velocity;
-    public Vector2D force;
-    public Color color;
+    private int size;
+    private double life = 100;
+    private Vector2D position;
+    private Vector2D velocity;
+    private Vector2D force;
+    private Color color;
 
     public Particule(int size, Vector2D position, Vector2D velocity, Vector2D force, Color color) {
         this(size, position, velocity, color);
@@ -36,4 +36,10 @@ public class Particule {
         life -= 0.1 * delta;
     }
 
+    public Color getColor() { return color; }
+    public double getLife() { return life; }
+    public Vector2D getPosition() { return position; }
+    public int getSize() { return size; }
+
+    public Particule setColor(Color color) { this.color = color; return this; }
 }

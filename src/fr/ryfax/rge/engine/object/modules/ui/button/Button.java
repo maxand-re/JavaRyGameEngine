@@ -18,9 +18,9 @@ public class Button implements VisualGameObject {
 
     private Engine engine;
     private Font font;
-    private String textStr;
+    private final String textStr;
     private Image sprite, text;
-    private Scaler scaler;
+    private final Scaler scaler;
     private Vector2D position;
     private Dimension size;
     private boolean hover = false, click = false;
@@ -78,10 +78,10 @@ public class Button implements VisualGameObject {
     }
 
     public void draw(Drawer drawer) {
-        drawer.imageNotRelative(sprite, (int) position.x, (int) position.y);
+        drawer.imageNotRelative(sprite, position);
         drawer.imageNotRelative(text,
-                (int) position.x + size.width/2.f - text.getBufferedImage().getWidth()/2.f,
-                (int) position.y + size.height/2.f - text.getBufferedImage().getHeight()/2.f);
+                new Vector2D((int) position.x + size.width/2.f - text.getBufferedImage().getWidth()/2.f,
+                (int) position.y + size.height/2.f - text.getBufferedImage().getHeight()/2.f));
     }
 
 
@@ -93,9 +93,9 @@ public class Button implements VisualGameObject {
     /*
      * Setters
      */
-    public void setPosition(Vector2D position) { this.position = position; }
-    public void setSize(Dimension size) { this.size = size; }
-    public void setSprite(Image sprite) { this.sprite = sprite; }
-    public void setText(Image text) { this.text = text; }
+    public Button setPosition(Vector2D position) { this.position = position; return this; }
+    public Button setSize(Dimension size) { this.size = size; return this; }
+    public Button setSprite(Image sprite) { this.sprite = sprite; return this; }
+    public Button setText(Image text) { this.text = text; return this; }
 
 }

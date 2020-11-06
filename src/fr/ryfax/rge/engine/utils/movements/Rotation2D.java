@@ -13,16 +13,17 @@ public class Rotation2D {
         this.offset = new Vector2D(x_offset, y_offset);
     }
 
-    public void setDegree(double degree) { this.degree = degree; }
-    public void addAngle(double degree) { this.degree += degree; }
+    public Rotation2D setDegree(double degree) { this.degree = degree; return this; }
+    public Rotation2D addAngle(double degree) { this.degree += degree; return this; }
 
     public double getRadians() {
         return Math.toRadians(degree);
     }
 
-    public void setRotation(Rotation2D rotation2D) {
+    public Rotation2D setRotation(Rotation2D rotation2D) {
         this.degree = rotation2D.degree;
         this.offset = rotation2D.offset;
+        return this;
     }
 
     @Override

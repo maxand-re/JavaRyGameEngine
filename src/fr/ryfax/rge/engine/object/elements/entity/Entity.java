@@ -5,6 +5,7 @@ import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -16,7 +17,7 @@ public class Entity implements VisualGameObject {
     private TreeMap<Integer, ArrayList<EntityModule>> modules = new TreeMap<>();
     private TreeMap<Integer, ArrayList<VisualEntityModule>> visualModules = new TreeMap<>();
 
-    private double height, width;
+    private Dimension size;
     private Vector2D position;
     private Engine engine;
 
@@ -57,15 +58,13 @@ public class Entity implements VisualGameObject {
         }
     }
 
-    public void setPosition(Vector2D position) { this.position = position; }
-    public void setHeight(double height) { this.height = height; }
-    public void setWidth(double width) { this.width = width; }
+    public Entity setPosition(Vector2D position) { this.position = position; return this; }
+    public Entity setSize(Dimension size) { this.size = size; return this; }
 
 
     /*
      * Getters
      */
     public Vector2D getPosition() { return position; }
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
+    public Dimension getSize() { return size; }
 }

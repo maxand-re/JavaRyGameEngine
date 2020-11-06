@@ -29,9 +29,8 @@ public class Particules implements VisualGameObject {
 
     public void draw(Drawer drawer) {
         for(Particule p : particules) {
-            p.color = new Color(p.color.getRed(), p.color.getGreen(), p.color.getBlue(), (int) ((p.life / 100) * 255));
-            drawer.setColor(p.color);
-            drawer.fillRect(p.position.x, p.position.y, p.size, p.size);
+            p.setColor(new Color(p.getColor().getRed(), p.getColor().getGreen(), p.getColor().getBlue(), (int) ((p.getLife() / 100) * 255)));
+            drawer.setColor(p.getColor()).fillRect(p.getPosition(), new Dimension(p.getSize(), p.getSize()));
         }
     }
 

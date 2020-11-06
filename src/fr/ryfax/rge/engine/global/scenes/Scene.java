@@ -61,7 +61,7 @@ public class Scene {
     /*
      * Setters
      */
-    public void addGameObject(GameObject gameObject, int layer) {
+    public Scene addGameObject(GameObject gameObject, int layer) {
         boolean isVisualGO = gameObject instanceof VisualGameObject;
 
         gameObject.init(engine);
@@ -90,12 +90,14 @@ public class Scene {
 
             gameObjs.put(layer, list);
         }
+        return this;
     }
 
-    public void deleteGameObject(GameObject gameObject) {
+    public Scene deleteGameObject(GameObject gameObject) {
         boolean isVisualGO = gameObject instanceof VisualGameObject;
         gameObjs.forEach((z, objs) -> objs.remove(gameObject));
         if(isVisualGO) visualGameObjs.forEach((z, objs) -> objs.remove(gameObject));
+        return this;
     }
 
 

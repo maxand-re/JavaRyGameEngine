@@ -27,8 +27,8 @@ public class SpriteAnimation {
     /*
      * Setters
      */
-    public void setTickRate(int tickRate) { this.tickRate = tickRate; }
-    public void setStartIndex(int idx) { this.idx[0] = idx; }
-    public void setEndIndex(int idx) { this.idx[1] = idx; }
+    public SpriteAnimation setTickRate(int tickRate) { this.tickRate = tickRate; return this; }
+    public SpriteAnimation setStartIndex(int idx) { this.idx[0] = idx; return this; }
+    public SpriteAnimation setEndIndex(int idx) { this.idx[1] = idx; return this; }
 
 }

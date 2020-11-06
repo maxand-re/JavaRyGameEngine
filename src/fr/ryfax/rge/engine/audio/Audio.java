@@ -28,9 +28,10 @@ public class Audio {
         clip.start();
     }
 
-    public void volume(float volume) {
+    public Audio volume(float volume) {
         FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         control.setValue(20f * (float) Math.log10(volume));
+        return this;
     }
 
     public void stop() {

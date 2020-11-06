@@ -25,7 +25,7 @@ public class TileMapChunk {
         Arrays.fill(cells, -1);
     }
 
-    public void setCell(int x, int y, int id) {
+    public TileMapChunk setCell(int x, int y, int id) {
         x %= size;
         y %= size;
 
@@ -41,6 +41,7 @@ public class TileMapChunk {
                 g2d.drawImage(tileMap.getTiles()[id].getBufferedImage(), (x * cellWidth), (y * cellHeight), null);
             }
         }
+        return this;
     }
 
 }

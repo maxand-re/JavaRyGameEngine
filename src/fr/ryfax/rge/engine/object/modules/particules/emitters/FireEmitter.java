@@ -37,7 +37,7 @@ public class FireEmitter implements Emitter {
         for(Iterator<Particule> it = particules.iterator(); it.hasNext();) {
             Particule p = it.next();
             p.update(delta);
-            if(p.life <= 0) { it.remove(); }
+            if(p.getLife() <= 0) { it.remove(); }
         }
 
         acc += delta;

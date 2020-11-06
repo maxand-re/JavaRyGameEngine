@@ -27,31 +27,26 @@ public class FontLoader {
     private static final HashMap<String, Font> fonts = new HashMap<>();
 
     // Setters
-    public void setSpecialCharsSize(HashMap<Character, Integer> chars) {
-        this.chars = chars;
-    }
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
-    }
-    public void setASCII(Resource resource) {
+    public FontLoader setSpecialCharsSize(HashMap<Character, Integer> chars) { this.chars = chars; return this; }
+    public FontLoader setBackgroundColor(Color backgroundColor) { this.backgroundColor = backgroundColor; return this; }
+    public FontLoader setFontColor(Color fontColor) { this.fontColor = fontColor; return this; }
+    public FontLoader setASCII(Resource resource) {
         try { this.buff = ImageIO.read(resource.getStream()); }
         catch (IOException ignore) {}
+        return this;
     }
-    public void setSpacingChar(int toRemove) {
-        this.spaceToRemove = toRemove;
-    }
+    public FontLoader setSpacingChar(int toRemove) { this.spaceToRemove = toRemove; return this; }
 
-    public void setShadow(int x, int y) {
+    public FontLoader setShadow(int x, int y) {
         this.shadow[0] = x;
         this.shadow[1] = y;
+        return this;
     }
 
 
-    public void load(String nameFont) {
+    public FontLoader load(String nameFont) {
         fonts.put(nameFont, new Font(buff, chars, fontColor, backgroundColor, spaceToRemove, shadow));
+        return this;
     }
 
     // Getters

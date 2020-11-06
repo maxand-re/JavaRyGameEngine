@@ -10,6 +10,7 @@ import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
 import fr.ryfax.rge.engine.utils.drawing.font.FontRenderer;
+import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 public class InformationsPanel implements VisualGameObject {
 
@@ -25,10 +26,10 @@ public class InformationsPanel implements VisualGameObject {
         statistics = engine.getStatistics();
         fontRenderer = new FontRenderer(font);
 
-        version = fontRenderer.build("RGE Version " + statistics.VERSION);
+        version = fontRenderer.build("RGE Version " + Statistics.VERSION);
     }
 
-    public InformationsPanel() {};
+    public InformationsPanel() {}
     public InformationsPanel(int timesPerSec) {
         this.timesPerSec = 1000 / timesPerSec;
     }
@@ -41,18 +42,18 @@ public class InformationsPanel implements VisualGameObject {
             ram = fontRenderer.build("RAM: " + statistics.getUsedRam() + "/" + statistics.getTotalRam() + "Mb");
             cam = fontRenderer.build("Camera: x: " + Tools.round(statistics.getCameraPosition().x, 0) +
                     " y: " + Tools.round(statistics.getCameraPosition().y, 0) + " /" +
-                    " r: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) +
-                    " z: " + Tools.round(SceneManager.getCurrentScene().getCamera().getZoom(), 0));
+                    " rotation: " + Tools.round(Math.toRadians(SceneManager.getCurrentScene().getCamera().getRotation().degree), 0) +
+                    " zoom: " + Tools.round(SceneManager.getCurrentScene().getCamera().getZoom(), 0));
         }
     }
 
     public void draw(Drawer d) {
-        d.imageNotRelative(version, 5, 5);
-        d.imageNotRelative(fpsAndTick, 5, 21);
-        d.imageNotRelative(ticks, 5, 37);
-        d.imageNotRelative(time, 5, 53);
-        d.imageNotRelative(ram, 5, 69);
-        d.imageNotRelative(cam, 5, 100);
+        d.imageNotRelative(version, new Vector2D(5, 5));
+        d.imageNotRelative(fpsAndTick, new Vector2D(5, 21));
+        d.imageNotRelative(ticks, new Vector2D(5, 37));
+        d.imageNotRelative(time, new Vector2D(5, 53));
+        d.imageNotRelative(ram, new Vector2D(5, 69));
+        d.imageNotRelative(cam, new Vector2D(5, 100));
     }
 
 }

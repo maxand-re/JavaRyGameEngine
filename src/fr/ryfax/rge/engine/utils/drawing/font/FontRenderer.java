@@ -23,8 +23,8 @@ public class FontRenderer {
         int xRemove = 0;
         for(int s = 0; s < str.length(); s++) {
             char c = str.charAt(s);
-            if(font.sizeChars.containsKey(c)) xRemove += font.sizeChars.get(c) + font.defaultSpace;
-            else xRemove += font.defaultSpace;
+            if(font.sizeChars.containsKey(c)) xRemove += font.sizeChars.get(c) + font.getDefaultSpace();
+            else xRemove += font.getDefaultSpace();
             xRemoves[s+1] = xRemove;
         }
 
@@ -53,7 +53,7 @@ public class FontRenderer {
     /*
      * Setters
      */
-    public void setSize(int size) { this.size = size; }
+    public FontRenderer setSize(int size) { this.size = size; return this; }
 
     /*
      *

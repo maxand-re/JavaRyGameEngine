@@ -36,7 +36,7 @@ public class AnimatedSprite implements VisualEntityModule {
     public void draw(Drawer drawer) {
         if(animation == null) return;
 
-        drawer.image(animation.getSprites().get(imageIdx), entity.getPosition().x, entity.getPosition().y);
+        drawer.image(animation.getSprites().get(imageIdx), entity.getPosition());
     }
 
     public void play(SpriteAnimation animation) {

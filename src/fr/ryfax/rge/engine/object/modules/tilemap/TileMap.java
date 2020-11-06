@@ -43,29 +43,29 @@ public class TileMap implements VisualGameObject {
         }
     }
 
-    public void removeCell(int x, int y) {
+    public TileMap removeCell(int x, int y) {
         Vector2D chunkPosition = new Vector2D(Math.floor(x/(float)chunkSize), Math.floor(y/(float)chunkSize));
         if(!chunks.containsKey(chunkPosition))
             chunks.put(chunkPosition, new TileMapChunk(chunkSize, this));
         chunks.get(chunkPosition).setCell(x, y, -1);
 
         if(Arrays.equals(chunks.get(chunkPosition).cells, EMPTY_CHUNK)) chunks.remove(chunkPosition);
+        return this;
     }
 
     /*
      * Setters
      */
-    public void setLocation(Vector2D location) {
-        this.location = location;
-    }
+    public TileMap setLocation(Vector2D location) { this.location = location; return this; }
 
-    public void setCell(int x, int y, int id) {
+    public TileMap setCell(int x, int y, int id) {
         Vector2D chunkPosition = new Vector2D(Math.floor(x/(float)chunkSize), Math.floor(y/(float)chunkSize));
 
         if(!chunks.containsKey(chunkPosition))
             chunks.put(chunkPosition, new TileMapChunk(chunkSize, this));
 
         chunks.get(chunkPosition).setCell(x, y, id);
+        return this;
     }
 
     /*
@@ -93,8 +93,8 @@ public class TileMap implements VisualGameObject {
         for (Map.Entry<Vector2D, TileMapChunk> chunks : chunks.entrySet()) {
             drawer.image(
                     chunks.getValue().chunkImg,
-                    location.x + chunks.getKey().x * (cellWidth * chunkSize),
-                    location.y + chunks.getKey().y * (cellHeight * chunkSize));
+                    new Vector2D(location.x + chunks.getKey().x * (cellWidth * chunkSize),
+                    location.y + chunks.getKey().y * (cellHeight * chunkSize)));
         }
     }
 
