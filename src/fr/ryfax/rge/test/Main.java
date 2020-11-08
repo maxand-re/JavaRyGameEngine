@@ -9,6 +9,8 @@ import fr.ryfax.rge.engine.object.GameObject;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
 import fr.ryfax.rge.engine.object.modules.particules.Particules;
 import fr.ryfax.rge.engine.object.modules.particules.emitters.FireEmitter;
+import fr.ryfax.rge.engine.object.modules.timer.Timer;
+import fr.ryfax.rge.engine.object.modules.timer.TimerRunnable;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
@@ -44,6 +46,17 @@ public class Main {
                     }
                 }, 2)
                 .addGameObject(new InformationsPanel(), 10000);
+
+        Timer timer = new Timer(new TimerRunnable() {
+            @Override
+            public void run() {
+                System.out.println("after 3 second");
+            }
+        });
+
+        labScene.addGameObject(timer, 0);
+
+        timer.start(3);
 
         engine.init();
     }
