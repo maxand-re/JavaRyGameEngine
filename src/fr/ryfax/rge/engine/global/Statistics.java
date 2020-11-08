@@ -59,11 +59,11 @@ public class Statistics {
 
         if(s >= 60){
             m = (long) Math.floor(s/60f);
-            s -= (long) Math.floor(s%60);
+            s = (long) Math.floor(s%60);
         }
         if(m >= 60){
             h = (long) Math.floor(m/60f);
-            m -= (long) Math.floor(m%60);
+            m = (long) Math.floor(m%60);
         }
 
         return Tools.intToDigit(h) + ":" + Tools.intToDigit(m) + ":" + Tools.intToDigit(s);
