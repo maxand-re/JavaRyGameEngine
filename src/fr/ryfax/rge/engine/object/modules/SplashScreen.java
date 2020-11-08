@@ -21,7 +21,7 @@ public class SplashScreen implements VisualGameObject {
 
     private Scaler scaler;
     private Dimension screenSize;
-    private int opacity;
+    private float opacity;
     private int sec = 0;
 
     public void init(Engine engine) {
@@ -47,15 +47,18 @@ public class SplashScreen implements VisualGameObject {
     }
 
     public void update(double delta, int accumulator) {
-        if (accumulator == 999) sec++;
+        if (accumulator >= 1000) {
+            sec++;
+        }
 
         if (sec < 2) {
-            opacity++;
-            if (opacity > 100) opacity = 100;
-        } else if (sec >= 3) {
-            opacity--;
-            if (opacity < 0) {
-                opacity = 0;
+            if (opacity < 100) {
+                opacity += 0.25;
+            }
+        } else {
+            if (opacity > 0) {
+                opacity -= 0.25;
+            } else {
                 SceneManager.setScene(sceneAfter);
             }
         }

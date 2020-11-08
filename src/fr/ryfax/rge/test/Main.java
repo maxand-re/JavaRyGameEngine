@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         Engine engine = new Engine("RyGame", new Dimension(1280, 720));
-        engine.getParameters().setClearBufferColor(Color.BLACK).setFPSLimit(0).setAntiAliasing(true).setQualityRendering(true);
+        engine.getParameters().setClearBufferColor(Color.BLACK).setFPSLimit(60).setAntiAliasing(true).setQualityRendering(true);
 
         SceneBuilder sb = engine.getSceneBuilder();
         Scene labScene = sb.setName("RGELab").build();

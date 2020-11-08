@@ -53,13 +53,23 @@ public class Statistics {
     public Vector2D getCameraPosition() { return SceneManager.getCurrentScene().getCamera().getPosition(); }
 
     public String getElapsedTime() {
-        long current = System.currentTimeMillis() - timestamp;
+        long current = getElapsedTimeInMillis();
 
         long s = current/1000, m = 0, h = 0;
 
-        while(s >= 60) { m++; s -= 60; }
-        while(m >= 60) { h++; m -= 60; }
+        if(s >= 60){
+            m = (long) Math.floor(s/60f);
+            s -= (long) Math.floor(s%60);
+        }
+        if(m >= 60){
+            h = (long) Math.floor(m/60f);
+            m -= (long) Math.floor(m%60);
+        }
 
         return Tools.intToDigit(h) + ":" + Tools.intToDigit(m) + ":" + Tools.intToDigit(s);
+    }
+
+    public long getElapsedTimeInMillis(){
+        return System.currentTimeMillis() - timestamp;
     }
 }

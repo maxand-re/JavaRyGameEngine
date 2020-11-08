@@ -46,13 +46,15 @@ public class Scene {
     }
 
     public void update(double delta, int accumulator) {
-        gameObjs.forEach((z, gameObjects) ->
+        TreeMap<Integer, ArrayList<GameObject>> tempGameObjs = new TreeMap<>(gameObjs);
+        tempGameObjs.forEach((z, gameObjects) ->
                 gameObjects.forEach(gameObject ->
                         gameObject.update(delta, accumulator)));
     }
 
     public void draw(Drawer d) {
-        visualGameObjs.forEach((z, visualGameObjects) ->
+        TreeMap<Integer, ArrayList<VisualGameObject>> tempVisualGameObjs = new TreeMap<>(visualGameObjs);
+        tempVisualGameObjs.forEach((z, visualGameObjects) ->
                 visualGameObjects.forEach(visualGameObject ->
                         visualGameObject.draw(d)));
     }
@@ -98,6 +100,14 @@ public class Scene {
         gameObjs.forEach((z, objs) -> objs.remove(gameObject));
         if(isVisualGO) visualGameObjs.forEach((z, objs) -> objs.remove(gameObject));
         return this;
+    }
+
+    public boolean hasGameObject(GameObject gameObject){
+        boolean has = false;
+        for (ArrayList<GameObject> objs: gameObjs.values()) {
+            has = objs.contains(gameObject);
+        }
+        return has;
     }
 
 
