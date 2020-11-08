@@ -3,6 +3,7 @@ package fr.ryfax.rge.engine.object.modules.ui.button;
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
+import fr.ryfax.rge.engine.utils.collision.CollisionUtils;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
@@ -53,7 +54,7 @@ public class Button implements VisualGameObject {
 
         if(mouse != null) {
             // "If the mouse is on the button"
-            if(mouse.x <= position.x + size.width && mouse.x >= position.x && mouse.y <= position.y + size.height && mouse.y >= position.y){
+            if(CollisionUtils.vectorIsWithin(Vector2D.from(mouse), position, size)){
                 if(!hover) {
                     listener.onMouseEntered();
                     hover = true;
