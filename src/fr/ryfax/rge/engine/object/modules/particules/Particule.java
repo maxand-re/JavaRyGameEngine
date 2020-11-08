@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class Particule {
 
-    private int size;
+    private final int size;
     private double life = 100;
-    private Vector2D position;
-    private Vector2D velocity;
+    private final Vector2D position;
+    private final Vector2D velocity;
     private Vector2D force;
     private Color color;
 

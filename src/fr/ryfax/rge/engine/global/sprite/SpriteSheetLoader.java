@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class SpriteSheetLoader {
 
-    private Image image;
-    private ArrayList<Image> sprites = new ArrayList<>();
+    private final Image image;
+    private final ArrayList<Image> sprites = new ArrayList<>();
 
     private Dimension size = new Dimension(16, 16);
     private Dimension resizedSize = new Dimension(-1, -1);

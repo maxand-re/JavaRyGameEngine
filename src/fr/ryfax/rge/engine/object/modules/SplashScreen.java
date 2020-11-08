@@ -30,9 +30,7 @@ public class SplashScreen implements VisualGameObject {
         int width = image.getBufferedImage().getWidth();
         int height = image.getBufferedImage().getHeight();
 
-        scaler = new Scaler(engine);
-        scaler.setSize(new Dimension(width, height));
-        scaler.setLayout(ScalerLayout.CENTER);
+        scaler = new Scaler(engine).setSize(new Dimension(width, height)).setLayout(ScalerLayout.CENTER);
 
         screenSize = new Dimension(
                 engine.getWindow().getCanvas().getWidth(),
@@ -68,11 +66,7 @@ public class SplashScreen implements VisualGameObject {
 
     public void draw(Drawer d) {
         Vector2D position = scaler.getPosition();
-
-        d.setColor(background);
-        d.fillRectNotRelative(new Vector2D(0, 0), screenSize);
-
-        d.image(image, position);
+        d.setColor(background).fillRectNotRelative(new Vector2D(0, 0), screenSize).image(image, position);
     }
 
     /*

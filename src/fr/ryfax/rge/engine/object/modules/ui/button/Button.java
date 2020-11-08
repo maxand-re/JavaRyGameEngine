@@ -59,11 +59,9 @@ public class Button implements VisualGameObject {
                     hover = true;
                 }
 
-                if(!click) {
-                    if(engine.getButtonsPressed().contains(1)) {
-                        listener.onClick();
-                        click = true;
-                    }
+                if(!click && engine.getButtonsPressed().contains(1)) {
+                    listener.onClick();
+                    click = true;
                 }else if(!engine.getButtonsPressed().contains(1)) {
                     listener.onClickExit();
                     click = false;
@@ -78,8 +76,8 @@ public class Button implements VisualGameObject {
     }
 
     public void draw(Drawer drawer) {
-        drawer.imageNotRelative(sprite, position);
-        drawer.imageNotRelative(text,
+        drawer.imageNotRelative(sprite, position)
+                .imageNotRelative(text,
                 new Vector2D((int) position.x + size.width/2.f - text.getBufferedImage().getWidth()/2.f,
                 (int) position.y + size.height/2.f - text.getBufferedImage().getHeight()/2.f));
     }
