@@ -6,11 +6,13 @@ import fr.ryfax.rge.engine.global.scenes.Scene;
 import fr.ryfax.rge.engine.global.scenes.SceneBuilder;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
 import fr.ryfax.rge.engine.object.GameObject;
+import fr.ryfax.rge.engine.object.VisualGameObject;
 import fr.ryfax.rge.engine.object.modules.InformationsPanel;
 import fr.ryfax.rge.engine.object.modules.particules.Particules;
 import fr.ryfax.rge.engine.object.modules.particules.emitters.FireEmitter;
 import fr.ryfax.rge.engine.object.modules.timer.Timer;
 import fr.ryfax.rge.engine.object.modules.timer.TimerRunnable;
+import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 

@@ -2,16 +2,16 @@ package fr.ryfax.rge.engine.utils.drawing;
 
 import fr.ryfax.rge.engine.camera.Camera;
 import fr.ryfax.rge.engine.global.Engine;
-import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.global.scenes.SceneManager;
+import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.utils.collision.CollisionUtils;
 import fr.ryfax.rge.engine.utils.movements.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 /*
  * Upgraded class of Graphics2D
@@ -53,15 +53,15 @@ public class Drawer {
      * x, y relative to camera.
      */
     public Drawer line(Vector2D from, Vector2D to) {
-        Vector2D newFrom = new Vector2D(
+        from = new Vector2D(
                 from.x - camera.getPosition().x,
                 from.y - camera.getPosition().y);
-        Vector2D newTo = new Vector2D(
-                camera.getPosition().x + to.x,
-                camera.getPosition().y + to.y);
+        to = new Vector2D(
+                to.x - camera.getPosition().x,
+                to.y -camera.getPosition().y);
 
-        if(isUselessToDraw(new Vector2D(newFrom.x, newFrom.y), new Dimension((int) newTo.x, (int) newTo.y))) return null;
-        g2d.drawLine((int) newFrom.x, (int) newFrom.y, (int) newTo.x, (int) newTo.y);
+        if(isUselessToDraw(from, new Dimension((int) to.x, (int) to.y))) return null;
+        g2d.drawLine((int) from.x, (int) from.y, (int) to.x, (int) to.y);
         return this;
     }
 
@@ -76,6 +76,36 @@ public class Drawer {
 
         af.scale(camera.getZoom(), camera.getZoom());
         g2d.setTransform(af);
+        return this;
+    }
+
+    public Drawer curvedLine(Vector2D position, Vector2D firstBezierPoint, Vector2D secondBezierPoint, Vector2D endPoint){
+        position = new Vector2D(
+                position.x - camera.getPosition().x,
+                position.y - camera.getPosition().y);
+        firstBezierPoint = new Vector2D(
+                firstBezierPoint.x - camera.getPosition().x,
+                firstBezierPoint.y - camera.getPosition().y);
+        secondBezierPoint = new Vector2D(
+                secondBezierPoint.x - camera.getPosition().x,
+                secondBezierPoint.y - camera.getPosition().y);
+        endPoint = new Vector2D(
+                endPoint.x - camera.getPosition().x,
+                endPoint.y - camera.getPosition().y);
+        Path2D line = new Path2D.Float();
+        line.moveTo(position.x, position.y);
+        line.curveTo(firstBezierPoint.x, firstBezierPoint.y, secondBezierPoint.x, secondBezierPoint.y, endPoint.x, endPoint.y);
+        if(isUselessToDraw(new Vector2D(line.getBounds().x, line.getBounds().y), new Dimension(line.getBounds().x + line.getBounds().width, line.getBounds().y + line.getBounds().height))) return null;
+        g2d.draw(line);
+        return this;
+    }
+
+    public Drawer curvedLineNotRelative(Vector2D position, Vector2D firstBezierPoint, Vector2D secondBezierPoint, Vector2D endPoint){
+        Path2D line = new Path2D.Float();
+        line.moveTo(position.x, position.y);
+        line.curveTo(firstBezierPoint.x, firstBezierPoint.y, secondBezierPoint.x, secondBezierPoint.y, endPoint.x, endPoint.y);
+        if(isUselessToDraw(new Vector2D(line.getBounds().x, line.getBounds().y), new Dimension(line.getBounds().x + line.getBounds().width, line.getBounds().y + line.getBounds().height))) return null;
+        g2d.draw(line);
         return this;
     }
 
@@ -244,7 +274,7 @@ public class Drawer {
                 (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom()),
                 (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom()));
 
-        return !CollisionUtils.rectIsWithin(pos, size, new Vector2D(0, 0), screenSize);
+        return !CollisionUtils.rectIsWithin(pos, size, camera.getPosition(), screenSize);
     }
 
     public boolean isUselessToDrawNotRelative(Vector2D pos, Dimension size) {
