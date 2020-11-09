@@ -15,35 +15,14 @@ public class CollisionUtils {
 
     // those are to review i don't down with one of the two way is the better
     public static boolean rectIsWithin(Vector2D rectPos, Dimension rectSize, Vector2D smallestPos, Vector2D biggestPos){
-        Vector2D[] vertices = new Vector2D[]{rectPos,
-                new Vector2D(rectPos.x + rectSize.width, rectPos.y),
-                new Vector2D(rectPos.x + rectSize.width, rectPos.y + rectSize.height),
-                new Vector2D(rectPos.x, rectPos.y + rectSize.height)};
-        boolean isWithin = true;
-        for (Vector2D vertice : vertices){
-            if (!vectorIsWithin(vertice, smallestPos, biggestPos)) {
-                isWithin = false;
-                break;
-            }
-        }
-        return isWithin;
-        /*double diag = Math.sqrt(Math.pow(biggestPos.x - smallestPos.x, 2) + Math.pow(biggestPos.y - smallestPos.y, 2));
-        return ((rectPos.x < diag/2.0) && (rectPos.x + rectSize.getWidth() > -diag/2.0) && (rectPos.y < diag/2.0) && (rectPos.y + rectSize.getHeight() > -diag/2.0));*/
+        double diag = Math.sqrt(Math.pow(biggestPos.x - smallestPos.x, 2) + Math.pow(biggestPos.y - smallestPos.y, 2));
+        return ((rectPos.x < diag/2.0) && (rectPos.x + rectSize.getWidth() > -diag/2.0) && (rectPos.y < diag/2.0) && (rectPos.y + rectSize.getHeight() > -diag/2.0));
         /*return (rectPos.x <= biggestPos.x && rectPos.x + rectSize.width >= smallestPos.x) &&
                 (rectPos.y <= biggestPos.y && rectPos.y + rectSize.height >= smallestPos.y);*/
     }
     public static boolean rectIsWithin(Vector2D rectPos, Dimension rectSize, Vector2D smallestPos, Dimension size){
-        Vector2D[] vertices = new Vector2D[]{rectPos,
-                new Vector2D(rectPos.x + rectSize.width, rectPos.y),
-                new Vector2D(rectPos.x + rectSize.width, rectPos.y + rectSize.height),
-                new Vector2D(rectPos.x, rectPos.y + rectSize.height)};
-        boolean isWithin = true;
-        for (Vector2D vertice : vertices){
-            if(!vectorIsWithin(vertice, smallestPos, Vector2D.add(smallestPos, Vector2D.from(size)))) isWithin = false;
-        }
-        return isWithin;
-        /*double diag = Math.sqrt(Math.pow(size.getWidth(), 2) + Math.pow(size.getHeight() - smallestPos.y, 2));
-        return ((rectPos.x < diag/2.0) && (rectPos.x + rectSize.getWidth() > -diag/2.0) && (rectPos.y < diag/2.0) && (rectPos.y + rectSize.getHeight() > -diag/2.0));*/
+        double diag = Math.sqrt(Math.pow(size.getWidth(), 2) + Math.pow(size.getHeight() - smallestPos.y, 2));
+        return ((rectPos.x < diag/2.0) && (rectPos.x + rectSize.getWidth() > -diag/2.0) && (rectPos.y < diag/2.0) && (rectPos.y + rectSize.getHeight() > -diag/2.0));
         /*return (rectPos.x <= smallestPos.x + size.width && rectPos.x + rectSize.width >= smallestPos.x) &&
                 (rectPos.y <= smallestPos.y + size.height && rectPos.y + rectSize.height >= smallestPos.y);*/
     }
