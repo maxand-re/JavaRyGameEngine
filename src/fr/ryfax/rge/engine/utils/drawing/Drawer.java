@@ -274,7 +274,7 @@ public class Drawer {
                 (int) (engine.getWindow().getFrame().getWidth() / camera.getZoom()),
                 (int) (engine.getWindow().getFrame().getHeight() / camera.getZoom()));
 
-        return !CollisionUtils.rectIsWithin(pos, size, camera.getPosition(), screenSize);
+        return isOutsideView(pos, size, screenSize);
     }
 
     public boolean isUselessToDrawNotRelative(Vector2D pos, Dimension size) {
@@ -282,7 +282,12 @@ public class Drawer {
                 (engine.getWindow().getFrame().getWidth()),
                 (engine.getWindow().getFrame().getHeight()));
 
-        return !CollisionUtils.rectIsWithin(pos, size, new Vector2D(0, 0), screenSize);
+        return isOutsideView(pos, size, screenSize);
+    }
+
+    private boolean isOutsideView(Vector2D pos, Dimension size, Dimension screenSize) {
+        double diag = Math.sqrt(Math.pow(screenSize.getWidth(), 2) + Math.pow(screenSize.getHeight(), 2));
+        return !((pos.x < diag/2.0) && (pos.x + size.getWidth() > -diag/2.0) && (pos.y < diag/2.0) && (pos.y + size.getHeight() > -diag/2.0));
     }
 
     /*
