@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class ButtonBuilder {
 
-    private Engine engine;
+    private final Engine engine;
     private ScalerLayout layout;
     private ButtonListener listener = null;
     private Image background = null;

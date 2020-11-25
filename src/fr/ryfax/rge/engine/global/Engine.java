@@ -104,26 +104,22 @@ public class Engine {
     private synchronized void update(double delta) {
         accumulator += delta;
 
-        if(accumulator > 1000) accumulator -= 1000;
-
-        int accumulatorInt = (int) Math.floor(accumulator);
-
         if(getAccumulator() % (1000 / 2) == 0)
             statistics.setUsedRam((int) ((runtime.totalMemory() - runtime.freeMemory())/1024/1024));
         if(getAccumulator() % (1000 / 75) == 0)
             mousePosition = window.getCanvas().getMousePosition();
 
-        window.getMouseEvents().update(delta, accumulatorInt);
-        SceneManager.getCurrentScene().update(delta, accumulatorInt);
+        window.getMouseEvents().update(delta, getAccumulator());
+        SceneManager.getCurrentScene().update(delta, getAccumulator());
+
+        if(accumulator > 1000) accumulator = 0;
     }
 
     private synchronized void draw() {
-        GameCanvas canvas = window.getCanvas();
-
         Drawer drawer = new Drawer(this);
         SceneManager.getCurrentScene().draw(drawer);
 
-        canvas.finish();
+        window.getCanvas().finish();
     }
 
     private void loadText() {

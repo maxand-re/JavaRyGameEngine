@@ -14,8 +14,8 @@ public class Entity implements VisualGameObject {
     /*
      * Variables
      */
-    private TreeMap<Integer, ArrayList<EntityModule>> modules = new TreeMap<>();
-    private TreeMap<Integer, ArrayList<VisualEntityModule>> visualModules = new TreeMap<>();
+    private final TreeMap<Integer, ArrayList<EntityModule>> modules = new TreeMap<>();
+    private final TreeMap<Integer, ArrayList<VisualEntityModule>> visualModules = new TreeMap<>();
 
     private Dimension size;
     private Vector2D position;
@@ -33,29 +33,43 @@ public class Entity implements VisualGameObject {
                 visualModules.forEach(visualModule -> visualModule.draw(drawer)));
     }
 
+    public Entity move(Vector2D vel){
+        position.translate(vel);
+        return this;
+    }
 
     /*
      * Setters
      */
-    public void addModule(EntityModule module, int zindex) {
-        boolean isVisualModule = module instanceof VisualEntityModule;
-
+    public Entity addModule(EntityModule module, int layer) {
         module.init(engine, this);
 
-        if(modules.containsKey(zindex)) {
-            modules.get(zindex).add(module);
-            if(isVisualModule) visualModules.get(zindex).add((VisualEntityModule) module);
-        }else {
-            ArrayList<EntityModule> list = new ArrayList<>();
-            list.add(module);
-            modules.put(zindex, list);
+        if (modules.containsKey(layer)) modules.get(layer).add(module);
+        else modules.put(layer, new ArrayList<>() {{ add(module); }});
 
-            if(isVisualModule) {
-                ArrayList<VisualEntityModule> list2 = new ArrayList<>();
-                list2.add((VisualEntityModule) module);
-                visualModules.put(zindex, list2);
+        if (module instanceof VisualGameObject) {
+            if (visualModules.containsKey(layer))
+                visualModules.get(layer).add((VisualEntityModule) module);
+            else visualModules.put(layer, new ArrayList<>() {{ add((VisualEntityModule) module); }});
+        }
+        return this;
+    }
+
+    public Entity deleteModule(EntityModule module) {
+        modules.forEach((z, objs) -> objs.remove(module));
+        if (module instanceof VisualGameObject) visualModules.forEach((z, objs) -> objs.remove(module));
+        return this;
+    }
+
+    public boolean hasModule(EntityModule module) {
+        boolean has = false;
+        for (ArrayList<EntityModule> objs : modules.values()) {
+            if(objs.contains(module)){
+                has = true;
+                break;
             }
         }
+        return has;
     }
 
     public Entity setPosition(Vector2D position) { this.position = position; return this; }

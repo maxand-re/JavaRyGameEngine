@@ -3,6 +3,7 @@ package fr.ryfax.rge.engine.object.modules.ui.button;
 import fr.ryfax.rge.engine.global.Engine;
 import fr.ryfax.rge.engine.image.Image;
 import fr.ryfax.rge.engine.object.VisualGameObject;
+import fr.ryfax.rge.engine.utils.collision.CollisionUtils;
 import fr.ryfax.rge.engine.utils.drawing.Drawer;
 import fr.ryfax.rge.engine.utils.drawing.font.Font;
 import fr.ryfax.rge.engine.utils.drawing.font.FontLoader;
@@ -53,17 +54,15 @@ public class Button implements VisualGameObject {
 
         if(mouse != null) {
             // "If the mouse is on the button"
-            if(mouse.x <= position.x + size.width && mouse.x >= position.x && mouse.y <= position.y + size.height && mouse.y >= position.y){
+            if(CollisionUtils.vectorIsWithin(Vector2D.from(mouse), position, size)){
                 if(!hover) {
                     listener.onMouseEntered();
                     hover = true;
                 }
 
-                if(!click) {
-                    if(engine.getButtonsPressed().contains(1)) {
-                        listener.onClick();
-                        click = true;
-                    }
+                if(!click && engine.getButtonsPressed().contains(1)) {
+                    listener.onClick();
+                    click = true;
                 }else if(!engine.getButtonsPressed().contains(1)) {
                     listener.onClickExit();
                     click = false;
@@ -78,8 +77,8 @@ public class Button implements VisualGameObject {
     }
 
     public void draw(Drawer drawer) {
-        drawer.imageNotRelative(sprite, position);
-        drawer.imageNotRelative(text,
+        drawer.imageNotRelative(sprite, position)
+                .imageNotRelative(text,
                 new Vector2D((int) position.x + size.width/2.f - text.getBufferedImage().getWidth()/2.f,
                 (int) position.y + size.height/2.f - text.getBufferedImage().getHeight()/2.f));
     }

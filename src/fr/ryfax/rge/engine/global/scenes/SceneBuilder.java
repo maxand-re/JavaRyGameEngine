@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class SceneBuilder {
 
-    private Engine engine;
+    private final Engine engine;
     private String name = "";
 
     public SceneBuilder(Engine engine) {

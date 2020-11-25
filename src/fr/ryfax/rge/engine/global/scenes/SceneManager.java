@@ -11,6 +11,7 @@ public class SceneManager {
      * Setters
      */
     public static void setScene(Scene scene) {
+        if(currentScene != null && currentScene.getId() == scene.getId()) return;
         if(currentScene != null) currentScene.disable();
         scene.enable();
         currentScene = scene;

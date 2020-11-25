@@ -9,7 +9,7 @@ import java.awt.image.BufferStrategy;
 public class GameCanvas extends Canvas {
 
     private Dimension size;
-    private Engine engine;
+    private final Engine engine;
 
     private BufferStrategy bs;
     private Graphics2D g2d;

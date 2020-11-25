@@ -15,6 +15,10 @@ public class Vector2D {
         this.y= y;
     }
 
+    public static Vector2D from(Point point){ return new Vector2D(point.x, point.y); }
+    public static Vector2D from(Dimension dimension){ return new Vector2D(dimension.width, dimension.height); }
+    public static Vector2D add(Vector2D x, Vector2D y) { return new Vector2D(x.x + y.x, x.y + y.y);}
+
     /*
      * Add x, y to the current x, y
      */
@@ -33,13 +37,13 @@ public class Vector2D {
     /*
      * Replace x, y by the value
      */
-    public Vector2D moveTo(double x, double y) {
+    public Vector2D setPosition(double x, double y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    public Vector2D moveTo(Vector2D newPos) {
+    public Vector2D setPosition(Vector2D newPos) {
         this.x = newPos.x;
         this.y = newPos.y;
         return this;

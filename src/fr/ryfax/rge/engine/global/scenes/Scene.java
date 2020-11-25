@@ -16,17 +16,17 @@ public class Scene {
     /*
      * Elements
      */
-    private Camera camera = new Camera();
+    private final Camera camera = new Camera();
 
     /*
      * Variables & Constants
      */
-    private Engine engine;
-    private int id;
-    private String name;
+    private final Engine engine;
+    private final int id;
+    private final String name;
 
-    private TreeMap<Integer, ArrayList<GameObject>> gameObjs = new TreeMap<>();
-    private TreeMap<Integer, ArrayList<VisualGameObject>> visualGameObjs = new TreeMap<>();
+    private final TreeMap<Integer, ArrayList<GameObject>> gameObjs = new TreeMap<>();
+    private final TreeMap<Integer, ArrayList<VisualGameObject>> visualGameObjs = new TreeMap<>();
 
     public Scene(Engine engine, int id, String name) {
         this.engine = engine;
@@ -46,13 +46,15 @@ public class Scene {
     }
 
     public void update(double delta, int accumulator) {
-        gameObjs.forEach((z, gameObjects) ->
+        TreeMap<Integer, ArrayList<GameObject>> tempGameObjs = new TreeMap<>(gameObjs);
+        tempGameObjs.forEach((z, gameObjects) ->
                 gameObjects.forEach(gameObject ->
                         gameObject.update(delta, accumulator)));
     }
 
     public void draw(Drawer d) {
-        visualGameObjs.forEach((z, visualGameObjects) ->
+        TreeMap<Integer, ArrayList<VisualGameObject>> tempVisualGameObjs = new TreeMap<>(visualGameObjs);
+        tempVisualGameObjs.forEach((z, visualGameObjects) ->
                 visualGameObjects.forEach(visualGameObject ->
                         visualGameObject.draw(d)));
     }
@@ -62,49 +64,50 @@ public class Scene {
      * Setters
      */
     public Scene addGameObject(GameObject gameObject, int layer) {
-        boolean isVisualGO = gameObject instanceof VisualGameObject;
-
         gameObject.init(engine);
 
-        if(gameObjs.containsKey(layer)) {
-            gameObjs.get(layer).add(gameObject);
+        if (gameObjs.containsKey(layer)) gameObjs.get(layer).add(gameObject);
+        else gameObjs.put(layer, new ArrayList<>() {{ add(gameObject); }});
 
-            if(isVisualGO) {
-                if(visualGameObjs.containsKey(layer))
-                    visualGameObjs.get(layer).add((VisualGameObject) gameObject);
-                else {
-                    ArrayList<VisualGameObject> list2 = new ArrayList<>();
-                    list2.add((VisualGameObject) gameObject);
-                    visualGameObjs.put(layer, list2);
-                }
-            }
-        }else {
-            ArrayList<GameObject> list = new ArrayList<>();
-            list.add(gameObject);
-
-            if(isVisualGO) {
-                ArrayList<VisualGameObject> list2 = new ArrayList<>();
-                list2.add((VisualGameObject) gameObject);
-                visualGameObjs.put(layer, list2);
-            }
-
-            gameObjs.put(layer, list);
+        if (gameObject instanceof VisualGameObject) {
+            if (visualGameObjs.containsKey(layer))
+                visualGameObjs.get(layer).add((VisualGameObject) gameObject);
+            else visualGameObjs.put(layer, new ArrayList<>() {{ add((VisualGameObject) gameObject); }});
         }
         return this;
     }
 
     public Scene deleteGameObject(GameObject gameObject) {
-        boolean isVisualGO = gameObject instanceof VisualGameObject;
         gameObjs.forEach((z, objs) -> objs.remove(gameObject));
-        if(isVisualGO) visualGameObjs.forEach((z, objs) -> objs.remove(gameObject));
+        if (gameObject instanceof VisualGameObject) visualGameObjs.forEach((z, objs) -> objs.remove(gameObject));
         return this;
+    }
+
+    public boolean hasGameObject(GameObject gameObject) {
+        boolean has = false;
+        for (ArrayList<GameObject> objs : gameObjs.values()) {
+            if(objs.contains(gameObject)){
+                has = true;
+                break;
+            }
+        }
+        return has;
     }
 
 
     /*
      * Getters
      */
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public Camera getCamera() { return camera; }
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
 }

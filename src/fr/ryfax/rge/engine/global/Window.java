@@ -5,9 +5,6 @@ import fr.ryfax.rge.engine.global.listeners.MouseEvents;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /*
  * Window of game, "main" of the engine
@@ -17,11 +14,11 @@ public class Window {
     private final Engine engine;
     private final GameCanvas canvas;
     private final JFrame frame;
-    private final MouseEvents me;
+    private final MouseEvents mouseEvents;
 
     public Window(String title, Dimension size, Engine engine) {
         this.engine = engine;
-        this.me = new MouseEvents(engine);
+        this.mouseEvents = new MouseEvents(engine);
 
         canvas = new GameCanvas(size, engine);
 
@@ -32,7 +29,7 @@ public class Window {
 
         frame.addKeyListener(new KeyEvents(engine));
         canvas.addKeyListener(new KeyEvents(engine));
-        canvas.addMouseListener(me);
+        canvas.addMouseListener(mouseEvents);
 
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
@@ -78,7 +75,7 @@ public class Window {
     /*
      * Getters
      */
-    public MouseEvents getMouseEvents() { return me; }
+    public MouseEvents getMouseEvents() { return mouseEvents; }
     public GameCanvas getCanvas() { return canvas; }
     public JFrame getFrame() { return frame; }
 }

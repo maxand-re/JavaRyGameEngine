@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 
 public class MouseEvents implements MouseListener, GameObject {
 
-    private Engine engine;
+    private final Engine engine;
     private Point p = new Point(0, 0);
 
     public void init(Engine engine) { }
@@ -34,10 +34,9 @@ public class MouseEvents implements MouseListener, GameObject {
     public void mouseClicked(MouseEvent mouseEvent) {}
 
     public void update(double delta, int accumulator) {
-        if(engine.getMousePosition() != null)
-            if(!engine.getMousePosition().equals(p)) {
-                engine.getMouseListeners().forEach(list -> list.onMove(p));
-                p = engine.getMousePosition();
-            }
+        if(engine.getMousePosition() != null && !engine.getMousePosition().equals(p)) {
+            engine.getMouseListeners().forEach(list -> list.onMove(p));
+            p = engine.getMousePosition();
+        }
     }
 }

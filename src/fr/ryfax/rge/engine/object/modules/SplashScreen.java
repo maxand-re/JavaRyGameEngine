@@ -21,7 +21,7 @@ public class SplashScreen implements VisualGameObject {
 
     private Scaler scaler;
     private Dimension screenSize;
-    private int opacity;
+    private float opacity;
     private int sec = 0;
 
     public void init(Engine engine) {
@@ -30,9 +30,7 @@ public class SplashScreen implements VisualGameObject {
         int width = image.getBufferedImage().getWidth();
         int height = image.getBufferedImage().getHeight();
 
-        scaler = new Scaler(engine);
-        scaler.setSize(new Dimension(width, height));
-        scaler.setLayout(ScalerLayout.CENTER);
+        scaler = new Scaler(engine).setSize(new Dimension(width, height)).setLayout(ScalerLayout.CENTER);
 
         screenSize = new Dimension(
                 engine.getWindow().getCanvas().getWidth(),
@@ -47,15 +45,18 @@ public class SplashScreen implements VisualGameObject {
     }
 
     public void update(double delta, int accumulator) {
-        if (accumulator == 999) sec++;
+        if (accumulator >= 1000) {
+            sec++;
+        }
 
         if (sec < 2) {
-            opacity++;
-            if (opacity > 100) opacity = 100;
-        } else if (sec >= 3) {
-            opacity--;
-            if (opacity < 0) {
-                opacity = 0;
+            if (opacity < 100) {
+                opacity += 0.25;
+            }
+        } else {
+            if (opacity > 0) {
+                opacity -= 0.25;
+            } else {
                 SceneManager.setScene(sceneAfter);
             }
         }
@@ -65,11 +66,7 @@ public class SplashScreen implements VisualGameObject {
 
     public void draw(Drawer d) {
         Vector2D position = scaler.getPosition();
-
-        d.setColor(background);
-        d.fillRectNotRelative(new Vector2D(0, 0), screenSize);
-
-        d.image(image, position);
+        d.setColor(background).fillRectNotRelative(new Vector2D(0, 0), screenSize).image(image, position);
     }
 
     /*
